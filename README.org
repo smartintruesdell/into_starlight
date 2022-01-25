@@ -21,11 +21,19 @@ Killing enemies, completing quests, and farming generate =motes of experience= w
 
 Explore the *Skill Tree* by spending your points the way you want to. Your character can be as focused or diverse in their *Skills* as you choose, with each choice building on the last.
 
-* Installating the Mod
+* Installating the mod
+
+** Dependencies
+
+Install the following dependencies from the Steam Workshop or Starbound community:
+
+- /Stardust Core Lite/ or /Stardust Core/
+
+** Install the mod
 
 Subscribe to the mod in the Steam Workshop or download a release =.pak= file and put it in your =/Starbound/mods= folder.
 
-* Uninstalling the Mod
+* Uninstalling the mod
 
 #+BEGIN_QUOTE
 As of this time there are no "Mod Specific Items" to manage. This might change, but for the time being uninstalling the mod should be trivial.
