@@ -123,10 +123,22 @@ function ISLUtil.FadeHex(hex, fade, amount, target)
    return ISLUtil.RGBToHex(rgbValue)
 end
 
--- Merges tables.
--- Unlike vanilla 'util.MergeTable', merges arrays (aka 'ipairs' table) instead
--- of overriding them
+--- Merges tables.
+---
+--- Unlike vanilla 'util.MergeTable', merges arrays (aka 'ipairs' table) instead
+--- of overriding them
 function ISLUtil.MergeTable(t1, t2)
+   -- Handle bad data
+   if not t1 then
+      if t2 then
+         return t2
+      else
+         return nil
+      end
+   elseif not t2 then
+      return t1
+   end
+
    if ISLUtil.IsArray(t2) then
       for _, v in ipairs(t2) do
          table.insert(t1, v)

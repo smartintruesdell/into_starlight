@@ -1,5 +1,9 @@
 {
   "defaultGridTileImage": "/isl/skilltree/gridTile.png",
+  "iconSizes": {
+    "skill": 16,
+    "perk": 32
+  },
   "initialSkills": {},
   "skillTree": {},
   "currencies": [
@@ -9,5 +13,17 @@
       "Skill Points",
       "/isl/skilltree/currency_mini_icons.png:isl_skill_point"
     ]
-  ]
+  ],
+  "strings": {
+    "info": [
+      "Skill Tree",
+      "This is the passive skill tree. As you adventure in the world of Starbound you will earn Skill Points which can be spent here to unlock Skills.\n\nEach skill will provide a passive benefit to your abilities."
+    ]
+  },
+  "commonSkillModules": [
+    "/isl/skilltree/modules/common/melee.skillmodule"
+  ],
+  "speciesSkillModules": {
+    "default": "/isl/skilltree/modules/species/default.skillmodule"
+  }
 }
