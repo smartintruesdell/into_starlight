@@ -2,10 +2,12 @@
   "defaultGridTileImage": "/isl/skilltree/gridTile.png",
   "iconSizes": {
     "skill": 16,
-    "perk": 32
+    "perk": 32,
+    "species": 32
   },
-  "initialSkills": {},
-  "skillTree": {},
+  "initialSkills": [
+    "start"
+  ],
   "currencies": [
     [
       "isl_skill_point",
@@ -24,6 +26,6 @@
     "/isl/skilltree/modules/common/melee.skillmodule"
   ],
   "speciesSkillModules": {
-    "default": "/isl/skilltree/modules/species/default.skillmodule"
+    "default": "/isl/skilltree/modules/species/default/default.skillmodule"
   }
 }
