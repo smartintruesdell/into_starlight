@@ -1,0 +1,13 @@
+{
+  "defaultGridTileImage": "/isl/skilltree/gridTile.png",
+  "initialSkills": {},
+  "skillTree": {},
+  "currencies": [
+    [
+      "isl_skill_point",
+      "#FFFFFF",
+      "Skill Points",
+      "/isl/skilltree/currency_mini_icons.png:isl_skill_point"
+    ]
+  ]
+}

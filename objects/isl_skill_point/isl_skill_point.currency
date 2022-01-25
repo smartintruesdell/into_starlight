@@ -1,0 +1,28 @@
+{
+  "itemName": "isl_skill_point",
+  "rarity": "Rare",
+  "inventoryIcon": "isl_skill_point.png",
+  "description": "A Skill Point may be spent to purchase a Skill on the Skill Tree",
+  "shortdescription": "Skill Point",
+  "currency": "isl_skill_point",
+  "value": 1,
+  "pickupSoundsSmall": [
+    "/sfx/objects/ancientenergy_pickup1.ogg",
+    "/sfx/objects/ancientenergy_pickup2.ogg",
+    "/sfx/objects/ancientenergy_pickup3.ogg"
+  ],
+  "pickupSoundsMedium": [
+    "/sfx/objects/ancientenergy_pickup1.ogg",
+    "/sfx/objects/ancientenergy_pickup2.ogg",
+    "/sfx/objects/ancientenergy_pickup3.ogg"
+  ],
+  "pickupSoundsLarge": [
+    "/sfx/objects/ancientenergy_pickup1.ogg",
+    "/sfx/objects/ancientenergy_pickup2.ogg",
+    "/sfx/objects/ancientenergy_pickup3.ogg"
+  ],
+  "learnBlueprintsOnPickup": [],
+  "smallStackLimit": 100,
+  "mediumStackLimit": 1000,
+  "maxStack": 250000
+}

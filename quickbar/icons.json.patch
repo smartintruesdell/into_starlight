@@ -1,0 +1,14 @@
+[
+  {
+    "op": "add",
+    "path": "/items/isl:skilltree",
+    "value": {
+      "label": "Skill Tree",
+      "icon": "/objects/isl_experience_mote/isl_experience_mote.png",
+      "action": [
+        "pane",
+        "/isl/skilltree/skilltree.config"
+      ]
+    }
+  }
+]
