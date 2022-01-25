@@ -1,18 +1,8 @@
-name: JSON linter + luacheck
+name: IntoStarlight CI/CD Release process
 
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  # Check Lua files with "luacheck" tool (Lua static analyzer).
-  luacheck:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: sudo apt-get install -y luarocks && sudo luarocks install luacheck
-      - name: RUN -- luacheck .
-        run: luacheck --no-color --quiet .
-
   release:
     name: Release
     runs-on: ubuntu-20.04
