@@ -1,5 +1,5 @@
 {
-  "defaultGridTileImage": "/isl/skilltree/gridTile.png",
+  "gridTileImage": "/isl/skilltree/gridTile.png",
   "iconSizes": {
     "skill": 16,
     "perk": 32,

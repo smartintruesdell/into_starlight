@@ -191,7 +191,7 @@ function init()
    currency_table = root.assetJson("/currencies.config")
    data = root.assetJson("/isl/skilltree/skilltree_data.json")
 
-   grid_tile_image = data.defaultGridTileImage
+   grid_tile_image = data.gridTileImage
    grid_tile_size = root.imageSize(grid_tile_image)
 
    -- initialize the canvas for drawing
@@ -202,6 +202,8 @@ function init()
 
    -- draw the grid
    draw_skill_tree()
+
+   ISLUtil.DeepPrintTable(skill_tree)
 end
 
 function update(dt)
