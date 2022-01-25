@@ -26,9 +26,9 @@ jobs:
       with:
         node-version: 'lts/*'
     - name: Pack
-        uses: edwardspec/github-action-pack-starbound-mod@v1
-        with:
-          outputFilename: IntoStarlight.pak
+      uses: edwardspec/github-action-pack-starbound-mod@v1
+      with:
+        outputFilename: IntoStarlight.pak
     - name: Install release dependencies
       run: npm ci
     - name: Release
