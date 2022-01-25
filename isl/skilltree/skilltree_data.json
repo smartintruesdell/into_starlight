@@ -5,6 +5,7 @@
     "perk": 32,
     "species": 32
   },
+  "skillTree": {},
   "initialSkills": [
     "start"
   ],
@@ -23,7 +24,7 @@
     ]
   },
   "commonSkillModules": [
-    "/isl/skilltree/modules/common/melee.skillmodule"
+    "/isl/skilltree/modules/common/melee/melee.skillmodule"
   ],
   "speciesSkillModules": {
     "default": "/isl/skilltree/modules/species/default/default.skillmodule"

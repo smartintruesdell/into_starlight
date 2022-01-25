@@ -23,28 +23,24 @@ drag_offset = { x = 0, y = 0 }
 
 --- Loads skill tree modules for the player
 function load_skill_tree_modules(data)
-   -- First, we'll grab all of the common modules
    local temp_file = nil
-   local st = {}
+   local st = data.skillTree
 
+   -- First, we'll grab all of the common modules
    for _, file in ipairs(data.commonSkillModules) do
-      temp_file = root.assetJson(file)
-      st = ISLUtil.MergeTable(st, temp_file)
+      st = ISLUtil.MergeTable(st, root.assetJson(file))
    end
 
-   -- Next, we want to determine the player's species
+   -- Next, we want to merge the starting skills for the player's species
+   local species_file = nil
    if data.speciesSkillModules[player.species()] then
-      temp_file = root.assetJson(data.speciesSkillModules[player.species()])
+      species_file = data.speciesSkillModules[player.species()]
    else
-      temp_file = root.assetJson(data.speciesSkillModules.default)
+      -- With a default if there isn't one configured
+      species_file = data.speciesSkillModules.default
    end
 
-   st = ISLUtil.MergeTable(
-      st,
-      species_file
-   )
-
-   return st
+   return ISLUtil.MergeTable(st, root.assetJson(species_file))
 end
 
 --- Draws the background for the skill tree
@@ -200,10 +196,10 @@ function init()
 
    skill_tree = load_skill_tree_modules(data)
 
+   ISLUtil.DeepPrintTable(skill_tree)
+
    -- draw the grid
    draw_skill_tree()
-
-   ISLUtil.DeepPrintTable(skill_tree)
 end
 
 function update(dt)
