@@ -3,6 +3,8 @@
    Based in part on the Frackin' Universe researchTree
 ]]
 require("/isl/isl_util.lua")
+require("/isl/skilltree/skill_util.lua")
+require("/isl/bounds.lua")
 
 -- Constants ------------------------------------------------------------------
 currency_table = {}
@@ -68,10 +70,36 @@ function draw_skill_tree_node_lines()
    local end_point = { 0, 0 }
 end
 
+--- Draws a Species type skill node
+function draw_skill_tree_node_species_icon(skill_id, skill_data)
+
+end
+
+--- Draws a Perk type skill node
+function draw_skill_tree_node_perk_icon(skill_id, skill_data)
+
+end
+
+--- Draws a Skill type skill node
+function draw_skill_tree_node_skill_icon(skill_id, skill_data)
+   local bounds = SkillUtil.get_skill_icon_bounds(
+      skill_data,
+      data
+   ):offset(drag_offset.x, drag_offset.y)
+
+end
+
 --- Draws the skill tree node icons
 function draw_skill_tree_node_icons()
-   local start_point = { 0, 0 }
-   local end_point = { 0, 0 }
+   for skill_id, skill_data in pairs(skill_tree) do
+      if skill_data.type == SKILL_TYPE_SPECIES then
+         draw_skill_tree_node_species_icon(skill, skill_data)
+      elseif skill_data.type == SKILL_TYPE_PERK then
+         draw_skill_tree_node_perk_icon(skill, skill_data)
+      else
+         draw_skill_tree_node__icon(skill, skill_data)
+      end
+   end
 end
 
 --- Draws the skill tree nodes
