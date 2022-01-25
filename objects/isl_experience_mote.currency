@@ -1,0 +1,28 @@
+{
+  "itemName": "isl_experience_mote",
+  "rarity": "Uncommon",
+  "inventoryIcon": "isl_experience_mote.png",
+  "description": "A manifestation of earned wisdom through experience",
+  "shortdescription": "Experience Mote",
+  "currency": "isl_experience_mote",
+  "value": 1,
+  "pickupSoundsSmall": [
+    "/sfx/objects/ancientenergy_pickup1.ogg",
+    "/sfx/objects/ancientenergy_pickup2.ogg",
+    "/sfx/objects/ancientenergy_pickup3.ogg"
+  ],
+  "pickupSoundsMedium": [
+    "/sfx/objects/ancientenergy_pickup1.ogg",
+    "/sfx/objects/ancientenergy_pickup2.ogg",
+    "/sfx/objects/ancientenergy_pickup3.ogg"
+  ],
+  "pickupSoundsLarge": [
+    "/sfx/objects/ancientenergy_pickup1.ogg",
+    "/sfx/objects/ancientenergy_pickup2.ogg",
+    "/sfx/objects/ancientenergy_pickup3.ogg"
+  ],
+  "learnBlueprintsOnPickup": [],
+  "smallStackLimit": 100,
+  "mediumStackLimit": 1000,
+  "maxStack": 250000
+}
