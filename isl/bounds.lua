@@ -1,30 +1,31 @@
-local prototype = require("/isl/prototype.lua")
-local bounds_prototype = prototype{
-      default = prototype.assignment_copy,
-}
+--[[
+   Abstraction over two-Point "bounds" used for collision detection
+   and layout
+]]
+require("/scripts/questgen/util.lua")
+require("point.lua")
 
-function bounds_prototype:contains(x, y)
-   return x > self.x1 and x < self.x2 and y > self.y1 and y < self.y2
+--- Models a 2d bounding box
+Bounds = createClass("Bounds")
+
+--- Bounds constructor
+function Bounds:init(p1, p2)
+   self.min = Point.new(math.min(p1[1], p2[1]), math.min(p1[2], p2[2]))
+   self.max = Point.new(math.max(p1[1], p2[1]), math.max(p1[2], p2[2]))
 end
 
-function bounds_prototype:offset(x_offset, y_offset)
-   local b = bounds_prototype:clone()
-
-   b.x1 = math.min(self.x1, self.x2) + x_offset
-   b.x2 = math.max(self.x1, self.x2) + x_offset
-   b.y1 = math.min(self.y1, self.y2) + y_offset
-   b.y2 = math.max(self.y1, self.y2) + y_offset
-
-   return b
+--- Returns true if the specified x,y coordinates are within bounds
+function Bounds:contains(p)
+   return p[1] > self.min[1] and p[1] < self.max[1] and p[2] > self.min[2] and p[2] < self.max[2]
 end
 
-function Bounds(x1, y1, x2, y2)
-   local b = bounds_prototype:clone()
+--- Returns true if the specified bounding box is wholly contained
+--- within these Bounds
+function Bounds:contains_bounds(b)
+   return self:contains(b.min) and self:contains(b.max)
+end
 
-   b.x1 = math.min(x1, x2)
-   b.x2 = math.max(x1, x2)
-   b.y1 = math.min(y1, y2)
-   b.y2 = math.max(y1, y2)
-
-   return b
+--- Translates a bounding box, returning new Bounds
+function Bounds:translate(p)
+   return Bounds.new(self.min:translate(p),self.max:translate(p))
 end
