@@ -5,7 +5,6 @@
     "perk": 32,
     "species": 32
   },
-  "skillTree": {},
   "initialSkills": [
     "start"
   ],
@@ -18,14 +17,21 @@
     ]
   ],
   "strings": {
-    "info": [
-      "Skill Tree",
-      "This is the passive skill tree. As you adventure in the world of Starbound you will earn Skill Points which can be spent here to unlock Skills.\n\nEach skill will provide a passive benefit to your abilities."
-    ]
+    "info": {
+      "title": {
+        "en_US": "Skill Tree"
+      },
+      "description": {
+        "en_US": "This is the passive skill tree. As you adventure in the world of Starbound you will earn Skill Points which can be spent here to unlock Skills.\n\nEach skill will provide a passive benefit to your abilities."
+      }
+    }
   },
-  "commonSkillModules": [
-    "/isl/skilltree/modules/common/melee/melee.skillmodule"
-  ],
+  "skillModules": {
+    "common": {
+      "melee": "/isl/skilltree/modules/common/melee/melee.skillmodule"
+    },
+    "species": {}
+  },
   "speciesSkillModules": {
     "default": "/isl/skilltree/modules/species/default/default.skillmodule"
   }
