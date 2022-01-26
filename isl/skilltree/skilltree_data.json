@@ -28,11 +28,11 @@
   },
   "skillModules": {
     "common": {
+      "bridge": "/isl/skilltree/modules/common/bridge/bridge.skillmodule",
       "melee": "/isl/skilltree/modules/common/melee/melee.skillmodule"
     },
-    "species": {}
-  },
-  "speciesSkillModules": {
-    "default": "/isl/skilltree/modules/species/default/default.skillmodule"
+    "species": {
+      "default": "/isl/skilltree/modules/species/default/default.skillmodule"
+    }
   }
 }

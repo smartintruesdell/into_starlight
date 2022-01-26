@@ -2,55 +2,90 @@
    Interface logic for the IntoStarlight Skilltree
    Based in part on the Frackin' Universe researchTree
 ]]
+require("/scripts/util.lua")
 require("/isl/isl_util.lua")
-require("/isl/skilltree/skill_util.lua")
+require("/isl/point.lua")
 require("/isl/bounds.lua")
+require("/isl/skill/skill.lua")
 
--- Constants ------------------------------------------------------------------
+-- Global State ---------------------------------------------------------------
+-- locale :: string
+locale = ""
+-- currency_table :: table<string, Currency>
 currency_table = {}
-skill_tree = nil
+-- skill_tree :: table<string, ISLSkill>
+skills_graph = nil
+-- grid_tile_image :: string
 grid_tile_image = nil
+-- grid_tile_size :: number
 grid_tile_size = nil
-canvas_size = nil
+-- canvas :: Canvas
 canvas = nil
+-- canvas_size :: Point
+canvas_size = nil
+-- canvas_bounds :: Bounds
+canvas_bounds = nil
+-- data :: table
 data = nil
+-- selected :: string
 selected = nil
+-- mouse_down :: boolean
 mouse_down = false
+-- mouse_position_last :: Point
 mouse_position_last = nil
-
--- Variables ------------------------------------------------------------------
-drag_offset = { x = 0, y = 0 }
+-- drag_offset :: Point
+drag_offset = Point.new({0,0})
 
 -- Functions ------------------------------------------------------------------
 
---- Loads skill tree modules for the player
-function load_skill_tree_modules(data)
-   local temp_file = nil
-   local st = data.skillTree
+--- Loads skill modules for the player
+--- load_skills_graph(table) -> table<string, ISLSkill>
+function load_skills_graph(data)
+   local graph = {}
 
    -- First, we'll grab all of the common modules
-   for _, file in ipairs(data.commonSkillModules) do
-      st = ISLUtil.MergeTable(st, root.assetJson(file))
+   for module_name, file in pairs(data.skillModules.common) do
+      sb.logInfo("ISL: Loading skills module "..module_name)
+      -- And zip included skills into our skill tree
+      for skill_name, skill_data in pairs(root.assetJson(file)) do
+         graph[skill_name] = ISLSkill.new(skill_data)
+      end
    end
 
    -- Next, we want to merge the starting skills for the player's species
    local species_file = nil
-   if data.speciesSkillModules[player.species()] then
-      species_file = data.speciesSkillModules[player.species()]
+   if data.skillModules.species[player.species()] then
+      species_file = data.skillModules.species[player.species()]
+      sb.logInfo("ISL: Loading species skills module for "..player.species())
    else
       -- With a default if there isn't one configured
-      species_file = data.speciesSkillModules.default
+      species_file = data.skillModules.species.default
+      sb.logInfo("ISL: Loading default species skills module, "..player.species().."did not specify a skill module")
+   end
+   -- And zip included skills into our skill tree
+   local species_module = root.assetJson(species_file)
+   for skill_name, skill_data in pairs(species_module) do
+      graph[skill_name] = ISLSkill.new(skill_data)
    end
 
-   return ISLUtil.MergeTable(st, root.assetJson(species_file))
+   return graph
+end
+
+function set_selected_skill(select_skill_id)
+   selected = select_skill_id
+   for skill_id, _ in pairs(skills_graph) do
+      skills_graph[skill_id].is_selected = skill_id == select_skill_id
+   end
+
+   return skills_graph
 end
 
 --- Draws the background for the skill tree
-function draw_skill_tree_background()
-   local grid_offset = {
-      drag_offset.x % grid_tile_size[1],
-      drag_offset.y % grid_tile_size[2]
-   }
+function draw_skills_graph_background()
+   local grid_offset = Point.new({
+      drag_offset[1] % grid_tile_size[1],
+      drag_offset[2] % grid_tile_size[2]
+   })
 
    canvas:drawTiledImage(
       grid_tile_image,
@@ -65,77 +100,66 @@ function draw_skill_tree_background()
 end
 
 --- Draws the lines connecting the skill tree nodes
-function draw_skill_tree_node_lines()
-   local start_point = { 0, 0 }
-   local end_point = { 0, 0 }
-end
-
---- Draws a Species type skill node
-function draw_skill_tree_node_species_icon(skill_id, skill_data)
-
-end
-
---- Draws a Perk type skill node
-function draw_skill_tree_node_perk_icon(skill_id, skill_data)
-
-end
-
---- Draws a Skill type skill node
-function draw_skill_tree_node_skill_icon(skill_id, skill_data)
-   local bounds = SkillUtil.get_skill_icon_bounds(
-      skill_data,
-      data
-   ):offset(drag_offset.x, drag_offset.y)
-
+function draw_skills_graph_node_lines(drag_offset, skills_graph)
+   for _, skill in pairs(skills_graph) do
+      for _, child_id in ipairs(skill.children) do
+         assert(skills_graph[child_id], "Unable to find skill "..child_id)
+         skill:draw_line_to(skills_graph[child_id], drag_offset, canvas)
+      end
+   end
 end
 
 --- Draws the skill tree node icons
-function draw_skill_tree_node_icons()
-   for skill_id, skill_data in pairs(skill_tree) do
-      if skill_data.type == SKILL_TYPE_SPECIES then
-         draw_skill_tree_node_species_icon(skill, skill_data)
-      elseif skill_data.type == SKILL_TYPE_PERK then
-         draw_skill_tree_node_perk_icon(skill, skill_data)
-      else
-         draw_skill_tree_node__icon(skill, skill_data)
+function draw_skills_graph_node_icons(drag_offset, skills_graph)
+   for _skill_name, skill in pairs(skills_graph) do
+      local icon_bounds = skill:get_icon_bounds():translate(drag_offset)
+
+      if canvas_bounds:collides_bounds(icon_bounds) then
+         skill:draw(drag_offset, canvas)
       end
    end
 end
 
 --- Draws the skill tree nodes
-function draw_skill_tree_nodes()
-   if not skill_tree then return end
+function draw_skills_graph_nodes(drag_offset, skills_graph)
+   if not skills_graph then return end
 
-   draw_skill_tree_node_lines()
-   draw_skill_tree_node_icons()
+   draw_skills_graph_node_lines(drag_offset, skills_graph)
+   draw_skills_graph_node_icons(drag_offset, skills_graph)
 end
 
 --- Draws the indicator to inform the player of their current
 --- currency totals
-function draw_skill_tree_currencies_reference()
+function draw_skills_graph_currencies_reference()
 
 end
 
 --- Draws the skill tree
-function draw_skill_tree()
+function draw_skills_graph()
    canvas:clear()
 
-   draw_skill_tree_background()
-   draw_skill_tree_nodes()
-   draw_skill_tree_currencies_reference()
+   draw_skills_graph_background()
+   draw_skills_graph_nodes(drag_offset, skills_graph)
+   draw_skills_graph_currencies_reference()
 end
 
 --- Draws the info panel
 function draw_info_panel()
    if not selected then
       -- If we don't have a skill selected, we'll show instructional info
-      widget.setText("title", data.strings.info[1])
-			widget.setText("infoList.text", data.strings.info[2])
+      widget.setText("title", data.strings.info.title[locale])
+			widget.setText("infoPanel.text", data.strings.info.description[locale])
    else
       -- If we have a skill selected, we'll show information about that skill
-      if data.strings.skills[selected] then
-         widget.setText("title", data.strings.skills[selected][1])
-         widget.setText("infoList.text", data.strings.skills[selected][2])
+      if skills_graph[selected] then
+         widget.setText(
+            "title",
+            skills_graph[selected].strings.name[locale]
+         )
+         widget.setText(
+            "infoPanel.text",
+            skills_graph[selected].strings.description[locale]
+         )
       else
          widget.setText("title", data.strings.skills.error[1])
          widget.setText("title", data.strings.skills.error[2])
@@ -150,38 +174,26 @@ function handle_canvas_clicked(position, button, is_button_down)
       mouse_down = is_button_down
       mouse_position_last = position
 
-      if not is_button_down then
-         draw_skill_tree()
-      else
+      if is_button_down then
          handle_mouse_left_click(position)
       end
+
+      draw_skills_graph()
    end
 end
 
 function handle_mouse_left_click(position)
-   if not skill_tree then return end
-
-   local clicked_node = nil
+   if not skills_graph then return end
 
    -- SELECT the clicked node if it is in bounds
-   for skill_node, tbl in pairs(skill_tree) do
+   for skill_id, skill in pairs(skills_graph) do
       -- TODO: icon_size_offset should depend on whether
       -- this is a `skill` or a `perk`
-      local icon_size_offset = (data.iconSizes.skill * 0.5)
-
-      local x_range = {
-         tbl.position[1] + drag_offset.x - icon_size_offset - 1,
-         tbl.position[1] + drag_offset.x - icon_size_offset + 1
-      }
-
-      if position[1] > x_range[1] and position[2] < x_range[2] then
-         local y_range = {
-            tbl.position[2] + drag_offset.y + icon_size_offset - 1,
-            tbl.position[2] + drag_offset.y + icon_size_offset + 1,
-         }
-
-         if position[2] > y_range[1] and position[2] < y_range[2] then
-            clicked = skill_node
+      if skill:get_icon_bounds():translate(drag_offset):contains(position) then
+         if selected == skill_id then
+            set_selected_skill(nil)
+         else
+            set_selected_skill(skill_id)
          end
          break
       end
@@ -191,13 +203,13 @@ end
 function handle_mouse_drag()
    local mouse_position = canvas:mousePosition()
 
-   drag_offset.x = drag_offset.x + mouse_position[1] - mouse_position_last[1]
-   drag_offset.y = drag_offset.y + mouse_position[2] - mouse_position_last[2]
+   drag_offset[1] = drag_offset[1] + mouse_position[1] - mouse_position_last[1]
+   drag_offset[2] = drag_offset[2] + mouse_position[2] - mouse_position_last[2]
 
    mouse_position_last = mouse_position
 
    draw_info_panel()
-   draw_skill_tree()
+   draw_skills_graph()
 end
 
 function closeButton()
@@ -215,19 +227,20 @@ function init()
    currency_table = root.assetJson("/currencies.config")
    data = root.assetJson("/isl/skilltree/skilltree_data.json")
 
+   locale = data.locale or 'en_US'
+
    grid_tile_image = data.gridTileImage
    grid_tile_size = root.imageSize(grid_tile_image)
 
    -- initialize the canvas for drawing
    canvas = widget.bindCanvas("canvas")
    canvas_size = widget.getSize("canvas")
+   canvas_bounds = Bounds.new({0, 0}, {canvas_size[1], canvas_size[2]})
 
-   skill_tree = load_skill_tree_modules(data)
-
-   ISLUtil.DeepPrintTable(skill_tree)
+   skills_graph = load_skills_graph(data)
 
    -- draw the grid
-   draw_skill_tree()
+   draw_skills_graph()
 end
 
 function update(dt)

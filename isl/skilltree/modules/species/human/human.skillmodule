@@ -1,17 +1,82 @@
 {
   "start": {
-    "type": "skill",
-    "title": "Protector",
-    "description": "Humanity is shattered and broken, and it is the responsibility of the last Protector to rebuild.\n\nWith your Matter Manipulator you are uniquely qualified to seek allies and battle the Ruin.\n\nWhat path will you take to greatness?",
+    "type": "species",
+    "rarity": "rare",
+    "strings": {
+      "name": {
+        "en_US": "Protector"
+      },
+      "description": {
+        "en_US": "Humanity is shattered and broken, and it is the responsibility of the last Protector to rebuild.\n\nWith your Matter Manipulator you are uniquely qualified to seek allies and battle the Ruin.\n\nWhat path will you take to greatness?"
+      }
+    },
     "icon": "/interface/title/humanmale.png",
     "position": [
       0,
       0
     ],
-    "children": [],
-    "price": [],
-    "blueprints": [],
-    "effects": [],
-    "stats": []
+    "children": [
+      "human_melee_skill_1"
+    ]
+  },
+  "human_melee_skill_1": {
+    "type": "skill",
+    "rarity": "default",
+    "strings": {
+      "name": {
+        "en_US": "Strength of Humanity (1/3)"
+      },
+      "description": {
+        "en_US": "TODO"
+      }
+    },
+    "icon": "/interface/title/humanmale.png",
+    "position": [
+      0,
+      50
+    ],
+    "children": [
+      "human_melee_skill_2"
+    ]
+  },
+  "human_melee_skill_2": {
+    "type": "skill",
+    "rarity": "default",
+    "strings": {
+      "name": {
+        "en_US": "Strength of Humanity (2/3)"
+      },
+      "description": {
+        "en_US": "TODO"
+      }
+    },
+    "icon": "/interface/title/humanmale.png",
+    "position": [
+      0,
+      85
+    ],
+    "children": [
+      "human_melee_skill_3"
+    ]
+  },
+  "human_melee_skill_3": {
+    "type": "skill",
+    "rarity": "default",
+    "strings": {
+      "name": {
+        "en_US": "Strength of Humanity (3/3)"
+      },
+      "description": {
+        "en_US": "TODO"
+      }
+    },
+    "icon": "/interface/title/humanmale.png",
+    "position": [
+      0,
+      120
+    ],
+    "children": [
+      "bridge_melee_perk_1"
+    ]
   }
 }

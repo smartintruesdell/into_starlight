@@ -11,7 +11,14 @@ require("/isl/bounds.lua")
 
 -- Configuration --------------------------------------------------------------
 
-CONFIG = root.assetJson("/isl/skill/skill.config")
+-- if enabled, turns on useful debugging tools
+DEBUG = false
+
+CONFIG = nil
+
+local function init()
+   CONFIG = root.assetJson("/isl/skill/skill.config")
+end
 
 local function get_color(name)
    local aliased_color = CONFIG.colorAlias[name] or "white"
@@ -26,6 +33,7 @@ ISLSkill = createClass("ISLSkill")
 
 --- Constructor
 function ISLSkill:init(data)
+   if not CONFIG then init() end
    self.type = data.type or CONFIG.type.skill
    self.rarity = data.rarity or CONFIG.rarity.common
    self.strings = data.strings or CONFIG.defaultStrings
@@ -52,8 +60,8 @@ end
 function ISLSkill:get_icon_bounds()
    local icon_size = CONFIG.icon[self.type].size * 0.5
 
-   return Bounds(
-      self.position:translate(Point.new({ icon_size * -1, icon_size * -1 }))
+   return Bounds.new(
+      self.position:translate(Point.new({ icon_size * -1, icon_size * -1 })),
       self.position:translate(Point.new({ icon_size, icon_size }))
    )
 end
@@ -61,9 +69,14 @@ end
 --- Returns background image, color data for drawing
 --- ISLSkill:get_background() -> { string, string }
 function ISLSkill:get_background()
-   local background_image = (
-      self.icon_background or CONFIG.background[self.type].default
-   )..(self.selected and ":selected" or ":default")
+
+   local background_image = nil
+   if self.is_selected then
+      sb.logInfo("Pretty sure a skill is selected")
+      background_image = self.icon_frame.background..":selected"
+   else
+      background_image = self.icon_frame.background..":default"
+   end
 
    local background_color = nil
    if not self.is_available then
@@ -80,7 +93,7 @@ function ISLSkill:get_background()
       background_color = get_color("background_color_default")
    end
 
-   return { background_image, background_color }
+   return background_image, background_color
 end
 
 --- Returns icon image, color data for drawing
@@ -101,7 +114,7 @@ function ISLSkill:get_icon()
       icon_color = get_color("icon_color_default")
    end
 
-   return { self.icon, icon_color }
+   return self.icon, icon_color
 end
 
 --- Renders the skill icon to the provided canvas
@@ -109,38 +122,74 @@ end
 function ISLSkill:draw(offset, canvas)
    if self.hidden then return end
 
-   local bounds = self:get_icon_bounds():translate(offset)
-
    -- Draw the icon background
    local background_image, background_color = self:get_background()
+
    canvas:drawImage(
       background_image,
-      bounds.min,
+      self.position:translate(offset),
       1,
       background_color,
-      false
+      true
    )
    -- Draw the icon, if any
    local icon_image, icon_color = self:get_icon()
    if icon_image then
       canvas:drawImage(
          icon_image,
-         bounds.min,
+         self.position:translate(offset),
          1,
          icon_color,
-         false
+         true
       )
    end
    -- Draw the icon frame
    canvas:drawImage(
       self.icon_frame.border..":"..(self.rarity or "default"),
-      bounds.min,
+      self.position:translate(offset),
       1,
       icon_color,
-      false
+      true
    )
 
+   if DEBUG then self:draw_bounds(offset, canvas) end
+
    return self
+end
+
+function ISLSkill:draw_bounds(offset, canvas)
+   local bounds = self:get_icon_bounds():translate(offset)
+   local points = {
+      Point.new(bounds.min),
+      Point.new({ bounds.min[1], bounds.max[2] }),
+      Point.new(bounds.max),
+      Point.new({ bounds.max[1], bounds.min[2] }),
+   }
+
+   canvas:drawLine(
+      points[1],
+      points[2],
+      "#55FFFF",
+      1
+   )
+   canvas:drawLine(
+      points[2],
+      points[3],
+      "#55FFFF",
+      1
+   )
+   canvas:drawLine(
+      points[3],
+      points[4],
+      "#55FFFF",
+      1
+   )
+   canvas:drawLine(
+      points[1],
+      points[4],
+      "#55FFFF",
+      1
+   )
 end
 
 --- Renders a line between two skill positions to the provided canvas
