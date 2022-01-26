@@ -11,7 +11,7 @@ require("/isl/bounds.lua")
 
 -- Configuration --------------------------------------------------------------
 
-CONFIG = root.assetJson("skill.config")
+CONFIG = root.assetJson("/isl/skill/skill.config")
 
 local function get_color(name)
    local aliased_color = CONFIG.colorAlias[name] or "white"
@@ -27,9 +27,10 @@ ISLSkill = createClass("ISLSkill")
 --- Constructor
 function ISLSkill:init(data)
    self.type = data.type or CONFIG.type.skill
+   self.rarity = data.rarity or CONFIG.rarity.common
    self.strings = data.strings or CONFIG.defaultStrings
-   self.icon = data.icon or ""
-   self.icon_background = data.icon_background or ""
+   self.icon = data.icon
+   self.icon_frame = data.iconFrame or CONFIG.icon[data.type]
    self.position = Point.new(data.position or {0,0})
    self.children = data.children or {}
 
@@ -100,7 +101,6 @@ function ISLSkill:get_icon()
       icon_color = get_color("icon_color_default")
    end
 
-
    return { self.icon, icon_color }
 end
 
@@ -111,6 +111,7 @@ function ISLSkill:draw(offset, canvas)
 
    local bounds = self:get_icon_bounds():translate(offset)
 
+   -- Draw the icon background
    local background_image, background_color = self:get_background()
    canvas:drawImage(
       background_image,
@@ -119,9 +120,20 @@ function ISLSkill:draw(offset, canvas)
       background_color,
       false
    )
+   -- Draw the icon, if any
    local icon_image, icon_color = self:get_icon()
+   if icon_image then
+      canvas:drawImage(
+         icon_image,
+         bounds.min,
+         1,
+         icon_color,
+         false
+      )
+   end
+   -- Draw the icon frame
    canvas:drawImage(
-      icon_image,
+      self.icon_frame.border..":"..(self.rarity or "default"),
       bounds.min,
       1,
       icon_color,
