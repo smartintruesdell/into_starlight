@@ -140,7 +140,7 @@ function ISLSkillModule.load_from_path(path)
       new_module.skills[skill_id] = ISLSkill.new(skill_data)
    end
 
-   for child_id, binding in pairs(data.children) do
+   for child_id, binding in pairs(file_data.children) do
       local err, child_module = ISLSkillModuleBinding.new(binding):load_skill_module()
 
       if err then
