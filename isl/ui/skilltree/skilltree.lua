@@ -3,7 +3,6 @@
    Based in part on the Frackin' Universe researchTree
 ]]
 require("/scripts/util.lua")
-require("/isl/isl_util.lua")
 require("/isl/point.lua")
 require("/isl/bounds.lua")
 require("/isl/skill/skill.lua")
