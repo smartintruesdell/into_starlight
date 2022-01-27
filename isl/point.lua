@@ -22,6 +22,14 @@ function Point:invert()
    )
 end
 
+function Point:transform(dt, dr, ds)
+   dt = dt or { 0, 0 }
+   dr = dr or 0
+   ds = ds or 1
+
+   return self:scale(ds):rotate(dr):translate(dt)
+end
+
 --- Translates a point along x, y axes
 function Point:translate(p)
    return Point.new(
@@ -47,4 +55,14 @@ end
 --- a provided reference point
 function Point:rotate_relative_to(deg, ref)
    return self:translate(ref:invert()):rotate(deg):translate(ref)
+end
+
+--- Scales a point's coordinates relative to the origin
+function Point:scale(ds)
+   ds = ds or 1
+
+   return Point.new({
+         self[1] * ds,
+         self[2] * ds
+   })
 end

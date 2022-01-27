@@ -57,15 +57,17 @@ function ISLSkillModuleBinding:rotate(dr)
    )
 end
 
---- ISLSkillModuleBinding:load_skill_module() -> (error, ISLSkillModule)
+--- ISLSkillModuleBinding:load_skill_module() -> ISLSkillModule
 function ISLSkillModuleBinding:load_skill_module()
-   local err, skill_module = ISLSkillModule.load_from_path(self.path)
+   local skill_module = ISLSkillModule.load_from_path(self.path)
 
-   skill_module = skill_module:transform(
+   if not skill_module then
+      ISLLog.error("Failed to load skill module from '%s'", self.path)
+   end
+
+   return skill_module:transform(
       self.translation,
       self.rotation,
       self.scale
    )
-
-   return err, skill_module
 end

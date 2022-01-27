@@ -2,8 +2,16 @@
   {
     "op": "add",
     "path": "/skillModules/species/human",
-    "value": {
-      "path": "/isl/skillgraph/modules/species/human/human.skillmodule"
-    }
+    "value": {}
+  },
+  {
+    "op": "add",
+    "path": "/skillModules/species/human/core",
+    "value": {}
+  },
+  {
+    "op": "add",
+    "path": "/skillModules/species/human/core/path",
+    "value": "/isl/skillgraph/modules/species/human/human.skillmodule"
   }
 ]

@@ -54,6 +54,16 @@ end
 
 -- Methods --------------------------------------------------------------------
 
+function ISLSkill:transform(dt, dr, ds)
+   dt = dt or { 0, 0 }
+   dr = dr or 0
+   ds = ds or 1
+
+   self.position = self.position:transform(dt, dr, ds)
+
+   return self
+end
+
 --- Returns bounds for use in computing icon position
 --- ISLSkill:draw() -> Bounds
 function ISLSkill:get_icon_bounds()

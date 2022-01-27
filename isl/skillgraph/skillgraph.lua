@@ -38,9 +38,12 @@ function ISLSkillGraph.load(path)
    ISLLog.info("Initializing Skill Graph")
    graph = ISLSkillGraph.new()
    graph:load_modules(graph_config.skillModules.common)
-   graph:load_modules(
-      graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default
-   )
+
+   for s_name, mods in pairs(graph_config.skillModules.species) do
+      ISLLog.info("%s, %s", s_name, mods.core.path)
+   end
+
+   graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
    return nil, graph
 end
@@ -52,20 +55,18 @@ function ISLSkillGraph:load_modules(bindings)
 
    for module_id, binding in pairs(bindings) do
       if not binding or not binding.path then
-         ISLLog.error(err_msg.BAD_MODULE_BINDING,module_id)
+         ISLLog.error(err_msg.MODULE_BINDING_BAD,module_id)
       else
          binding = ISLSkillModuleBinding.new(binding)
 
-         local err, skill_module = binding:load_skill_module()
+         local skill_module = binding:load_skill_module()
 
-         if err then
-            ISLLog.error(err)
-         elseif not skill_module then
+         if not skill_module then
             ISLLog.error("Bad module data trying to load '%s'", module_id)
          else
             self.loaded_modules[module_id] = binding
 
-            for skill_id, skill in pairs(skill_module.get_skills()) do
+            for skill_id, skill in pairs(skill_module:get_skills()) do
                if self.skills[skill_id] then
                   ISLLog.warn(
                      "Overwrote skill '%s' while loading Skill Module '%s'",

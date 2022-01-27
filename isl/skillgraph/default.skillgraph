@@ -35,7 +35,9 @@
     },
     "species": {
       "default": {
-        "path": "/isl/skillgraph/modules/species/default/default.skillmodule"
+        "core": {
+          "path": "/isl/skillgraph/modules/species/default/default.skillmodule"
+        }
       }
     }
   }
