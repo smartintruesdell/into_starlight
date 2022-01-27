@@ -10,12 +10,12 @@
 --- 1: Warn,    log non-breaking warnings
 --- 2: Info,    log useful process and descriptive information
 --- 3: Error,   log errors
-local LOG_LEVELS = {
-   "DEBUG" = 0,
-   "WARN" = 1,
-   "INFO" = 2,
-   "ERROR" = 3
-}
+local LOG_LEVELS = {}
+LOG_LEVELS.DEBUG = 0;
+LOG_LEVELS.WARN = 1;
+LOG_LEVELS.INFO = 2;
+LOG_LEVELS.ERROR = 3;
+
 local LOG_LEVEL = LOG_LEVELS.DEBUG
 
 -- Exports --------------------------------------------------------------------

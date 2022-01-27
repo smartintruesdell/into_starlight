@@ -197,12 +197,12 @@ end
 
 function init()
    -- load data
-   local config = root.assetJson("/isl/skilltree/skilltree.config.json")
-   strings = root.assetJson("/isl/skilltree/skilltree.strings.json")
+   local config = root.assetJson("/isl/ui/skilltree/skilltree.config.json")
+   strings = root.assetJson("/isl/ui/skilltree/skilltree.strings.json")
 
-   locale = data.locale or 'en_US'
+   locale = config.locale or 'en_US'
 
-   grid_tile_image = data.gridTileImage
+   grid_tile_image = config.gridTileImage
    grid_tile_size = root.imageSize(grid_tile_image)
 
    -- initialize the canvas for drawing
@@ -210,7 +210,7 @@ function init()
    canvas_size = widget.getSize("canvas")
    canvas_bounds = Bounds.new({0, 0}, {canvas_size[1], canvas_size[2]})
 
-   skill_graph = SkillGraph.load(data.graphPath)
+   skill_graph = SkillGraph.load(config.graphPath)
 
    -- draw the grid
    draw_skill_graph()

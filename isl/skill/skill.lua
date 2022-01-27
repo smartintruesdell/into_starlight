@@ -150,7 +150,7 @@ function ISLSkill:draw(offset, canvas)
       true
    )
 
-   if LogLevel == LogLevels.DEBUG then self:draw_bounds(offset, canvas) end
+   if LOG_LEVEL == LOG_LEVELS.DEBUG then self:draw_bounds(offset, canvas) end
 
    return self
 end
