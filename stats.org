@@ -281,9 +281,9 @@ The Hunter 1/3 wedge of the graph is ranged weapon focused.
 
 *** The Ranger (Bows)
 
-** The Wise
+** The Scholar
 
-The Wise 1/3 wedge of the graph is magic/pets focused
+The Scholar 1/3 wedge of the graph is magic/pets focused
 
 *** The Master (Pets)
 
