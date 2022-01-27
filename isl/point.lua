@@ -12,6 +12,16 @@ function Point:init(p)
    self[2] = p[2] or 0
 end
 
+--- Inverts a point by reversing then signs of its coordinates
+function Point:invert()
+   return Point.new(
+      {
+         self[1] * -1,
+         self[2] * -1
+      }
+   )
+end
+
 --- Translates a point along x, y axes
 function Point:translate(p)
    return Point.new(
@@ -20,4 +30,21 @@ function Point:translate(p)
          self[2] + p[2]
       }
    )
+end
+
+--- Rotates the point by some number of degrees relative to the
+--- origin
+function Point:rotate(deg)
+   return Point.new(
+      {
+         (self[1] * math.cos(deg)) - (self[2] * math.sin(deg)),
+         (self[2] * math.cos(deg)) + (self[1] * math.sin(deg))
+      }
+   )
+end
+
+--- Rotates the point by some number of degrees relative to
+--- a provided reference point
+function Point:rotate_relative_to(deg, ref)
+   return self:translate(ref:invert()):rotate(deg):translate(ref)
 end
