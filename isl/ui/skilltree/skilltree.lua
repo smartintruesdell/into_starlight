@@ -210,7 +210,7 @@ function init()
    canvas_size = widget.getSize("canvas")
    canvas_bounds = Bounds.new({0, 0}, {canvas_size[1], canvas_size[2]})
 
-   skill_graph = SkillGraph.load(config.graphPath)
+   skill_graph = ISLSkillGraph.load(config.graphPath)
 
    -- draw the grid
    draw_skill_graph()
