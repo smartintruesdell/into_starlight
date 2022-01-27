@@ -8,12 +8,11 @@
 require("/scripts/questgen/util.lua")
 require("/isl/point.lua")
 require("/isl/bounds.lua")
+require("/isl/log.lua")
 
 -- Configuration --------------------------------------------------------------
 
 -- if enabled, turns on useful debugging tools
-DEBUG = false
-
 CONFIG = nil
 
 local function init()
@@ -72,7 +71,6 @@ function ISLSkill:get_background()
 
    local background_image = nil
    if self.is_selected then
-      sb.logInfo("Pretty sure a skill is selected")
       background_image = self.icon_frame.background..":selected"
    else
       background_image = self.icon_frame.background..":default"
@@ -152,7 +150,7 @@ function ISLSkill:draw(offset, canvas)
       true
    )
 
-   if DEBUG then self:draw_bounds(offset, canvas) end
+   if LogLevel == LogLevels.DEBUG then self:draw_bounds(offset, canvas) end
 
    return self
 end
