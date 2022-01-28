@@ -112,7 +112,7 @@ end
 -- Render ---------------------------------------------------------------------
 
 function SkillTreeUI:draw()
-   self.canvas.clear()
+   self.canvas:clear()
 
    self:_draw_background()
    self:_draw_graph_lines()
