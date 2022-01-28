@@ -3,11 +3,11 @@
 ]]
 -- Globals --------------------------------------------------------------------
 
-ISLStrings = ISLStrings or {}
+Strings = Strings or nil
 
 -- Init -----------------------------------------------------------------------
 
-function Load_ISL_Strings()
-   ISLStrings = root.assetJson("/isl/strings.json")
-   ISLStrings.locale = ISLStrings.locale or 'en_US'
+function initialize_Strings()
+   Strings = root.assetJson("/isl/strings.json")
+   Strings.locale = Strings.locale or 'en_US'
 end
