@@ -15,6 +15,13 @@ Widgets.Canvas = "canvas"
 local Assets = {}
 Assets.background_tile_image = PATH.."/assets/background_tile.png"
 
+DOUBLE_CLICK_DISTANCE_TOLERANCE = 1
+DOUBLE_CLICK_TIME_TOLERANCE = 300
+
+-- State ----------------------------------------------------------------------
+
+local double_click_cooldown = 0
+
 -- Utility Functions ----------------------------------------------------------
 
 local function is_affordable(_ --[[skill: ISLSkill]])
@@ -55,10 +62,12 @@ function SkillTreeUI:init()
    -- Mouse information
    self.mouse = {}
    self.mouse.last_position = Point.new({ 0, 0 })
+   self.mouse.last_clicked_position = Point.new({ 0, 0 })
+   self.mouse.last_clicked_time = os.time()
    self.mouse.pressed = false
 
    -- Track 'selected' skill
-   self.selected_skill_id = nil
+   self.selected_skill_id = 0
 
    -- Add an event emitter
    self.events = EventEmitter.new()
@@ -73,17 +82,24 @@ end
 -- Event Handlers -------------------------------------------------------------
 
 function SkillTreeUI:handle_mouse_event(position, button, pressed)
+   position = Point.new(position)
    self.mouse.pressed = pressed
+   self.mouse.last_position = position
 
-   if button == 0 then
-      if self.mouse.pressed then
+   if pressed then
+      -- On Mouse Down
+      self.events:emit('click', position, button, self)
+      self.events:emit('mousedown', position, button, self)
+   else
+      -- On Mouse Up
+      if button == 0 then
          self:_handle_left_click(position)
+
+         self:draw()
       end
 
-      self:draw()
+      self.events:emit('mouseup', position, button, self)
    end
-
-   self.events:emit('click', position, button, pressed, self)
 
    return self
 end
@@ -92,20 +108,29 @@ function SkillTreeUI:drag()
    local position = Point.new(self.canvas:mousePosition())
    local dt = position:translate(self.mouse.last_position:inverse())
 
-   self.offset = self.offset:translate(dt)
    self.mouse.last_position = position
+
+   self.offset = self.offset:translate(dt)
 
    self:draw()
 
    self.events:emit('drag', dt, self)
 end
 
-function SkillTreeUI:update(--[[dt : number]])
+function SkillTreeUI:update(dt)
    if self.mouse.pressed then self:drag() end
 end
 
 function SkillTreeUI:_handle_left_click(position)
-   self.mouse.last_position = Point.new(position)
+   -- Check for double clicks
+   local distance = position:translate(self.mouse.last_clicked_position:inverse()):mag()
+   local time_elapsed = os.time() - self.mouse.last_clicked_time
+   local is_fast_enough = time_elapsed <= DOUBLE_CLICK_TIME_TOLERANCE
+   local is_close_enough = distance <= DOUBLE_CLICK_DISTANCE_TOLERANCE
+   local is_double_click = is_fast_enough and is_close_enough
+   -- Remember this click for future comparison
+   self.mouse.last_clicked_position = position
+   self.mouse.last_clicked_time = os.time()
 
    -- Check the skills graph to find a skill that may have been clicked
    for skill_id, skill in pairs(SkillGraph.skills) do
@@ -115,12 +140,18 @@ function SkillTreeUI:_handle_left_click(position)
             self:select_skill(nil)
          else
             self:select_skill(skill_id)
+
+            if is_double_click then
+               SkillGraph:unlock_skill(skill_id, true)
+            end
          end
          break
       end
    end
 
-   self.events:emit('left_click', position, self)
+   if is_double_click then
+      self.events:emit('doubleclick', position, self)
+   end
 end
 
 -- Render ---------------------------------------------------------------------
@@ -138,7 +169,6 @@ function SkillTreeUI:draw()
 end
 
 function SkillTreeUI:_draw_background()
-
    local grid_offset = Point.new({
          self.offset[1] % self.background_tile_size[1],
          self.offset[2] % self.background_tile_size[2]

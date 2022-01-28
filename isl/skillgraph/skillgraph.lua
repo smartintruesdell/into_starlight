@@ -12,6 +12,8 @@ local err_msg = {}
 err_msg.GRAPH_FILE_BAD_PATH = "Expected the path to a .skillgraph file"
 err_msg.MODULE_BINDING_BAD = "Bad module binding for '%s'"
 
+local SKILLS_PROPERTY_NAME = "isl_unlocked_skills"
+
 -- Class ----------------------------------------------------------------------
 
 ISLSkillGraph = createClass("ISLSkillGraph")
@@ -47,9 +49,13 @@ function ISLSkillGraph.load(path)
 
    -- Initialize unlocked skills
    ISLLog.info("Initializing Unlocked Skills")
-   graph:load_unlocked_skills(status.statusProperty("isl_unlocked_skills") or {})
+   graph:load_unlocked_skills(status.statusProperty(SKILLS_PROPERTY_NAME) or {})
    graph:load_unlocked_skills(graph_config.initialSkills.common)
    graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
+
+   -- Apply save_unlocked_skills here to commit any changes afforded by
+   -- updates to initialSkills.*
+   graph:save_unlocked_skills()
 
    -- Build available skills data
    ISLLog.info("Deriving Available Skills")
@@ -103,9 +109,13 @@ function ISLSkillGraph:load_unlocked_skills(data)
    return self
 end
 
-function ISLSkillGraph:unlock_skill(skill_id)
+function ISLSkillGraph:unlock_skill(skill_id, do_save)
    ISLLog.debug("Player has unlocked '%s'", skill_id)
    self.unlocked_skills[skill_id] = true
+
+   if do_save then
+      self:save_unlocked_skills()
+   end
 
    return self
 end
@@ -114,4 +124,15 @@ function ISLSkillGraph:build_available_skills()
    self.available_skills = {}
 
    return self
+end
+
+function ISLSkillGraph:save_unlocked_skills()
+   local unlocked_skills = {}
+   for unlocked_skill_id, _ in pairs(self.unlocked_skills) do
+      table.insert(unlocked_skills, unlocked_skill_id)
+   end
+
+   status.setStatusProperty(SKILLS_PROPERTY_NAME, unlocked_skills)
+
+   return self;
 end
