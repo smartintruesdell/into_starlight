@@ -21,27 +21,31 @@ LOG_LEVEL = LOG_LEVELS.DEBUG
 -- Exports --------------------------------------------------------------------
 ISLLog = ISLLog or {}
 
-local function print_lg(pre, msg, ...)
-   sb.logInfo(string.format("ISL:%s: "..msg, pre, ...))
-end
-
 function ISLLog.debug(msg, ...)
-   if LOG_LEVEL == LOG_LEVELS.DEBUG then print_lg("DEBUG", msg, ...) end
+   if LOG_LEVEL == LOG_LEVELS.DEBUG then
+      sb.logInfo(string.format("ISL:: (DEBUG) "..msg, ...))
+   end
 
    return msg
 end
 function ISLLog.warn(msg, ...)
-   if LOG_LEVEL <= LOG_LEVELS.WARN then print_lg("WARN", msg, ...) end
+   if LOG_LEVEL <= LOG_LEVELS.WARN then
+      sb.logWarn(string.format("ISL:: "..msg, ...))
+   end
 
    return msg
 end
 function ISLLog.info(msg, ...)
-   if LOG_LEVEL <= LOG_LEVELS.INFO then print_lg("INFO", msg, ...) end
+   if LOG_LEVEL <= LOG_LEVELS.INFO then
+      sb.logInfo(string.format("ISL:: "..msg, ...))
+   end
 
    return msg
 end
 function ISLLog.error(msg, ...)
-   if LOG_LEVEL <= LOG_LEVELS.ERROR then print_lg("ERROR", msg, ...) end
+   if LOG_LEVEL <= LOG_LEVELS.ERROR then
+      sb.logError(string.format("ISL:: "..msg, ...))
+   end
 
    return msg
 end
