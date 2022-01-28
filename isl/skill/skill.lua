@@ -34,6 +34,7 @@ ISLSkill = createClass("ISLSkill")
 --- Constructor
 function ISLSkill:init(data)
    if not CONFIG then init() end
+   self.id = data.id or ''
    self.type = data.type or CONFIG.type.skill
    self.rarity = data.rarity or CONFIG.rarity.common
    self.strings = data.strings or CONFIG.defaultStrings
