@@ -88,11 +88,7 @@ function ISLSkillModule.load_from_path(path)
    for child_id, binding in pairs(file_data.children) do
       local child_module = ISLSkillModuleBinding.new(binding):load_skill_module()
 
-      if err then
-         ISLLog.error(err)
-      else
-         new_module.children[child_id] = child_module
-      end
+      new_module.children[child_id] = child_module
    end
 
    ISLLog.debug("Loaded Skill Module '%s'", new_module.name)
