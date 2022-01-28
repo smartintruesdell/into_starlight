@@ -39,17 +39,21 @@ function ISLSkillGraph.load(path)
 
    local graph_config = root.assetJson(path)
 
+   -- Initialize the skill graph
    ISLLog.info("Initializing Skill Graph")
    graph = ISLSkillGraph.new()
    graph:load_modules(graph_config.skillModules.common)
-
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
-   -- TODO: Add initialSkills.common, initialSkills[species] to unlocked_skills
+   -- Initialize unlocked skills
+   ISLLog.info("Initializing Unlocked Skills")
+   graph:load_unlocked_skills(status.statusProperty("isl_unlocked_skills") or {})
+   graph:load_unlocked_skills(graph_config.initialSkills.common)
+   graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
 
-   -- TODO: Add saved unlocked_skills from player data to unlocked_skills
-
-   -- TODO: Calculate avialable_skills
+   -- Build available skills data
+   ISLLog.info("Deriving Available Skills")
+   graph:build_available_skills()
 
    return graph
 end
@@ -87,4 +91,27 @@ function ISLSkillGraph:load_modules(bindings)
    end
 
    return self;
+end
+
+function ISLSkillGraph:load_unlocked_skills(data)
+   data = data or {}
+
+   for _, skill_id in ipairs(data) do
+      self:unlock_skill(skill_id)
+   end
+
+   return self
+end
+
+function ISLSkillGraph:unlock_skill(skill_id)
+   ISLLog.debug("Player has unlocked '%s'", skill_id)
+   self.unlocked_skills[skill_id] = true
+
+   return self
+end
+
+function ISLSkillGraph:build_available_skills()
+   self.available_skills = {}
+
+   return self
 end
