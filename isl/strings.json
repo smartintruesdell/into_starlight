@@ -1,0 +1,10 @@
+{
+  "PlayerInfoPanel": {
+    "header": {
+      "en_US": "Character Sheet"
+    },
+    "description": {
+      "en_US": "This is where the player's Character Sheet will appear."
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "name": "the_hunter",
+  "skills": {
+    "the_hunter": {
+      "type": "perk",
+      "rarity": "uncommon",
+      "strings": {
+        "name": {
+          "en_US": "The Hunter"
+        },
+        "description": {
+          "en_US": "^orange;The Master of Melee Combat^reset;\n\nThe Way of the Hunter is to approach conflict head-on. With powerful blows you will protect those dear to you and inflict great pain on those who stand against you."
+        }
+      },
+      "icon": "/interface/title/humanmale.png",
+      "position": [
+        0,
+        0
+      ],
+      "children": [
+        "hunter_skill_1"
+      ]
+    },
+    "hunter_skill_1": {
+      "type": "skill",
+      "rarity": "uncommon",
+      "strings": {
+        "name": {
+          "en_US": "Hunter 1 (TODO)"
+        },
+        "description": {
+          "en_US": "TODO"
+        }
+      },
+      "icon": "/interface/title/humanmale.png",
+      "position": [
+        50,
+        0
+      ],
+      "children": [
+        "hunter_skill_2"
+      ]
+    },
+    "hunter_skill_2": {
+      "type": "skill",
+      "rarity": "uncommon",
+      "strings": {
+        "name": {
+          "en_US": "Hunter 2 (TODO)"
+        },
+        "description": {
+          "en_US": "TODO"
+        }
+      },
+      "icon": "/interface/title/humanmale.png",
+      "position": [
+        85,
+        0
+      ],
+      "children": []
+    }
+  },
+  "children": {}
+}

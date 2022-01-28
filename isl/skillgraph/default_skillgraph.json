@@ -1,0 +1,45 @@
+{
+  "initialSkills": {
+    "common": [
+      "start"
+    ],
+    "species": {
+      "default": []
+    }
+  },
+  "skillModules": {
+    "common": {
+      "warrior": {
+        "path": "/isl/skillgraph/modules/common/warrior/warrior.skillmodule",
+        "translation": [
+          0,
+          165
+        ],
+        "rotation": 90
+      },
+      "hunter": {
+        "path": "/isl/skillgraph/modules/common/hunter/hunter.skillmodule",
+        "translation": [
+          -142.9,
+          -82.5
+        ],
+        "rotation": 210
+      },
+      "scholar": {
+        "path": "/isl/skillgraph/modules/common/scholar/scholar.skillmodule",
+        "translation": [
+          142.9,
+          -82.5
+        ],
+        "rotation": 330
+      }
+    },
+    "species": {
+      "default": {
+        "core": {
+          "path": "/isl/skillgraph/modules/species/default/default.skillmodule"
+        }
+      }
+    }
+  }
+}
