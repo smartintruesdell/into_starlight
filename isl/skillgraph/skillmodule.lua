@@ -35,7 +35,7 @@ function ISLSkillModule:init(data)
    -- ISLSkillModuleBinding rather than on the ISLSkillModule itself.
 
    -- Point - The relative position of the root node of this module on the graph
-   self.position = Point.new(data.translation or {0,0})
+   self.position = Point.new(data.position or {0,0})
    -- number - (degrees) A rotation to apply when positioning children
    self.rotation = data.rotation or 0.0
    -- number - A scale number to apply to distances from the origin.
@@ -75,7 +75,10 @@ function ISLSkillModule.load_from_path(path)
    local file_data = root.assetJson(path)
 
    local new_module = ISLSkillModule.new({
-      name = file_data.name
+      name = file_data.name,
+      position = file_data.position,
+      rotation = file_data.rotation,
+      scale = file_data.scale
    })
 
    for skill_id, skill_data in pairs(file_data.skills) do

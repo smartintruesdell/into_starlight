@@ -19,20 +19,16 @@
       "hunter": {
         "path": "/isl/skillgraph/modules/common/hunter/hunter.skillmodule",
         "position": [
-          0,
-          0
-          // 142.9,
-          // -82.5
+          142.9,
+          -82.5
         ],
         "rotation": 120
       },
       "scholar": {
         "path": "/isl/skillgraph/modules/common/scholar/scholar.skillmodule",
         "position": [
-          0,
-          0
-          // -142.9,
-          // -82.5
+          -142.9,
+          -82.5
         ],
         "rotation": 240
       }
