@@ -28,20 +28,20 @@ end
 function ISLLog.debug(msg, ...)
    if LOG_LEVEL == LOG_LEVELS.DEBUG then print_lg("DEBUG", msg, ...) end
 
-   return message
+   return msg
 end
 function ISLLog.warn(msg, ...)
    if LOG_LEVEL <= LOG_LEVELS.WARN then print_lg("WARN", msg, ...) end
 
-   return message
+   return msg
 end
 function ISLLog.info(msg, ...)
    if LOG_LEVEL <= LOG_LEVELS.INFO then print_lg("INFO", msg, ...) end
 
-   return message
+   return msg
 end
 function ISLLog.error(msg, ...)
    if LOG_LEVEL <= LOG_LEVELS.ERROR then print_lg("ERROR", msg, ...) end
 
-   return message
+   return msg
 end
