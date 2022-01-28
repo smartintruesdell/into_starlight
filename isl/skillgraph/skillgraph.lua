@@ -42,7 +42,7 @@ function ISLSkillGraph.load(path)
    graph:load_modules(graph_config.skillModules.common)
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
-   return nil, graph
+   return graph
 end
 
 -- Methods --------------------------------------------------------------------
