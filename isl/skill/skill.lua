@@ -5,6 +5,7 @@
    This module defines a 'class' for reasoning about Skills in the UI and
    in the systems of the mod
 ]]
+require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/point.lua")
 require("/isl/bounds.lua")
@@ -40,16 +41,6 @@ function ISLSkill:init(data)
    self.icon_frame = data.iconFrame or CONFIG.icon[data.type]
    self.position = Point.new(data.position or {0,0})
    self.children = data.children or {}
-
-   -- `true` if the player currently has this skill selected in the UI
-   self.is_selected = data.is_selected or false
-   -- `true` if the player has necessary prerequisites
-   self.is_available = data.is_available or false
-   -- `true` if the player has purchased this skill
-   self.is_unlocked = data.unlocked or false
-
-   -- `true` if this skill is otherwise hidden from the tree
-   self.hidden = data.hidden or false
 end
 
 -- Methods --------------------------------------------------------------------
@@ -59,9 +50,10 @@ function ISLSkill:transform(dt, dr, ds)
    dr = dr or 0
    ds = ds or 1
 
-   self.position = self.position:transform(dt, dr, ds)
+   local res = ISLSkill.new(self)
+   res.position = self.position:transform(dt, dr, ds)
 
-   return self
+   return res
 end
 
 --- Returns bounds for use in computing icon position

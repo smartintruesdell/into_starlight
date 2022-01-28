@@ -6,11 +6,6 @@ require("/isl/log.lua")
 require("/isl/point.lua")
 require("/isl/skillgraph/skillmodule.lua")
 
--- Constants ------------------------------------------------------------------
-
-local err_msg = {}
-err_msg.MODULE_DATA_NOT_FOUND = ".skillmodule not found at '%s'"
-
 -- Class ----------------------------------------------------------------------
 
 --- Models the position/rotation of an IntoStarlight SkillModule
@@ -21,7 +16,7 @@ function ISLSkillModuleBinding:init(data)
    -- string - The path to a .skillmodule file
    self.path = data.path or ""
    -- Point - The relative position of the root node of this module
-   self.position = Point.new(data.position or {0,0})
+   self.translation = Point.new(data.translation or {0,0})
    -- number - (degrees) A rotation to apply when positioning children
    self.rotation = data.rotation or 0.0
    -- number - A scale number to apply to distances from the origin.
@@ -35,10 +30,7 @@ function ISLSkillModuleBinding:translate(dt)
    return ISLSkillModuleBinding.new(
       {
          path = self.path,
-         translation = Point.new({
-               self.translation[1] + dt[1],
-               self.translation[2] + dt[2]
-         }),
+         translation = self.translation:translate(dt),
          rotation = self.rotation,
          scale = self.scale
       }

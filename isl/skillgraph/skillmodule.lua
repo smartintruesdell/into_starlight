@@ -107,9 +107,10 @@ function ISLSkillModule:get_skills()
          ISLLog.warn(
             "Overwrote skill '%s' while loading Module '%s'",
             skill_id,
-            module_name
+            self.name
          )
       end
+
       skills[skill_id] = skill:transform(self.position, self.rotation, self.scale)
    end
 
@@ -122,6 +123,7 @@ function ISLSkillModule:get_skills()
             sub_module.name
          )
          end
+
          skills[skill_id] = skill:transform(self.position, self.rotation)
       end
    end

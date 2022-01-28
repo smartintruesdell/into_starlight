@@ -15,7 +15,7 @@
       "icon": "/interface/title/humanmale.png",
       "position": [
         0,
-        165
+        0
       ],
       "children": [
         "scholar_skill_1"
@@ -34,8 +34,8 @@
       },
       "icon": "/interface/title/humanmale.png",
       "position": [
-        0,
-        210
+        50,
+        0
       ],
       "children": [
         "scholar_skill_2"
@@ -54,8 +54,8 @@
       },
       "icon": "/interface/title/humanmale.png",
       "position": [
-        0,
-        245
+        85,
+        0
       ],
       "children": []
     }

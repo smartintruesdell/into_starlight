@@ -31,11 +31,13 @@ function Point:transform(dt, dr, ds)
 end
 
 --- Translates a point along x, y axes
-function Point:translate(p)
+function Point:translate(dt)
+   dt = dt or Point.new({ 0, 0 })
+
    return Point.new(
       {
-         self[1] + p[1],
-         self[2] + p[2]
+         self[1] + dt[1],
+         self[2] + dt[2]
       }
    )
 end
@@ -43,10 +45,24 @@ end
 --- Rotates the point by some number of degrees relative to the
 --- origin
 function Point:rotate(deg)
+   -- Question: WHY DOES LUA's MATH LIBRARY ASSUME RADIANS?
+   -- Question: WHY IS LUA LEFT HANDED
+   rad = math.rad(deg or 0.0)
+
+   -- Rounds negative numbers up, positive numbers down
+   -- Did you know that math.floor(-0.02) is -1?
+   local function safe_round(n)
+      if n < 0 then
+         return math.ceil(n)
+      else
+         return math.floor(n)
+      end
+   end
+
    return Point.new(
       {
-         (self[1] * math.cos(deg)) - (self[2] * math.sin(deg)),
-         (self[2] * math.cos(deg)) + (self[1] * math.sin(deg))
+         safe_round((self[1] * math.cos(rad)) - (self[2] * math.sin(rad))),
+         safe_round((self[2] * math.cos(rad)) + (self[1] * math.sin(rad)))
       }
    )
 end
@@ -65,4 +81,8 @@ function Point:scale(ds)
          self[1] * ds,
          self[2] * ds
    })
+end
+
+function Point:equals(p2)
+   return (self[1] == p2[1]) and (self[2] == p2[2])
 end
