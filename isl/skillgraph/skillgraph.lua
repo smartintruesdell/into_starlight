@@ -20,6 +20,8 @@ ISLSkillGraph = createClass("ISLSkillGraph")
 function ISLSkillGraph:init()
    self.loaded_modules = {}
    self.skills = {}
+   self.available_skills = {}
+   self.unlocked_skills = {}
 end
 
 SkillGraph = SkillGraph or nil
@@ -42,6 +44,12 @@ function ISLSkillGraph.load(path)
    graph:load_modules(graph_config.skillModules.common)
 
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
+
+   -- TODO: Add initialSkills.common, initialSkills[species] to unlocked_skills
+
+   -- TODO: Add saved unlocked_skills from player data to unlocked_skills
+
+   -- TODO: Calculate avialable_skills
 
    return graph
 end
