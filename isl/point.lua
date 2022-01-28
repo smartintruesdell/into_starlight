@@ -13,7 +13,7 @@ function Point:init(p)
 end
 
 --- Inverts a point by reversing then signs of its coordinates
-function Point:invert()
+function Point:inverse()
    return Point.new(
       {
          self[1] * -1,
