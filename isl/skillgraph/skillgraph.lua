@@ -110,11 +110,14 @@ function ISLSkillGraph:load_unlocked_skills(data)
 end
 
 function ISLSkillGraph:unlock_skill(skill_id, do_save)
-   ISLLog.debug("Player has unlocked '%s'", skill_id)
-   self.unlocked_skills[skill_id] = true
+   -- Guard against repeat-unlocks
+   if not self.unlocked_skills[skill_id] then
+      ISLLog.debug("Player has unlocked '%s'", skill_id)
+      self.unlocked_skills[skill_id] = true
 
-   if do_save then
-      self:save_unlocked_skills()
+      if do_save then
+         self:save_unlocked_skills()
+      end
    end
 
    return self
