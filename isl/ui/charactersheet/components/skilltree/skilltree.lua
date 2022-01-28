@@ -39,7 +39,7 @@ function SkillTreeUI:init()
 
    -- Mouse information
    self.mouse = {}
-   self.mouse.last_position = nil
+   self.mouse.last_position = Point.new({ 0, 0 })
    self.mouse.pressed = false
 
    -- Track 'selected' skill
@@ -90,7 +90,7 @@ function SkillTreeUI:update(--[[dt : number]])
 end
 
 function SkillTreeUI:_handle_left_click(position)
-   self.mouse.last_position = position
+   self.mouse.last_position = Point.new(position)
 
    -- Check the skills graph to find a skill that may have been clicked
    for skill_id, skill in pairs(SkillGraph.skills) do
