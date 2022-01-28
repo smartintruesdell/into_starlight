@@ -10,8 +10,6 @@ local Widgets = {}
 Widgets.Title = "title"
 Widgets.Description = "infoPanel.text"
 
-ISLStrings = ISLStrings or Load_ISL_Strings()
-
 -- Class ----------------------------------------------------------------------
 
 PlayerInfoPanelUI = createClass("PlayerInfoPanelUI")
@@ -19,6 +17,7 @@ PlayerInfoPanelUI = createClass("PlayerInfoPanelUI")
 -- Constructor ----------------------------------------------------------------
 
 function PlayerInfoPanelUI:init()
+   if not Strings then Strings.initialize() end
 end
 
 -- Methods --------------------------------------------------------------------
@@ -26,11 +25,11 @@ end
 function PlayerInfoPanelUI:draw()
    widget.setText(
       Widgets.Title,
-      ISLStrings.PlayerInfoPanel.header[ISLStrings.locale]
+      Strings.PlayerInfoPanel.header[Strings.locale]
    )
    widget.setText(
       Widgets.Description,
-      ISLStrings.PlayerInfoPanel.header[ISLStrings.locale]
+      Strings.PlayerInfoPanel.description[Strings.locale]
    )
 end
 

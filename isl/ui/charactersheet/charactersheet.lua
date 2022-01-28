@@ -3,6 +3,7 @@
    Based in part on the Frackin' Universe researchTree
 ]]
 require("/isl/point.lua")
+require("/isl/strings.lua")
 require("/isl/skillgraph/skillgraph.lua")
 require("/isl/ui/charactersheet/components/skilltree/skilltree.lua")
 require("/isl/ui/charactersheet/components/playerinfo/playerinfo.lua")
@@ -26,6 +27,9 @@ end
 
 function init()
    -- Initialize UI components
+   if not SkillGraph then ISLSkillGraph.initialize() end
+   if not Strings then initialize_Strings() end
+
    SkillTree = SkillTreeUI.new()
    PlayerInfoPanel = PlayerInfoPanelUI.new()
 

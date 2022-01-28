@@ -22,6 +22,12 @@ function ISLSkillGraph:init()
    self.skills = {}
 end
 
+SkillGraph = SkillGraph or nil
+
+function ISLSkillGraph.initialize()
+   SkillGraph = SkillGraph or ISLSkillGraph.load("/isl/skillgraph/default.skillgraph")
+end
+
 -- ISLSkillGraph.load(path) -> error, ISLSkillGraph
 function ISLSkillGraph.load(path)
    local graph = nil
@@ -73,7 +79,3 @@ function ISLSkillGraph:load_modules(bindings)
 
    return self;
 end
-
--- Global ---------------------------------------------------------------------
-
-SkillGraph = SkillGraph or ISLSkillGraph.load("/isl/skillgraph/default.skillgraph")
