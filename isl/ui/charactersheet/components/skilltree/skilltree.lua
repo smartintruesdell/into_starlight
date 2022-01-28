@@ -1,6 +1,7 @@
 --[[
    Rendering code for drawing the Skill Graph in the CharacterSheet UI
 ]]
+require('/isl/colors.lua')
 require('/isl/event_emitter.lua')
 require('/isl/point.lua')
 require('/isl/bounds.lua')
@@ -24,10 +25,6 @@ local function is_affordable(_ --[[skill: ISLSkill]])
    -- TODO: This needs to check price of skill against
    -- currencies, which is out of scope for this feature branch.
    return true
-end
-
-local function get_color(_ --[[color_id: string]])
-   return "#FFFFFF"
 end
 
 -- Class ----------------------------------------------------------------------
@@ -182,12 +179,65 @@ function SkillTreeUI:_draw_background()
    )
 end
 
+local function sort_skill_ids(skill_1_id, skill_2_id)
+   if (skill_1_id < skill_2_id) then
+      return skill_1_id, skill_2_id
+   end
+   return skill_2_id, skill_1_id
+end
+
 function SkillTreeUI:_draw_graph_lines()
+   local LINE_TYPE = {}
+   LINE_TYPE.UNAVAILABLE = 0
+   LINE_TYPE.AVAILABLE = 1
+   LINE_TYPE.UNLOCKED = 2
+
+   local lines = {}
+
    for _, skill in pairs(SkillGraph.skills) do
       for _, child_id in ipairs(skill.children) do
          assert(SkillGraph.skills[child_id], "Unable to find skill "..child_id)
-         -- TODO: move drawing from Skill to this module
-         skill:draw_line_to(SkillGraph.skills[child_id], self.offset, self.canvas)
+
+         local first_id, second_id = sort_skill_ids(skill.id, child_id)
+         lines[first_id] = lines[first_id] or {}
+
+         if SkillGraph.unlocked_skills[skill.id] then
+            lines[first_id][second_id] = LINE_TYPE.UNLOCKED
+         elseif SkillGraph.available_skills[skill.id] then
+            if not lines[first_id][second_id] or lines[first_id][second_id] < LINE_TYPE.AVAILABLE then
+               lines[first_id][second_id] = LINE_TYPE.AVAILABLE
+            end
+         else
+            if not lines[first_id][second_id] or lines[first_id][second_id] < LINE_TYPE.UNAVAILABLE then
+               lines[first_id][second_id] = LINE_TYPE.UNAVAILABLE
+            end
+         end
+      end
+   end
+
+   for from_id, children in pairs(lines) do
+      for to_id, line_type in pairs(children) do
+         -- Determine line color
+         local line_color, line_width = nil, nil
+
+
+         if line_type == LINE_TYPE.UNLOCKED then
+            line_color = Colors.get_color("line_color_unlocked")
+            line_width = 3
+         elseif line_type == LINE_TYPE.AVAILABLE then
+            line_color = Colors.get_color("line_color_available")
+            line_width = 2
+         else
+            line_color = Colors.get_color("line_color_default")
+            line_width = 1
+         end
+
+         self.canvas:drawLine(
+            SkillGraph.skills[from_id].position:translate(self.offset),
+            SkillGraph.skills[to_id].position:translate(self.offset),
+            line_color,
+            line_width
+         )
       end
    end
 end
@@ -254,16 +304,16 @@ function SkillTreeUI:_get_skill_background(skill)
    local background_color = nil
    if not SkillGraph.available_skills[skill.id] then
       -- If this skill is unavailable,
-      background_color = get_color("background_color_unavailable")
+      background_color = Colors.get_color("background_color_unavailable")
    elseif SkillGraph.unlocked_skills[skill.id] then
       -- If this skill is already unlocked,
-      background_color = get_color("background_color_unlocked")
+      background_color = Colors.get_color("background_color_unlocked")
    elseif is_affordable(skill) then
       -- If the skill is not unlocked, but could be
-      background_color = get_color("background_color_available")
+      background_color = Colors.get_color("background_color_available")
    else
       -- Fallback
-      background_color = get_color("background_color_default")
+      background_color = Colors.get_color("background_color_default")
    end
 
    return background_image, background_color
@@ -273,16 +323,16 @@ function SkillTreeUI:_get_skill_icon(skill)
    local icon_color = nil
    if not SkillGraph.available_skills[skill.id] then
       -- If this skill is unavailable,
-      icon_color = get_color("icon_color_unavailable")
+      icon_color = Colors.get_color("icon_color_unavailable")
    elseif SkillGraph.unlocked_skills[skill.id] then
       -- If this skill is already unlocked,
-      icon_color = get_color("icon_color_unlocked")
+      icon_color = Colors.get_color("icon_color_unlocked")
    elseif is_affordable(skill) then
       -- If the skill is not unlocked, but could be
-      icon_color = get_color("icon_color_available")
+      icon_color = Colors.get_color("icon_color_available")
    else
       -- Fallback
-      icon_color = get_color("icon_color_default")
+      icon_color = Colors.get_color("icon_color_default")
    end
 
    return skill.icon, icon_color

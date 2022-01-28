@@ -1,9 +1,11 @@
 --[[
    Color management for IntoStarlight
 ]]
+require("/isl/log.lua")
+
 -- Globals --------------------------------------------------------------------
 
-Colors = Colors or nil
+Colors = Colors or {}
 
 -- Init -----------------------------------------------------------------------
 
@@ -14,5 +16,12 @@ function Colors.get_color(color_id)
 
    local color_name = color_data.colorAlias[color_id]
 
-   return color_data.color[color_name] or color_data.color[color_id] or color_data.color.cyan
+   if color_data.color[color_name] then
+      return color_data.color[color_name]
+   elseif color_data.color[color_id] then
+      return color_data.color[color_id]
+   else
+      ISLLog.warn("Invalid color alias '%s'", color_id)
+      return color_data.color.cyan
+   end
 end

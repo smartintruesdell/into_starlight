@@ -49,6 +49,9 @@ function ISLSkillGraph.load(path)
 
    -- Initialize unlocked skills
    ISLLog.info("Initializing Unlocked Skills")
+   -- DEBUGGING
+   graph:reset_unlocked_skills()
+   -- END_DEBUGGING
    graph:load_unlocked_skills(status.statusProperty(SKILLS_PROPERTY_NAME) or {})
    graph:load_unlocked_skills(graph_config.initialSkills.common)
    graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
@@ -124,7 +127,19 @@ function ISLSkillGraph:unlock_skill(skill_id, do_save)
 end
 
 function ISLSkillGraph:build_available_skills()
+   -- A Skill is available for unlocking if it is adjacent to an unlocked skill
+   -- and it is not unlocked.
    self.available_skills = {}
+
+   for skill_id, skill in pairs(self.skills) do
+      if self.unlocked_skills[skill_id] then
+         for _, child_skill_id in ipairs(skill.children) do
+            if not self.unlocked_skills[child_skill_id] then
+               self.available_skills[child_skill_id] = true
+            end
+         end
+      end
+   end
 
    return self
 end
@@ -136,6 +151,12 @@ function ISLSkillGraph:save_unlocked_skills()
    end
 
    status.setStatusProperty(SKILLS_PROPERTY_NAME, unlocked_skills)
+
+   return self;
+end
+
+function ISLSkillGraph:reset_unlocked_skills()
+   status.setStatusProperty(SKILLS_PROPERTY_NAME, {})
 
    return self;
 end

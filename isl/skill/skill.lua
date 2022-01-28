@@ -20,12 +20,6 @@ local function init()
    CONFIG = root.assetJson("/isl/skill/skill.config")
 end
 
-local function get_color(name)
-   local aliased_color = CONFIG.colorAlias[name] or "white"
-
-   return CONFIG.color[aliased_color]
-end
-
 -- Class ----------------------------------------------------------------------
 
 --- Models a single IntoStarlight Skill
@@ -58,31 +52,4 @@ function ISLSkill:transform(dt, dr, ds)
    res.position = self.position:transform(dt, dr, ds)
 
    return res
-end
-
---- Renders a line between two skill positions to the provided canvas
---- ISLSkill:draw_line_to(ISLSkill, Point, Canvas) -> ISLSkill
-function ISLSkill:draw_line_to(child_skill, offset, canvas)
-   -- Don't connect hidden nodes
-   if self.hidden or child_skill.hidden then return end
-
-   -- Determine line color
-   local line_color = nil
-
-   if child_skill.is_available then
-      line_color = get_color("line_color_available")
-   elseif self.is_unlocked and child_skill.is_unlocked then
-      line_color = get_color("line_color_unlocked")
-   else
-      line_color = get_color("line_color_default")
-   end
-
-   canvas:drawLine(
-      self.position:translate(offset),
-      child_skill.position:translate(offset),
-      line_color,
-      CONFIG.line.width
-   )
-
-   return self
 end
