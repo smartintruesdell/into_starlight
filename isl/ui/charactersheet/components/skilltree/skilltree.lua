@@ -16,11 +16,7 @@ local Assets = {}
 Assets.background_tile_image = PATH.."/assets/background_tile.png"
 
 DOUBLE_CLICK_DISTANCE_TOLERANCE = 1
-DOUBLE_CLICK_TIME_TOLERANCE = 300
-
--- State ----------------------------------------------------------------------
-
-local double_click_cooldown = 0
+DOUBLE_CLICK_TIME_TOLERANCE = 10
 
 -- Utility Functions ----------------------------------------------------------
 
