@@ -1,13 +1,13 @@
 [
   {
     "op": "add",
-    "path": "/items/isl:skilltree",
+    "path": "/items/isl:charactersheet",
     "value": {
-      "label": "Skill Tree",
+      "label": "Character Sheet",
       "icon": "/objects/isl_experience_mote/isl_experience_mote.png",
       "action": [
         "pane",
-        "/isl/ui/skilltree/skilltree.config"
+        "/isl/ui/charactersheet/charactersheet.config"
       ]
     }
   }
