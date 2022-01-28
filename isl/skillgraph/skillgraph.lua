@@ -2,7 +2,6 @@
    A model of the complete skill graph
 ]]
 require("/scripts/questgen/util.lua")
-require("/isl/util.lua")
 require("/isl/log.lua")
 require("/isl/point.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
@@ -26,7 +25,7 @@ end
 SkillGraph = SkillGraph or nil
 
 function ISLSkillGraph.initialize()
-   SkillGraph = SkillGraph or ISLSkillGraph.load("/isl/skillgraph/default.skillgraph")
+   SkillGraph = SkillGraph or ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.json")
 end
 
 -- ISLSkillGraph.load(path) -> error, ISLSkillGraph
@@ -41,8 +40,6 @@ function ISLSkillGraph.load(path)
    ISLLog.info("Initializing Skill Graph")
    graph = ISLSkillGraph.new()
    graph:load_modules(graph_config.skillModules.common)
-
-   ISLUtil.PrintTable(graph_config.skillModules.species)
 
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
