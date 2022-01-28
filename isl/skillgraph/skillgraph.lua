@@ -4,13 +4,12 @@
 require("/scripts/questgen/util.lua")
 require("/isl/log.lua")
 require("/isl/point.lua")
-require("/isl/skillmodule/skillmodulebinding.lua")
+require("/isl/skillgraph/skillmodulebinding.lua")
 
 -- Constants ------------------------------------------------------------------
 
 local err_msg = {}
 err_msg.GRAPH_FILE_BAD_PATH = "Expected the path to a .skillgraph file"
-err_msg.GRAPH_FILE_NOT_FOUND = ".skillgraph not found at '%s'"
 err_msg.MODULE_BINDING_BAD = "Bad module binding for '%s'"
 
 -- Class ----------------------------------------------------------------------
@@ -18,31 +17,23 @@ err_msg.MODULE_BINDING_BAD = "Bad module binding for '%s'"
 ISLSkillGraph = createClass("ISLSkillGraph")
 
 -- Constructor ----------------------------------------------------------------
-function ISLSkillGraph:init(data)
+function ISLSkillGraph:init()
    self.loaded_modules = {}
    self.skills = {}
 end
 
 -- ISLSkillGraph.load(path) -> error, ISLSkillGraph
 function ISLSkillGraph.load(path)
-   local err, graph = nil, nil
+   local graph = nil
    if not path then
       return ISLLog.error(err_msg.GRAPH_FILE_BAD_PATH), nil
    end
 
    local graph_config = root.assetJson(path)
-   if not graph_config then
-      return ISLLog.error(err_msg.GRAPH_FILE_NOT_FOUND, path), nil
-   end
 
    ISLLog.info("Initializing Skill Graph")
    graph = ISLSkillGraph.new()
    graph:load_modules(graph_config.skillModules.common)
-
-   for s_name, mods in pairs(graph_config.skillModules.species) do
-      ISLLog.info("%s, %s", s_name, mods.core.path)
-   end
-
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
    return nil, graph
@@ -74,6 +65,7 @@ function ISLSkillGraph:load_modules(bindings)
                      self.name
                   )
                end
+               self.skills[skill_id] = skill
             end
          end
       end
@@ -81,3 +73,7 @@ function ISLSkillGraph:load_modules(bindings)
 
    return self;
 end
+
+-- Global ---------------------------------------------------------------------
+
+SkillGraph = SkillGraph or ISLSkillGraph.load("/isl/skillgraph/default.skillgraph")

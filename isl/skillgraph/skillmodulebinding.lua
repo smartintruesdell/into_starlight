@@ -4,7 +4,7 @@
 require("/scripts/questgen/util.lua")
 require("/isl/log.lua")
 require("/isl/point.lua")
-require("/isl/skillmodule/skillmodule.lua")
+require("/isl/skillgraph/skillmodule.lua")
 
 -- Constants ------------------------------------------------------------------
 
