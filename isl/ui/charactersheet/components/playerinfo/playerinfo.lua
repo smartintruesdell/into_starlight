@@ -2,6 +2,8 @@
    Interface component logic for the IntoStarlight Character Sheet
    Player Info panel
 ]]
+require("/scripts/util.lua")
+require("/isl/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/strings.lua")
 
@@ -12,6 +14,7 @@ Widgets.PlayerNameShadow = "playerName_shadow"
 Widgets.Subtitle = "subtitle"
 Widgets.SubtitleShadow = "subtitle_shadow"
 Widgets.Description = "infoPanel.text"
+Widgets.Portrait = "portrait"
 
 -- Class ----------------------------------------------------------------------
 
@@ -34,6 +37,8 @@ function PlayerInfoPanelUI:init()
       Widgets.Description,
       Strings.PlayerInfoPanel.description[Strings.locale]
    )
+
+   ISLUtil.DeepPrintTable(world.entityPortrait(player.id(), "bust"))
 end
 
 -- Methods --------------------------------------------------------------------
