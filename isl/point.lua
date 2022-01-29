@@ -22,6 +22,21 @@ function Point:inverse()
    )
 end
 
+--- Forces a point into positive coordinates
+function Point:abs()
+   return Point.new(
+      {
+         math.abs(self[1]),
+         math.abs(self[2])
+      }
+   )
+end
+
+--- Determines the distance from the origin for this point
+function Point:mag()
+   return math.sqrt(math.abs(self[1])^2 + math.abs(self[2])^2)
+end
+
 function Point:transform(dt, dr, ds)
    dt = dt or { 0, 0 }
    dr = dr or 0

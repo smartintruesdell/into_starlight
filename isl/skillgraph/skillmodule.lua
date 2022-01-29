@@ -82,6 +82,7 @@ function ISLSkillModule.load_from_path(path)
    })
 
    for skill_id, skill_data in pairs(file_data.skills) do
+      skill_data.id = skill_id
       new_module.skills[skill_id] = ISLSkill.new(skill_data)
    end
 
