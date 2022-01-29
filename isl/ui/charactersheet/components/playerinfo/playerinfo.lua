@@ -7,7 +7,10 @@ require("/isl/strings.lua")
 
 -- Constants ------------------------------------------------------------------
 local Widgets = {}
-Widgets.Title = "title"
+Widgets.PlayerName = "playerName"
+Widgets.PlayerNameShadow = "playerName_shadow"
+Widgets.Subtitle = "subtitle"
+Widgets.SubtitleShadow = "subtitle_shadow"
 Widgets.Description = "infoPanel.text"
 
 -- Class ----------------------------------------------------------------------
@@ -18,19 +21,23 @@ PlayerInfoPanelUI = createClass("PlayerInfoPanelUI")
 
 function PlayerInfoPanelUI:init()
    if not Strings then Strings.initialize() end
-end
 
--- Methods --------------------------------------------------------------------
-
-function PlayerInfoPanelUI:draw()
    widget.setText(
-      Widgets.Title,
-      Strings.PlayerInfoPanel.header[Strings.locale]
+      Widgets.PlayerName,
+      "^shadow;"..world.entityName(player.id())
+   )
+   widget.setText(
+      Widgets.Subtitle,
+      Strings.PlayerInfoPanel.subtitle[Strings.locale]
    )
    widget.setText(
       Widgets.Description,
       Strings.PlayerInfoPanel.description[Strings.locale]
    )
 end
+
+-- Methods --------------------------------------------------------------------
+
+function PlayerInfoPanelUI:draw() end
 
 function PlayerInfoPanelUI:update(--[[dt : number]]) end

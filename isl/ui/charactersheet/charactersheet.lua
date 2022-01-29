@@ -2,6 +2,7 @@
    Interface logic for the IntoStarlight Skilltree
    Based in part on the Frackin' Universe researchTree
 ]]
+require("/isl/log.lua")
 require("/isl/point.lua")
 require("/isl/strings.lua")
 require("/isl/skillgraph/skillgraph.lua")
@@ -19,7 +20,7 @@ function handle_canvas_mouse_event(...)
    SkillTree:handle_mouse_event(...)
 end
 
-function handle_close_button_event()
+function closeButton()
    pane.dismiss()
 end
 

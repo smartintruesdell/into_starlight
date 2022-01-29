@@ -1,7 +1,7 @@
 {
   "PlayerInfoPanel": {
-    "header": {
-      "en_US": "Character Sheet"
+    "subtitle": {
+      "en_US": "^shadow;^#b9b5b2;Character Sheet ^green;[K]"
     },
     "description": {
       "en_US": "This is where the player's Character Sheet will appear."
