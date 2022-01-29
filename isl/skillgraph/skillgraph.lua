@@ -106,17 +106,25 @@ function ISLSkillGraph:load_unlocked_skills(data)
    data = data or {}
 
    for _, skill_id in ipairs(data) do
-      self:unlock_skill(skill_id)
+      self:unlock_skill(skill_id, false, true)
    end
 
    return self
 end
 
-function ISLSkillGraph:unlock_skill(skill_id, do_save)
+local function player_has_skill_point_available()
+   return true
+end
+
+function ISLSkillGraph:unlock_skill(skill_id, do_save, force)
+   local can_unlock = force or (SkillGraph.available_skills[skill_id] and player_has_skill_point_available())
+
    -- Guard against repeat-unlocks
-   if not self.unlocked_skills[skill_id] then
+   if can_unlock and not self.unlocked_skills[skill_id] then
       ISLLog.debug("Player has unlocked '%s'", skill_id)
       self.unlocked_skills[skill_id] = true
+      self:build_available_skills()
+      -- TODO: Spend skill point
 
       if do_save then
          self:save_unlocked_skills()
@@ -156,7 +164,8 @@ function ISLSkillGraph:save_unlocked_skills()
 end
 
 function ISLSkillGraph:reset_unlocked_skills()
-   status.setStatusProperty(SKILLS_PROPERTY_NAME, {})
+   status.setStatusProperty(SKILLS_PROPERTY_NAME, { "start" })
+   -- TODO: Refund skill points
 
    return self;
 end

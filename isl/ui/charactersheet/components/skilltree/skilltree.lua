@@ -134,7 +134,7 @@ function SkillTreeUI:_handle_left_click(position)
          else
             self:select_skill(skill_id)
 
-            if SkillGraph.available_skills[skill_id] and is_double_click then
+            if is_double_click then
                SkillGraph:unlock_skill(skill_id, true)
             end
          end
