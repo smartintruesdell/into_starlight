@@ -8,11 +8,14 @@ require("/isl/strings.lua")
 require("/isl/skillgraph/skillgraph.lua")
 require("/isl/ui/charactersheet/components/skilltree/skilltree.lua")
 require("/isl/ui/charactersheet/components/playerinfo/playerinfo.lua")
+require("/isl/ui/charactersheet/components/portrait/portrait.lua")
 
 -- Globals --------------------------------------------------------------------
 
 SkillTree = nil
 PlayerInfoPanel = nil
+PlayerPortrait = nil
+PlayerBodyPortrait = nil
 
 -- Event Handlers -------------------------------------------------------------
 
@@ -33,13 +36,18 @@ function init()
 
    SkillTree = SkillTreeUI.new()
    PlayerInfoPanel = PlayerInfoPanelUI.new()
+   PlayerPortrait = UIPortrait.new("portrait", "bust")
+   PlayerBodyPortrait = UIPortrait.new("portraitFull", "full", true)
 
    -- Draw
    SkillTree:draw()
    PlayerInfoPanel:draw()
+   PlayerPortrait:draw()
+   PlayerBodyPortrait:draw()
 end
 
 function update(dt)
    SkillTree:update(dt)
    PlayerInfoPanel:update()
+   PlayerPortrait:update()
 end

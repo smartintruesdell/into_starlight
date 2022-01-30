@@ -37,8 +37,6 @@ function PlayerInfoPanelUI:init()
       Widgets.Description,
       Strings.PlayerInfoPanel.description[Strings.locale]
    )
-
-   ISLUtil.DeepPrintTable(world.entityPortrait(player.id(), "bust"))
 end
 
 -- Methods --------------------------------------------------------------------
