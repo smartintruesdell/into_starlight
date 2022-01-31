@@ -3,6 +3,7 @@
    Player Info panel
 ]]
 require("/scripts/util.lua")
+require("/isl/log.lua")
 require("/isl/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/strings.lua")
@@ -44,3 +45,8 @@ end
 function PlayerInfoPanelUI:draw() end
 
 function PlayerInfoPanelUI:update(--[[dt : number]]) end
+
+function PlayerInfoPanelUI:createTooltip(mousePosition)
+   ISLLog.debug(mousePosition:toString())
+   ISLUtil.PrintTable(config.getParameter("gui.strengthButton"))
+end

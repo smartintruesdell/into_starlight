@@ -77,3 +77,11 @@ function update(dt)
    PlayerPortrait:update()
    PlayerBodyPortrait:draw()
 end
+
+function createTooltip(mousePosition)
+   local pos = Point.new(mousePosition)
+   -- SkillTree:createTooltip(pos)
+   PlayerInfoPanel:createTooltip(pos)
+   -- PlayerPortrait:createTooltip(pos)
+   -- PlayerBodyPortrait:createTooltip(pos)
+end
