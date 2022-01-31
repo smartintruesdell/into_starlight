@@ -1,17 +1,16 @@
 --[[
    Rendering code for drawing the Skill Graph in the CharacterSheet UI
 ]]
-require('/isl/colors.lua')
-require('/isl/event_emitter.lua')
-require('/isl/point.lua')
-require('/isl/bounds.lua')
-require('/isl/skillgraph/skillgraph.lua')
+require("/scripts/questgen/util.lua")
+require("/isl/ui/uicomponent.lua")
+require("/isl/colors.lua")
+require("/isl/event_emitter.lua")
+require("/isl/point.lua")
+require("/isl/bounds.lua")
+require("/isl/skillgraph/skillgraph.lua")
 
 -- Constants ------------------------------------------------------------------
-local PATH = '/isl/ui/charactersheet/components/skilltree'
-
-local Widgets = {}
-Widgets.Canvas = "canvas"
+local PATH = "/isl/ui/charactersheet/components/skilltree"
 
 local Assets = {}
 Assets.background_tile_image = PATH.."/assets/background_tile.png"
@@ -29,17 +28,19 @@ end
 
 -- Class ----------------------------------------------------------------------
 
-SkillTreeUI = createClass("SkillTreeUI")
+UISkillTree = defineSubclass(UIComponent, "UISkillTree")()
 
 -- Constructor ----------------------------------------------------------------
 
-function SkillTreeUI:init()
+function UISkillTree:init(canvas_id)
+   self.children = {}
+
    -- initialize the canvas for drawing
-   self.canvas = widget.bindCanvas(Widgets.Canvas)
+   self.canvas = widget.bindCanvas(canvas_id)
 
-   assert(self.canvas, "Failed to bind SkillTreeUI Canvas")
+   assert(self.canvas, "Failed to bind SkillTree Canvas")
 
-   self.canvas_size = widget.getSize(Widgets.Canvas)
+   self.canvas_size = widget.getSize(canvas_id)
    self.canvas_bounds = Bounds.new(
       {0, 0},
       self.canvas_size
@@ -59,7 +60,7 @@ function SkillTreeUI:init()
    self.mouse.last_clicked_time = os.time()
    self.mouse.pressed = false
 
-   -- Track 'selected' skill
+   -- Track "selected" skill
    self.selected_skill_id = 0
 
    -- Add an event emitter
@@ -68,21 +69,21 @@ end
 
 -- Methods --------------------------------------------------------------------
 
-function SkillTreeUI:select_skill(skill_id)
+function UISkillTree:select_skill(skill_id)
    self.selected_skill_id = skill_id
 end
 
 -- Event Handlers -------------------------------------------------------------
 
-function SkillTreeUI:handle_mouse_event(position, button, pressed)
+function UISkillTree:handleMouseEvent(position, button, pressed)
    position = Point.new(position)
    self.mouse.pressed = pressed
    self.mouse.last_position = position
 
    if pressed then
       -- On Mouse Down
-      self.events:emit('click', position, button, self)
-      self.events:emit('mousedown', position, button, self)
+      self.events:emit("click", position, button, self)
+      self.events:emit("mousedown", position, button, self)
    else
       -- On Mouse Up
       if button == 0 then
@@ -91,13 +92,15 @@ function SkillTreeUI:handle_mouse_event(position, button, pressed)
          self:draw()
       end
 
-      self.events:emit('mouseup', position, button, self)
+      self.events:emit("mouseup", position, button, self)
    end
+
+   self:handleMouseEventForChildren(position, button, pressed)
 
    return self
 end
 
-function SkillTreeUI:drag()
+function UISkillTree:drag()
    local position = Point.new(self.canvas:mousePosition())
    local dt = position:translate(self.mouse.last_position:inverse())
 
@@ -107,14 +110,16 @@ function SkillTreeUI:drag()
 
    self:draw()
 
-   self.events:emit('drag', dt, self)
+   self.events:emit("drag", dt, self)
 end
 
-function SkillTreeUI:update(dt)
+function UISkillTree:update(dt)
    if self.mouse.pressed then self:drag() end
+
+   self:updateChildren(dt)
 end
 
-function SkillTreeUI:_handle_left_click(position)
+function UISkillTree:_handle_left_click(position)
    -- Check for double clicks
    local distance = position:translate(self.mouse.last_clicked_position:inverse()):mag()
    local time_elapsed = os.time() - self.mouse.last_clicked_time
@@ -143,25 +148,27 @@ function SkillTreeUI:_handle_left_click(position)
    end
 
    if is_double_click then
-      self.events:emit('doubleclick', position, self)
+      self.events:emit("doubleclick", position, self)
    end
 end
 
 -- Render ---------------------------------------------------------------------
 
-function SkillTreeUI:draw()
+function UISkillTree:draw()
    self.canvas:clear()
 
    self:_draw_background()
    self:_draw_graph_lines()
    self:_draw_graph_skills()
 
-   self.events:emit('draw', self)
+   self.events:emit("draw", self)
+
+   self:drawChildren()
 
    return self
 end
 
-function SkillTreeUI:_draw_background()
+function UISkillTree:_draw_background()
    local grid_offset = Point.new({
          self.offset[1] % self.background_tile_size[1],
          self.offset[2] % self.background_tile_size[2]
@@ -186,7 +193,7 @@ local function sort_skill_ids(skill_1_id, skill_2_id)
    return skill_2_id, skill_1_id
 end
 
-function SkillTreeUI:_draw_graph_lines()
+function UISkillTree:_draw_graph_lines()
    local LINE_TYPE = {}
    LINE_TYPE.UNAVAILABLE = 0
    LINE_TYPE.AVAILABLE = 1
@@ -242,7 +249,7 @@ function SkillTreeUI:_draw_graph_lines()
    end
 end
 
-function SkillTreeUI:_draw_graph_skills()
+function UISkillTree:_draw_graph_skills()
    for _, skill in pairs(SkillGraph.skills) do
       local icon_bounds = self:_get_skill_icon_bounds(skill)
 
@@ -253,7 +260,7 @@ function SkillTreeUI:_draw_graph_skills()
    end
 end
 
-function SkillTreeUI:_draw_skill(skill)
+function UISkillTree:_draw_skill(skill)
    -- Draw the icon background
    local background_image, background_color = self:_get_skill_background(skill)
 
@@ -293,7 +300,7 @@ function SkillTreeUI:_draw_skill(skill)
    return self
 end
 
-function SkillTreeUI:_get_skill_background(skill)
+function UISkillTree:_get_skill_background(skill)
    local background_image = nil
    if self.selected_skill_id == skill.id then
       background_image = skill.icon_frame.background..":selected"
@@ -319,7 +326,7 @@ function SkillTreeUI:_get_skill_background(skill)
    return background_image, background_color
 end
 
-function SkillTreeUI:_get_skill_icon(skill)
+function UISkillTree:_get_skill_icon(skill)
    local icon_color = nil
    if not SkillGraph.available_skills[skill.id] then
       -- If this skill is unavailable,
@@ -338,7 +345,7 @@ function SkillTreeUI:_get_skill_icon(skill)
    return skill.icon, icon_color
 end
 
-function SkillTreeUI:_get_skill_icon_bounds(skill)
+function UISkillTree:_get_skill_icon_bounds(skill)
    local icon_size = CONFIG.icon[skill.type].size * 0.5
 
    return Bounds.new(
@@ -347,7 +354,7 @@ function SkillTreeUI:_get_skill_icon_bounds(skill)
    ):translate(self.offset)
 end
 
-function SkillTreeUI:_debug_draw_skill_bounds(skill)
+function UISkillTree:_debug_draw_skill_bounds(skill)
    local bounds = self:_get_skill_icon_bounds(skill)
    local points = {
       Point.new(bounds.min),

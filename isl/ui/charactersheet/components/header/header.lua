@@ -3,10 +3,11 @@
    Player Info panel
 ]]
 require("/scripts/util.lua")
+require("/scripts/questgen/util.lua")
 require("/isl/log.lua")
 require("/isl/util.lua")
-require("/scripts/questgen/util.lua")
 require("/isl/strings.lua")
+require("/isl/ui/uicomponent.lua")
 
 -- Constants ------------------------------------------------------------------
 local Widgets = {}
@@ -19,13 +20,20 @@ Widgets.Portrait = "portrait"
 
 -- Class ----------------------------------------------------------------------
 
-PlayerInfoPanelUI = createClass("PlayerInfoPanelUI")
+UICharacterSheetHeader = defineSubclass(UIComponent, "UICharacterSheetHeader")()
 
 -- Constructor ----------------------------------------------------------------
 
-function PlayerInfoPanelUI:init()
+function UICharacterSheetHeader:init()
    if not Strings then Strings.initialize() end
+   self.children = {}
 
+   self:addChild("portrait", UIPortrait.new("portrait", "bust"))
+end
+
+-- Methods --------------------------------------------------------------------
+
+function UICharacterSheetHeader:draw()
    widget.setText(
       Widgets.PlayerName,
       "^shadow;"..world.entityName(player.id())
@@ -38,15 +46,6 @@ function PlayerInfoPanelUI:init()
       Widgets.Description,
       Strings.PlayerInfoPanel.description[Strings.locale]
    )
-end
 
--- Methods --------------------------------------------------------------------
-
-function PlayerInfoPanelUI:draw() end
-
-function PlayerInfoPanelUI:update(--[[dt : number]]) end
-
-function PlayerInfoPanelUI:createTooltip(mousePosition)
-   ISLLog.debug(mousePosition:toString())
-   ISLUtil.PrintTable(config.getParameter("gui.strengthButton"))
+   self:drawChildren()
 end

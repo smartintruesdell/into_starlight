@@ -5,6 +5,7 @@ require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/log.lua")
 require("/isl/util.lua")
+require("/isl/ui/uicomponent.lua")
 
 UIPortraitType = {}
 -- Just the head, no armor/clothing
@@ -18,18 +19,16 @@ UIPortraitType.FULL_NEUTRAL = "fullneutral"
 UIPortraitType.FULL_NEUTRAL_NUDE = "fullneutralnude"
 
 
-UIPortrait = createClass("UIPortrait")
+UIPortrait = defineSubclass(UIComponent, "UIPortrait")()
 
 function UIPortrait:init(widget_id, portrait_type, is_debug)
+   self.children = {}
+
    self.canvas = widget.bindCanvas(widget_id)
    self.canvas_size = Point.new(widget.getSize(widget_id))
    self.canvas_bounds = Bounds.new({0, 0}, self.canvas_size)
    self.portrait_type = portrait_type
    self.is_debug = is_debug
-
-   if self.is_debug then
-      ISLLog.debug(Point.new(self.canvas_size):toString())
-   end
 end
 
 function UIPortrait:draw()
@@ -90,8 +89,12 @@ function UIPortrait:draw()
          1
       )
    end
+
+   self:drawChildren()
 end
 
-function UIPortrait:update()
-   self:draw()
+function UIPortrait:update(dt)
+   self:draw() -- Draw on update, so we can keep the player's portrait up to date.
+
+   self:updateChildren(dt)
 end
