@@ -56,3 +56,7 @@ end
 function Bounds:translate(p)
    return Bounds.new(self.min:translate(p),self.max:translate(p))
 end
+
+function Bounds.fromRect(rectangle)
+   return Bounds.new({ rectangle[1], rectangle[2]}, { rectangle[3], rectangle[4] })
+end

@@ -11,7 +11,6 @@ require("/isl/ui/uicomponent.lua")
 require("/isl/ui/charactersheet/components/skilltree/skilltree.lua")
 require("/isl/ui/charactersheet/components/header/header.lua")
 require("/isl/ui/charactersheet/components/stats/stats.lua")
-require("/isl/ui/charactersheet/components/portrait/portrait.lua")
 
 -- Globals --------------------------------------------------------------------
 
@@ -29,32 +28,44 @@ CharacterSheet = nil
 
 -- Event Handlers -------------------------------------------------------------
 
-function handle_canvas_mouse_event(...)
-   CharacterSheet:handleMouseEvent(...)
+function handle_canvas_mouse_event(mouse_position, button, is_down)
+   CharacterSheet:handleMouseEvent(mouse_position, button, is_down)
 end
 
 function closeButton()
    pane.dismiss()
 end
 
-function strengthButton() CharacterSheet:handleWidgetClicked("strengthButton") end
+function strengthButton()
+   return CharacterSheet:handleWidgetClicked("strengthButton")
+end
 
-function precisionButton() CharacterSheet:handleWidgetClicked("precisionButton") end
+function precisionButton()
+   return CharacterSheet:handleWidgetClicked("precisionButton")
+end
 
-function witsButton() CharacterSheet:handleWidgetClicked("witsButton") end
+function witsButton()
+   return CharacterSheet:handleWidgetClicked("witsButton")
+end
 
-function healthButton() CharacterSheet:handleWidgetClicked("healthButton") end
+function healthButton()
+   return CharacterSheet:handleWidgetClicked("healthButton")
+end
 
-function defenseButton() CharacterSheet:handleWidgetClicked("defenseButton") end
+function defenseButton()
+   return CharacterSheet:handleWidgetClicked("defenseButton")
+end
 
-function evasionButton() CharacterSheet:handleWidgetClicked("evasionButton") end
+function evasionButton()
+   return CharacterSheet:handleWidgetClicked("evasionButton")
+end
 
 function energyButton()
-   CharacterSheet.children.stats:handleWidgetClicked("energyButton")
+   return CharacterSheet.children.stats:handleWidgetClicked("energyButton")
 end
 
 function mobilityButton()
-   CharacterSheet.children.stats:handleWidgetClicked("mobilityButton")
+   return CharacterSheet.children.stats:handleWidgetClicked("mobilityButton")
 end
 
 
@@ -63,12 +74,12 @@ end
 function init()
    -- Initialize UI components
    if not SkillGraph then ISLSkillGraph.initialize() end
-   if not Strings then initialize_Strings() end
+   if not Strings.ready then Strings.init() end
 
    CharacterSheet = UICharacterSheet.new()
    -- Info Panel Components
-   CharacterSheet:addChild("header", UICharacterSheetHeader.new())
-   CharacterSheet:addChild("stats", UICharacterSheetStats.new())
+   CharacterSheet:addChild("header", UICharacterSheetHeader.new("headerLayout"))
+   CharacterSheet:addChild("stats", UICharacterSheetStats.new("statsLayout"))
 
    -- Skill Tree Components
    CharacterSheet:addChild("skill_tree", UISkillTree.new("canvas"))
@@ -82,5 +93,5 @@ function update(dt)
 end
 
 function createTooltip(mouse_position)
-   CharacterSheet:createTooltip(Point.new(mouse_position))
+   return CharacterSheet:createTooltip(Point.new(mouse_position))
 end

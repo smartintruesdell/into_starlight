@@ -25,6 +25,11 @@ function UIPortrait:init(widget_id, portrait_type, is_debug)
    self.children = {}
 
    self.canvas = widget.bindCanvas(widget_id)
+
+   if not self.canvas then
+      ISLLog.error("Failed to bind canvas to widget '%s'", widget_id)
+   end
+
    self.canvas_size = Point.new(widget.getSize(widget_id))
    self.canvas_bounds = Bounds.new({0, 0}, self.canvas_size)
    self.portrait_type = portrait_type
