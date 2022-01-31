@@ -158,7 +158,9 @@ The point of this document so far has been to come to a better understanding of 
 
 Now I want to think about what my stats are going to be, and how they're going to work together.
 
-** Strength (Melee)
+** Primary Stats (Combat Power)
+
+*** Strength (Melee Damage)
 
 Strength adds power to a player's weapon attacks as a % of base damage, modified by base attack speed of the weapon.
 
@@ -166,7 +168,7 @@ I'm not going to have the Strength/Dexterity duality on 1h weapons. If you want 
 
 I'll probably mimic /RPG Growth/ and let Strength improve 1h-weapon + shield builds with more damage and more shield health / bash damage.
 
-*** 2-Handed Mastery
+**** 2-Handed Mastery
 
 **** Heavy Blade Mastery (Broadswords, Axes)
 
@@ -174,75 +176,84 @@ I'll probably mimic /RPG Growth/ and let Strength improve 1h-weapon + shield bui
 
 **** Piercing Mastery (Spears)
 
-*** 1-Handed Mastery
+**** 1-Handed Mastery
 
-**** Hand to Hand Mastery (Daggers, Fists)
+***** Hand to Hand Mastery (Daggers, Fists)
 
-**** Light Blade Mastery (Shortswords, Longswords, Katana)
+***** Light Blade Mastery (Shortswords, Longswords, Katana)
 
-**** Shield Mastery
-**** Dual Wield Mastery
+***** Shield Mastery
+***** Dual Wield Mastery
 
-** Agility (Ranged)
+*** Precision (Ranged)
 
 Agility adds power to a player's ranged weapons (Guns, Bows, Yoyos, Whips).
 
 Agility also adds (small) Movement speed and Jump speed benefits, but those stats are scattered around otherwise so they're not tightly coupled.
 
-*** Gun Mastery
+**** Gun Mastery
 
-**** Small Arms Mastery (Pistols, Machinepistols, SMGs)
+***** Small Arms Mastery (Pistols, Machinepistols, SMGs)
 
-**** Rifle Mastery (Assault Rifles, Sniper Rifles)
+***** Rifle Mastery (Assault Rifles, Sniper Rifles)
 
-**** Explosives Mastery (Grenade / Rocket Launchers)
+***** Explosives Mastery (Grenade / Rocket Launchers)
 
-*** Ballistics Mastery
-**** Bow Mastery
+**** Ballistics Mastery
+***** Bow Mastery
 
-**** Thrown Mastery
+***** Thrown Mastery
 
-**** Grenade Mastery
+***** Grenade Mastery
 
-** Intelligence (Magic)
+*** Wits (Magic)
 
 Intelligence adds power to a player's magical attacks (Staffs, Wands, Grimoires).
 Intelligence masteries are based on the kind of magic attached to the item, so it matters more that you're a "Fire Wizard" than that you're a "Staffs Wizard"
 
 Maybe put Pet related bonuses here? Pet AI isn't going to change, but people sure like pets.
 
-*** Elemental Mastery
+**** Elemental Mastery
 
-**** Fire Mastery
+***** Fire Mastery
 
-**** Ice Mastery
+***** Ice Mastery
 
-**** Electrical Mastery
+***** Electrical Mastery
 
-*** Mastery 2 TBD. Pet mastery?
-** Health
+**** Mastery 2 TBD. Pet mastery?
+** Secondary Stats (Combat Support)
+
+*** Defense (Melee Damage Reduction)
+
+This is your vanilla "Protection" stat, but with logarithmic returns.
+
+*** Evasion (TBD)
+
+This is either
+
+- Ranged damage reduction, assuming I can differentiate between the two
+- A % chance to "dodge" any given hit, amounting to a burstier kind of damage reduction over time compared with Defense.
+
+*** Energy
+
+I want "I can shoot more" and "I can cast more spells" to be worthy buildarounds, but I'm not sure how to make it worthwhile. TBD.
+
+** Tertiary Stats (Ubiquitous)
+
+*** Health
 
 No intermediary "Vitality" stat here, just Health. This should appear in every part of the tree as filler, with particularly dense values available to the melee builds.
 
 Mixing up +N flat boosts with +N% scaling boosts can make it easy to balance.
 
-** Health Regen
+*** Mobility
 
-Health Regen needs to be a flat number rather than scaling with health because the latter makes it way too good in high health builds. "+1/s Health Regen" is already SUPER STRONG, so we'll probably do more fractional. Might be worth having an obfucscating mastery stat here.
+Mobility is the Movement Speed + Jump Height stat, and scales quickly at first and levels off.
 
-** Freedom
-
-Freedom is the Movement Speed + Jump Height stat, and scales quickly at first and levels off.
+Mobility takes its name from a vanilla Augment that has the same effect.
 
 This should be pretty ubiquitous in the melee and agility branches but is the big weakeness of magic builds.
-
-** Energy
-
-I want "I can shoot more" and "I can cast more spells" to be worthy buildarounds, but I'm not sure how to make it worthwhile. TBD.
-
-** Energy Regen
-
-I really like the idea of passive regen giving the energy-based playstyles more tempo. I still like running out, but more strategic firing could last you a lot longer compared with Spray-And-Pray if you had some minor regen inbetween shots but before the cooldown kicked in.
 
 * The Skill Tree (Graph)
 

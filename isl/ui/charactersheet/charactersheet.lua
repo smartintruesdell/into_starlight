@@ -50,4 +50,5 @@ function update(dt)
    SkillTree:update(dt)
    PlayerInfoPanel:update()
    PlayerPortrait:update()
+   PlayerBodyPortrait:draw()
 end
