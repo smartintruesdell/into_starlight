@@ -27,6 +27,32 @@ function closeButton()
    pane.dismiss()
 end
 
+function strengthButton()
+end
+
+function precisionButton()
+end
+
+function witsButton()
+end
+
+function healthButton()
+end
+
+function defenseButton()
+end
+
+function evasionButton()
+
+end
+
+function energyButton()
+end
+
+function mobilityButton()
+end
+
+
 -- Init -----------------------------------------------------------------------
 
 function init()
