@@ -62,7 +62,7 @@ function init()
    SkillTree = SkillTreeUI.new()
    PlayerInfoPanel = PlayerInfoPanelUI.new()
    PlayerPortrait = UIPortrait.new("portrait", "bust")
-   PlayerBodyPortrait = UIPortrait.new("portraitFull", "full", true)
+   PlayerBodyPortrait = UIPortrait.new("portraitFull", "full")
 
    -- Draw
    SkillTree:draw()
