@@ -79,7 +79,10 @@ function init()
    CharacterSheet = UICharacterSheet.new()
    -- Info Panel Components
    CharacterSheet:addChild("header", UICharacterSheetHeader.new("headerLayout"))
-   CharacterSheet:addChild("stats", UICharacterSheetStats.new("statsLayout"))
+   CharacterSheet:addChild(
+      "primaryStats",
+      UICharacterSheetStats.new("primaryStatsLayout")
+   )
 
    -- Skill Tree Components
    CharacterSheet:addChild("skill_tree", UISkillTree.new("canvas"))
