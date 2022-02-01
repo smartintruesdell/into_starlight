@@ -29,8 +29,8 @@ function UICharacterSheetStats:createTooltip(mouse_position)
 
    if (widget.inMember(self.layout_id, mouse_position)) then
       for child_id, child in pairs(config.getParameter("gui."..self.layout_id..".children")) do
-         if widget.inMember(self.layout_id.."."..child_id, mouse_position) then
-            if child.tooltipStringId then
+         if child.tooltipStringId then
+            if widget.inMember(self.layout_id.."."..child_id, mouse_position) then
                return Strings.getString(child.tooltipStringId)
             end
          end
