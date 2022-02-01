@@ -24,6 +24,19 @@ function ISLSkillGraph:init()
    self.skills = {}
    self.available_skills = {}
    self.unlocked_skills = {}
+   self.perks = {}
+   self.stats = {
+      strength = {0, 0},
+      precision = {0, 0},
+      wits = {0, 0},
+      defense = {0, 0},
+      evasion = {0, 0},
+      energy = {100, 0},
+      health = {100, 0},
+      mobility = {1, 0},
+      critChance = {0, 0},
+      critBonus = {1, 0}
+   }
 end
 
 SkillGraph = SkillGraph or nil
@@ -123,6 +136,8 @@ function ISLSkillGraph:unlock_skill(skill_id, do_save, force)
    if can_unlock and not self.unlocked_skills[skill_id] then
       ISLLog.debug("Player has unlocked '%s'", skill_id)
       self.unlocked_skills[skill_id] = true
+
+      self:apply_skill_to_stats(skill_id)
       self:build_available_skills()
       -- TODO: Spend skill point
 
@@ -168,4 +183,12 @@ function ISLSkillGraph:reset_unlocked_skills()
    -- TODO: Refund skill points
 
    return self;
+end
+
+function ISLSkillGraph:apply_skill_to_stats(skill_id)
+   if not self.skills[skill_id] then return end
+
+   for stat_name, stat_value in pairs(self.skills[skill_id].stats or {}) do
+      self.stats[stat_name][1] = self.stats[stat_name][1] + stat_value
+   end
 end
