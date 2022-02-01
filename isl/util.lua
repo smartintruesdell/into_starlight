@@ -9,12 +9,12 @@
 ISLUtil = ISLUtil or {}
 
 -- Clamps the first number to the given range
-function math.clamp(input, min, max) -- luacheck: ignore 142
-   return math.max(min, math.min(input, max))
+function ISLUtil.clamp(min, max, value) -- luacheck: ignore 142
+   return math.max(min, math.min(value, max))
 end
 
 --- Prints the contents of the given table to the SB log
-function ISLUtil.PrintTable(tbl)
+function ISLUtil.printTable(tbl)
    if type(tbl) == "table" then
       local str = "\n{"
       for k, v in pairs(tbl) do
@@ -33,11 +33,11 @@ function ISLUtil.PrintTable(tbl)
 end
 
 --- Recursively applies ..PrintTable to `tbl` and its members
-function ISLUtil.DeepPrintTable(tbl)
-   sb.logInfo("%s", ISLUtil._DeepPrintTableHelper(tbl, 0))
+function ISLUtil.deepPrintTable(tbl)
+   sb.logInfo("%s", ISLUtil._deepPrintTableHelper(tbl, 0))
 end
 
-function ISLUtil._DeepPrintTableHelper(toPrint, level)
+function ISLUtil._deepPrintTableHelper(toPrint, level)
    level = level or 0
    local str = ""
 
@@ -55,7 +55,7 @@ function ISLUtil._DeepPrintTableHelper(toPrint, level)
          str = str..tostring(k)..lenFix.."=          ("..type(v)..") "..tostring(v)
 
          if type(v) == "table" then
-            str = str..ISLUtil._DeepPrintTableHelper(v, level +1).."\n"
+            str = str..ISLUtil._deepPrintTableHelper(v, level +1).."\n"
          else
             str = str.."\n"
          end
@@ -70,7 +70,7 @@ end
 
 --- Turns a number between 0 and 255 into hex (0 = 00, 255 = FF)
 function ISLUtil.RGBToHex(num)
-   num = math.clamp(math.floor(num + 0.5), 0, 255) -- luacheck: ignore 143
+   num = ISLUtil.clamp(math.floor(num + 0.5), 0, 255) -- luacheck: ignore 143
 
    local hexidecimal = "0123456789ABCDEF"
    local units = num%16+1
@@ -171,15 +171,4 @@ function ISLUtil.IsArray(tbl)
       return true
    end
    return false
-end
-
---- Returns true if the first passed table is inside the box created by the
---- second and third tables
-function ISLUtil.positionWhithinBounds(target, startPoint, endPoint)
-   return (target[1] >= startPoint[1] and target[1] <= endPoint[1] and target[2] >= startPoint[2] and target[2] <= endPoint[2])
-end
-
---- Returns true if the first passed table is inside the passed box
-function ISLUtil.positionWhithinBox(target, box)
-   return (target[1] >= box[1] and target[1] <= box[3] and target[2] >= box[2] and target[2] <= box[4])
 end

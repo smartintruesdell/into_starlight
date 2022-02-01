@@ -24,8 +24,8 @@ function UICharacterSheetStatText:draw()
    local long_widget_path = self.layout_prefix.."."..self.stat_name
    local amount_widget_id = long_widget_path.."Amount"
    local bonus_widget_id = long_widget_path.."BonusAmount"
-   local amount = SkillGraph.stats[self.stat_name].current
-   local bonus_amount = SkillGraph.stats[self.stat_name].equipment_bonus
+   local amount = (SkillGraph.stats[self.stat_name].current or "--")
+   local bonus_amount = (SkillGraph.stats[self.stat_name].equipment_bonus or 0)
 
    -- First, set the text widgets to show the correct amounts
    widget.setText(amount_widget_id, ""..(amount or "--"))
