@@ -1,6 +1,7 @@
 --[[
    A model of the complete skill graph
 ]]
+require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/log.lua")
 require("/isl/point.lua")
