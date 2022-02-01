@@ -21,10 +21,11 @@ function UICharacterSheetStatText:init(stat_name, is_right_aligned, layout_prefi
 end
 
 function UICharacterSheetStatText:draw()
-   local amount_widget_id = self.layout_prefix.."."..self.stat_name.."Amount"
-   local bonus_widget_id = self.layout_prefix.."."..self.stat_name.."BonusAmount"
-   local amount = SkillGraph.stats[self.stat_name][1]
-   local bonus_amount = SkillGraph.stats[self.stat_name][2]
+   local long_widget_path = self.layout_prefix.."."..self.stat_name
+   local amount_widget_id = long_widget_path.."Amount"
+   local bonus_widget_id = long_widget_path.."BonusAmount"
+   local amount = SkillGraph.stats[self.stat_name].current
+   local bonus_amount = SkillGraph.stats[self.stat_name].equipment_bonus
 
    -- First, set the text widgets to show the correct amounts
    widget.setText(amount_widget_id, ""..(amount or "--"))
@@ -35,7 +36,7 @@ function UICharacterSheetStatText:draw()
    local amount_pos = Point.new(widget.getPosition(amount_widget_id))
    local amount_width = widget.getSize(amount_widget_id)[1]
    local padding = 3
-   local new_x = (self.is_right_aligned and 1 or -1) * (amount_width + padding)
+   local new_x = (self.is_right_aligned and -1 or 1) * (amount_width + padding)
 
    widget.setPosition(
       bonus_widget_id,

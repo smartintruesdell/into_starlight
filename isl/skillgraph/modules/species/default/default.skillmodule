@@ -21,9 +21,9 @@
         "default_melee_skill_1"
       ],
       "stats": {
-        "strength": 10,
-        "precision": 10,
-        "wits": 10
+        "isl_strength": 10,
+        "isl_precision": 10,
+        "isl_wits": 10
       }
     },
     "default_melee_skill_1": {

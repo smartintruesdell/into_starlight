@@ -22,11 +22,13 @@ end
 function ISLStats:update(_ --[[dt: number]])
    for stat_name, stat_data in pairs(self) do
       self[stat_name].current = player.getProperty(stat_name) or stat_data.defaultValue
+      -- TODO: We'll want to get this from the equipment
+      self[stat_name].equipment_bonus = 0
    end
 end
 
 function ISLStats:save_to_player()
-   for stat_id, stat_data in pairs(self.stats) do
+   for stat_id, stat_data in pairs(self) do
       player.setProperty(stat_id, stat_data.current)
    end
 end

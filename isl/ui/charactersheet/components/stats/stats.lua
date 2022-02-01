@@ -9,20 +9,10 @@ require("/isl/util.lua")
 require("/isl/strings.lua")
 require("/isl/bounds.lua")
 require("/isl/skillgraph/skillgraph.lua")
+require("/isl/stats/stats.lua")
 require("/isl/ui/uicomponent.lua")
 require("/isl/ui/charactersheet/components/portrait/portrait.lua")
 require("/isl/ui/charactersheet/components/stats/stat_text.lua")
-
--- Constants ------------------------------------------------------------------
-
-local stat_names = {
-   strength = "left",
-   precision = "left",
-   wits = "left",
-   defense = "right",
-   evasion = "right",
-   energy = "right"
-}
 
 -- Class ----------------------------------------------------------------------
 
@@ -33,14 +23,59 @@ UICharacterSheetStats = defineSubclass(UIComponent, "UICharacterSheetStats")()
 function UICharacterSheetStats:init(layout_id)
    if not Strings.ready then Strings.init() end
 
+   self.stats = ISLStats.new()
+
    self.layout_id = layout_id
    self:addChild("portrait", UIPortrait.new(layout_id..".portrait", "full"))
-   for stat_name, alignment in pairs(stat_names) do
-      self:addChild(
-         stat_name.."_text",
-         UICharacterSheetStatText.new(stat_name, alignment == "right", layout_id)
+   self:addChild("portrait", UIPortrait.new(layout_id..".portrait", "full"))
+   self:addChild(
+      "isl_strength_text",
+      UICharacterSheetStatText.new(
+         "isl_strength",
+         true,
+         layout_id
       )
-   end
+   )
+   self:addChild(
+      "isl_precision_text",
+      UICharacterSheetStatText.new(
+         "isl_precision",
+         true,
+         layout_id
+      )
+   )
+   self:addChild(
+      "isl_wits_text",
+      UICharacterSheetStatText.new(
+         "isl_wits",
+         true,
+         layout_id
+      )
+   )
+   self:addChild(
+      "isl_defense_text",
+      UICharacterSheetStatText.new(
+         "isl_defense",
+         false,
+         layout_id
+      )
+   )
+   self:addChild(
+      "isl_evasion_text",
+      UICharacterSheetStatText.new(
+         "isl_evasion",
+         false,
+         layout_id
+      )
+   )
+   self:addChild(
+      "isl_energy_text",
+      UICharacterSheetStatText.new(
+         "isl_energy",
+         false,
+         layout_id
+      )
+   )
 end
 
 function UICharacterSheetStats:createTooltip(mouse_position)
