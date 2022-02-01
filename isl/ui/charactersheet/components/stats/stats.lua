@@ -8,8 +8,21 @@ require("/isl/log.lua")
 require("/isl/util.lua")
 require("/isl/strings.lua")
 require("/isl/bounds.lua")
+require("/isl/skillgraph/skillgraph.lua")
 require("/isl/ui/uicomponent.lua")
 require("/isl/ui/charactersheet/components/portrait/portrait.lua")
+require("/isl/ui/charactersheet/components/stats/stat_text.lua")
+
+-- Constants ------------------------------------------------------------------
+
+local stat_names = {
+   strength = "left",
+   precision = "left",
+   wits = "left",
+   defense = "right",
+   evasion = "right",
+   energy = "right"
+}
 
 -- Class ----------------------------------------------------------------------
 
@@ -22,6 +35,12 @@ function UICharacterSheetStats:init(layout_id)
 
    self.layout_id = layout_id
    self:addChild("portrait", UIPortrait.new(layout_id..".portrait", "full"))
+   for stat_name, alignment in pairs(stat_names) do
+      self:addChild(
+         stat_name.."_text",
+         UICharacterSheetStatText.new(stat_name, alignment == "right", layout_id)
+      )
+   end
 end
 
 function UICharacterSheetStats:createTooltip(mouse_position)
