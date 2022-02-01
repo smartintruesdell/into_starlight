@@ -64,9 +64,9 @@ function ISLSkillGraph.load(path)
    -- Initialize unlocked skills
    ISLLog.info("Initializing Unlocked Skills")
    -- DEBUGGING
-   graph:reset_unlocked_skills()
+   --graph:reset_unlocked_skills()
    -- END_DEBUGGING
-   graph:load_unlocked_skills(status.statusProperty(SKILLS_PROPERTY_NAME) or {})
+   graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
    graph:load_unlocked_skills(graph_config.initialSkills.common)
    graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
 
@@ -174,13 +174,13 @@ function ISLSkillGraph:save_unlocked_skills()
       table.insert(unlocked_skills, unlocked_skill_id)
    end
 
-   status.setStatusProperty(SKILLS_PROPERTY_NAME, unlocked_skills)
+   player.setProperty(SKILLS_PROPERTY_NAME, unlocked_skills)
 
    return self;
 end
 
 function ISLSkillGraph:reset_unlocked_skills()
-   status.setStatusProperty(SKILLS_PROPERTY_NAME, { "start" })
+   player.setProperty(SKILLS_PROPERTY_NAME, { "start" })
    -- TODO: Refund skill points
 
    return self;

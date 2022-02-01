@@ -1,0 +1,11 @@
+{
+  "name" : "isl_stat_effects",
+  "effectConfig" : {
+    "healthBonus" : 0,
+    "energyBonus" : 0
+  },
+  "defaultDuration" : 3,
+  "scripts" : [
+    "/isl/statuseffects/isl_stat_effects.lua"
+  ]
+}
