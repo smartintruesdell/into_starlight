@@ -4,9 +4,7 @@
 
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
-require("/isl/log.lua")
 require("/isl/point.lua")
-require("/isl/util.lua")
 require("/isl/skillgraph/skillgraph.lua")
 require("/isl/ui/uicomponent.lua")
 
@@ -28,9 +26,12 @@ function UICharacterSheetStatText:draw()
    local amount = SkillGraph.stats[self.stat_name][1]
    local bonus_amount = SkillGraph.stats[self.stat_name][2]
 
+   -- First, set the text widgets to show the correct amounts
    widget.setText(amount_widget_id, ""..(amount or "--"))
    widget.setText(bonus_widget_id, "^orange;(+"..bonus_amount..")^reset;")
 
+   -- Next, we want to align the "bonus" widget relative to the actual size
+   -- of the rendered "amount" widget so that they don't overlap
    local amount_pos = Point.new(widget.getPosition(amount_widget_id))
    local amount_width = widget.getSize(amount_widget_id)[1]
    local padding = 3
