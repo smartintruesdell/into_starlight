@@ -40,9 +40,8 @@ end
 
 function ISLStatEffects:update_state(dt)
    local changed = false
-   for _key, state_manager in pairs(self.state) do
+   for _, state_manager in pairs(self.state) do
       if state_manager['update'] ~= nil then
-         ISLLog.debug('Gonna update the %s manager', _key)
          changed = state_manager:update(dt) or changed
       end
    end
