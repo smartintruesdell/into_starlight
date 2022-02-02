@@ -8,9 +8,9 @@ require("/isl/skillgraph/skillgraph.lua")
 -- Script `init`, `update`, and `uninit` will REPLACE scripts loaded before
 -- ours. These `super_*` local variables save references to the scripts before
 -- us so that we can call them at the start of our methods.
-local super_init = init
-local super_update = update
-local super_uninit = uninit
+local super_init = init or function () end
+local super_update = update or function () end
+local super_uninit = uninit or function () end
 
 function init()
    ISLLog.debug("player_effects.lua:init()")
