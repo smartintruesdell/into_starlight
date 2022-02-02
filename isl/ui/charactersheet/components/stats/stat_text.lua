@@ -43,3 +43,7 @@ function UICharacterSheetStatText:draw()
       amount_pos:translate({ new_x, 0 })
    )
 end
+
+function UICharacterSheetStatText:update(_ --[[dt: number]])
+   self:draw()
+end

@@ -58,7 +58,6 @@ function ISLSkillGraph.load(path)
    ISLLog.info("Initializing Skill Graph")
    graph = ISLSkillGraph.new()
    graph:load_modules(graph_config.skillModules.common)
-   ISLUtil.printTable(graph_config.skillModules.species)
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
    -- Initialize unlocked skills
