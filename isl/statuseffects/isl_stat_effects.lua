@@ -7,10 +7,11 @@ require("/isl/stats/stat_effects.lua")
 
 function init()
    -- Change the status effect to only check for updates every 15 ticks
-   script.setUpdateDelta(15)
+   script.setUpdateDelta(30)
    self.effect = ISLStatEffects.new()
 end
 
 function update(dt)
+   -- Note to self: Fires roughly every 26ms, which is WAY TOO OFTEN
    self.effect:update(dt)
 end

@@ -8,6 +8,7 @@
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/log.lua")
+require("/isl/stats/held_items.lua")
 
 -- Class ----------------------------------------------------------------------
 
