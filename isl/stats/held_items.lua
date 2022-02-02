@@ -6,13 +6,14 @@ require("/scripts/questgen/util.lua")
 
 -- Class ----------------------------------------------------------------------
 
-ISLHeldItemDetails = createClass("ISLHeldItemDetails")
+ISLHeldItemsManager = createClass("ISLHeldItemDetails")
 
 -- Constructor ----------------------------------------------------------------
 
-function ISLHeldItemDetails:init(entity_id)
-   self._error = nil
+function ISLHeldItemsManager:init(entity_id)
    self.entity_id = entity_id
+   self.changed = false
+
    self.primary = nil
    self.alt = nil
 
@@ -20,35 +21,38 @@ function ISLHeldItemDetails:init(entity_id)
 end
 
 -- Methods --------------------------------------------------------------------
-function ISLHeldItemDetails:update(--[[dt: number]])
-   if self._error then return end
-   local held_primary_item_identifier =
-      world.entityHandItem(self.entity_id, "primary")
-   local held_alt_item_identifier =
-      world.entityHandItem(self.entity_id, "alt")
+function ISLHeldItemsManager:update(--[[dt: number]])
+   self.changed = false
+   self:update_held_item('primary', world.entityHandItem(self.entity_id, "primary"))
+   self:update_held_item('alt', world.entityHandItem(self.entity_id, "alt"))
 
-   -- Check primary item for update
-   if not self.primary or self.primary.itemName ~= held_primary_item_identifier then
-      ISLLog.debug("Found a new primary item, '%s'", held_primary_item_identifier)
-      local err, new_primary = pcall(root.itemConfig, held_primary_item_identifier)
+   return self.changed
+end
 
-      if err then
-         self._error = err
-         return
+function ISLHeldItemsManager:update_held_item(key, new_item_id)
+   -- IF we didn't have an item and we have one now
+   -- OR we did have an item and it does not match the one we have now
+   local should_replace_empty = not self[key] and new_item_id
+   local should_replace_existing = self[key] and self[key].itemName ~= new_item_id
+
+   if should_replace_empty or should_replace_existing then
+      ISLLog.debug("%s held item changed to '%s'", key, new_item_id)
+      if not new_item_id then
+         -- Handle changing to `nil`
+         self[key] = nil
+      else
+         -- Handle changing to another item
+         local is_success, new_item_config = pcall(root.itemConfig, new_item_id)
+
+         if not is_success then
+            ISLLog.error(
+               "Failed to load itemConfig for '%s'",
+               new_item_id
+            )
+            return
+         end
+         self.changed = true
+         self[key] = new_item_config.config
       end
-
-      self.primary = new_primary
-   end
-   -- Check alt item for update
-   if not self.alt or self.alt.itemName ~= held_alt_item_identifier then
-      ISLLog.debug("Found a new alt item, '%s'", held_alt_item_identifier)
-      local err, new_alt = pcall(root.itemConfig, held_alt_item_identifier)
-
-      if err then
-         self._error = err
-         return
-      end
-
-      self.alt = new_alt
    end
 end

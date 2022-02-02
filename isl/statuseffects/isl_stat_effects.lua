@@ -9,7 +9,7 @@ function init()
    -- Change the status effect to only check for updates every 30 ticks, which
    -- is approximately half of a second
    script.setUpdateDelta(30)
-   self.effect = ISLStatEffects.new()
+   self.effect = ISLStatEffects.new(entity.id())
 end
 
 function update(dt)
