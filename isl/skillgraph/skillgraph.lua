@@ -11,6 +11,7 @@ require("/isl/log.lua")
 require("/isl/point.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
 require("/isl/stats/stats.lua")
+require("/isl/util.lua")
 
 -- Constants ------------------------------------------------------------------
 
@@ -38,7 +39,7 @@ SkillGraph = SkillGraph or nil
 
 function ISLSkillGraph.initialize()
    if not SkillGraph then
-      SkillGraph = ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.json")
+      SkillGraph = ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.config")
    end
 
    return SkillGraph
@@ -57,6 +58,7 @@ function ISLSkillGraph.load(path)
    ISLLog.info("Initializing Skill Graph")
    graph = ISLSkillGraph.new()
    graph:load_modules(graph_config.skillModules.common)
+   ISLUtil.printTable(graph_config.skillModules.species)
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
    -- Initialize unlocked skills

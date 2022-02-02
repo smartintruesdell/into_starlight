@@ -19,7 +19,12 @@
       ],
       "children": [
         "human_melee_skill_1"
-      ]
+      ],
+      "stats": {
+        "isl_strength": 10,
+        "isl_precision": 10,
+        "isl_wits": 10
+      }
     },
     "human_melee_skill_1": {
       "type": "skill",
