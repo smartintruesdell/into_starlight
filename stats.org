@@ -161,6 +161,9 @@ Now I want to think about what my stats are going to be, and how they're going t
 ** Primary Stats (Combat Power)
 
 *** Strength (Melee Damage)
+:PROPERTIES:
+:POINT_COST: 1.0
+:END:
 
 Strength adds power to a player's weapon attacks as a % of base damage, modified by base attack speed of the weapon.
 
@@ -168,43 +171,28 @@ I'm not going to have the Strength/Dexterity duality on 1h weapons. If you want 
 
 I'll probably mimic /RPG Growth/ and let Strength improve 1h-weapon + shield builds with more damage and more shield health / bash damage.
 
-**** 2-Handed Mastery
+**** 1-Handed Melee Mastery (w/o another weapon in the offhand)
 
-**** Heavy Blade Mastery (Broadswords, Axes)
+**** 2-Handed Melee Mastery
 
-**** Crushing Mastery (Hammers, Quarterstaffs)
-
-**** Piercing Mastery (Spears)
-
-**** 1-Handed Mastery
-
-***** Hand to Hand Mastery (Daggers, Fists)
-
-***** Light Blade Mastery (Shortswords, Longswords, Katana)
-
-***** Shield Mastery
-***** Dual Wield Mastery
+**** Dual-Wield Melee Mastery (w/another melee weapon in the offhand)
 
 *** Precision (Ranged)
+:PROPERTIES:
+:POINT_COST: 1.0
+:END:
 
 Agility adds power to a player's ranged weapons (Guns, Bows, Yoyos, Whips).
 
 Agility also adds (small) Movement speed and Jump speed benefits, but those stats are scattered around otherwise so they're not tightly coupled.
 
-**** Gun Mastery
+**** Small Arms Mastery (Pistols, Machine Pistols, Magnorbs, etc)
 
-***** Small Arms Mastery (Pistols, Machinepistols, SMGs)
+**** Combat Arms (Assault Rifles, Shotguns, Sniper Rifles)
 
-***** Rifle Mastery (Assault Rifles, Sniper Rifles)
+**** Explosives Mastery (Grenade Launchers, Rocket Launchers)
 
-***** Explosives Mastery (Grenade / Rocket Launchers)
-
-**** Ballistics Mastery
-***** Bow Mastery
-
-***** Thrown Mastery
-
-***** Grenade Mastery
+**** Ballistics Mastery (Bows, Yoyos, etc)
 
 *** Wits (Magic)
 
@@ -240,6 +228,8 @@ This is either
 I want "I can shoot more" and "I can cast more spells" to be worthy buildarounds, but I'm not sure how to make it worthwhile. TBD.
 
 ** Tertiary Stats (Ubiquitous)
+
+These stats appear in relatively equal amounts across all skill graph branches, with the expectation being that most players will have some of all of them.
 
 *** Health
 
