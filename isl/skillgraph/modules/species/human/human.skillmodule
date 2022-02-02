@@ -19,7 +19,12 @@
       ],
       "children": [
         "human_melee_skill_1"
-      ]
+      ],
+      "stats": {
+        "isl_strength": 10,
+        "isl_precision": 10,
+        "isl_wits": 10
+      }
     },
     "human_melee_skill_1": {
       "type": "skill",
@@ -39,7 +44,10 @@
       ],
       "children": [
         "human_melee_skill_2"
-      ]
+      ],
+      "stats": {
+        "isl_strength": 5
+      }
     },
     "human_melee_skill_2": {
       "type": "skill",
@@ -59,7 +67,10 @@
       ],
       "children": [
         "human_melee_skill_3"
-      ]
+      ],
+      "stats": {
+        "isl_strength": 5
+      }
     },
     "human_melee_skill_3": {
       "type": "skill",
@@ -79,7 +90,10 @@
       ],
       "children": [
         "the_warrior"
-      ]
+      ],
+      "stats": {
+        "isl_strength": 5
+      }
     }
   },
   "children": {}

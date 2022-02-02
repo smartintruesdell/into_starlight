@@ -1,10 +1,17 @@
 --[[
    A model of the complete skill graph
+
+   The way the Lua runtime executes in Starbounds prevents us from making this
+   a stateful singleton so instead we want to keep it lean and let other modules
+   instantiate it once per context where necessary.
 ]]
+require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/log.lua")
 require("/isl/point.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
+require("/isl/stats/stats.lua")
+require("/isl/util.lua")
 
 -- Constants ------------------------------------------------------------------
 
@@ -24,12 +31,18 @@ function ISLSkillGraph:init()
    self.skills = {}
    self.available_skills = {}
    self.unlocked_skills = {}
+   self.perks = {}
+   self.stats = ISLStats.new()
 end
 
 SkillGraph = SkillGraph or nil
 
 function ISLSkillGraph.initialize()
-   SkillGraph = SkillGraph or ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.json")
+   if not SkillGraph then
+      SkillGraph = ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.config")
+   end
+
+   return SkillGraph
 end
 
 -- ISLSkillGraph.load(path) -> error, ISLSkillGraph
@@ -48,17 +61,25 @@ function ISLSkillGraph.load(path)
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
    -- Initialize unlocked skills
-   ISLLog.info("Initializing Unlocked Skills")
-   -- DEBUGGING
-   graph:reset_unlocked_skills()
-   -- END_DEBUGGING
-   graph:load_unlocked_skills(status.statusProperty(SKILLS_PROPERTY_NAME) or {})
+   if LOG_LEVEL == LOG_LEVELS.DEBUG then
+      ISLLog.debug("Resetting ISL Progression")
+      graph:reset_unlocked_skills()
+      graph.stats:reset_stats()
+   end
+
+   -- First, load any skills from the player property
+   ISLLog.debug("Initializing Unlocked Skills - saved")
+   graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
+   -- Then, load common "initialSkills" from the graph config (usually just "start")
+   ISLLog.debug("Initializing Unlocked Skills - common")
    graph:load_unlocked_skills(graph_config.initialSkills.common)
+   -- Then, load "initialSkills" for the player's species
+   ISLLog.debug("Initializing Unlocked Skills - %s", player.species())
    graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
 
-   -- Apply save_unlocked_skills here to commit any changes afforded by
-   -- updates to initialSkills.*
-   graph:save_unlocked_skills()
+   -- Apply save_unlocked_skills here to commit stat updates and any changes
+   -- afforded by updates to initialSkills.*
+   graph:apply_to_player()
 
    -- Build available skills data
    ISLLog.info("Deriving Available Skills")
@@ -113,21 +134,24 @@ function ISLSkillGraph:load_unlocked_skills(data)
 end
 
 local function player_has_skill_point_available()
-   return true
+   return player.isAdmin()
 end
 
 function ISLSkillGraph:unlock_skill(skill_id, do_save, force)
+   -- Guard against inappropriate unlocks
    local can_unlock = force or (SkillGraph.available_skills[skill_id] and player_has_skill_point_available())
 
    -- Guard against repeat-unlocks
    if can_unlock and not self.unlocked_skills[skill_id] then
       ISLLog.debug("Player has unlocked '%s'", skill_id)
       self.unlocked_skills[skill_id] = true
+
       self:build_available_skills()
+      self:apply_skill_to_stats(skill_id)
       -- TODO: Spend skill point
 
       if do_save then
-         self:save_unlocked_skills()
+         self:apply_to_player()
       end
    end
 
@@ -152,20 +176,33 @@ function ISLSkillGraph:build_available_skills()
    return self
 end
 
-function ISLSkillGraph:save_unlocked_skills()
+function ISLSkillGraph:apply_to_player()
    local unlocked_skills = {}
    for unlocked_skill_id, _ in pairs(self.unlocked_skills) do
       table.insert(unlocked_skills, unlocked_skill_id)
    end
 
-   status.setStatusProperty(SKILLS_PROPERTY_NAME, unlocked_skills)
+   -- Save the player's unlocked skills as a property
+   player.setProperty(SKILLS_PROPERTY_NAME, unlocked_skills)
+
+   -- Apply derived stat updates
+   self.stats:save_to_player()
 
    return self;
 end
 
 function ISLSkillGraph:reset_unlocked_skills()
-   status.setStatusProperty(SKILLS_PROPERTY_NAME, { "start" })
+   player.setProperty(SKILLS_PROPERTY_NAME, { "start" })
    -- TODO: Refund skill points
 
-   return self;
+   return self:apply_to_player()
+end
+
+function ISLSkillGraph:apply_skill_to_stats(skill_id)
+   local skill = self.skills[skill_id]
+   if not skill then return end
+
+   for stat_name, stat_value in pairs(skill.stats or {}) do
+      self.stats:modify_stat(stat_name, stat_value)
+   end
 end

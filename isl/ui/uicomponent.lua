@@ -61,7 +61,7 @@ function UIComponent:createTooltipsForChildren(mouse_position)
 end
 
 function UIComponent:handleMouseEvent(mouse_position, button, is_down)
-   ISLLog.debug("Handle Mouse Event Clicked(%s) %s, %s, %s", self.className, mouse_position, button, is_down)
+   --ISLLog.debug("Handle Mouse Event Clicked(%s) %s, %s, %s", self.className, mouse_position, button, is_down)
    self:handleMouseEventForChildren(mouse_position, button, is_down)
 end
 

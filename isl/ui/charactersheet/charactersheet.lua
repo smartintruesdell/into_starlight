@@ -61,11 +61,11 @@ function evasionButton()
 end
 
 function energyButton()
-   return CharacterSheet.children.stats:handleWidgetClicked("energyButton")
+   return CharacterSheet:handleWidgetClicked("energyButton")
 end
 
 function mobilityButton()
-   return CharacterSheet.children.stats:handleWidgetClicked("mobilityButton")
+   return CharacterSheet:handleWidgetClicked("mobilityButton")
 end
 
 
