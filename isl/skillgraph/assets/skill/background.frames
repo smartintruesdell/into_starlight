@@ -1,0 +1,18 @@
+{
+  "frameGrid": {
+    "size": [
+      22,
+      22
+    ],
+    "dimensions": [
+      2,
+      1
+    ],
+    "names": [
+      [
+        "default",
+        "selected"
+      ]
+    ]
+  }
+}

@@ -12,7 +12,7 @@
           "en_US": "Humanity is shattered and broken, and it is the responsibility of the last Protector to rebuild.\n\nWith your Matter Manipulator you are uniquely qualified to seek allies and battle the Ruin.\n\nWhat path will you take to greatness?"
         }
       },
-      "icon": "/interface/title/humanmale.png",
+      "icon": "/isl/ui/assets/graph_species_default.png",
       "position": [
         0,
         0

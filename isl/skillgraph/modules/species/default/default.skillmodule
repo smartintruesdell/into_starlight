@@ -12,7 +12,7 @@
           "en_US": "You awaken into the world of Starbound with endless potential.\n\nGrow into the adventurer you were meant to be!"
         }
       },
-      "icon": "/isl/skilltree/modules/species/default/default_icon.png",
+      "icon": "/isl/ui/assets/graph_species_default.png",
       "position": [
         0,
         0

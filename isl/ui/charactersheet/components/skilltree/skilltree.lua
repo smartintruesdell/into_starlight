@@ -10,10 +10,9 @@ require("/isl/bounds.lua")
 require("/isl/skillgraph/skillgraph.lua")
 
 -- Constants ------------------------------------------------------------------
-local PATH = "/isl/ui/charactersheet/components/skilltree"
 
 local Assets = {}
-Assets.background_tile_image = PATH.."/assets/background_tile.png"
+Assets.background_tile_image = "/isl/ui/assets/background_tile.png"
 
 DOUBLE_CLICK_DISTANCE_TOLERANCE = 1
 DOUBLE_CLICK_TIME_TOLERANCE = 10
@@ -284,14 +283,16 @@ function UISkillTree:_draw_skill(skill)
       )
    end
 
-   -- Draw the icon frame
-   self.canvas:drawImage(
-      skill.icon_frame.border..":"..(skill.rarity or "default"),
-      skill.position:translate(self.offset),
-      1,
-      icon_color,
-      true
-   )
+   if skill.type ~= "species" then
+      -- Draw the icon frame
+      self.canvas:drawImage(
+         skill.icon_frame.border..":"..(skill.rarity or "default"),
+         skill.position:translate(self.offset),
+         1,
+         icon_color,
+         true
+      )
+   end
 
    if LOG_LEVEL == LOG_LEVELS.DEBUG then
       self:_debug_draw_skill_bounds(skill)
@@ -302,10 +303,14 @@ end
 
 function UISkillTree:_get_skill_background(skill)
    local background_image = nil
-   if self.selected_skill_id == skill.id then
-      background_image = skill.icon_frame.background..":selected"
+   if skill.type == "species" then
+      background_image = skill.icon_frame.background
    else
-      background_image = skill.icon_frame.background..":default"
+      if self.selected_skill_id == skill.id then
+         background_image = skill.icon_frame.background..":selected"
+      else
+         background_image = skill.icon_frame.background..":default"
+      end
    end
 
    local background_color = nil
