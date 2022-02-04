@@ -8,17 +8,19 @@ require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require(PATH.."/node.lua")
 
+local Assets = nil
+
 -- Class ----------------------------------------------------------------------
 
-UISpeciesNode = defineSubclass(UISkillTreeNode, "UISpeciesNode") {
-   defaultBackground = PATH.."/assets/graph_species.png",
-   defaultIcon = PATH.."/assets/graph_species_default.png",
-   defaultMask = PATH.."/assets/graph_species_mask.png"
-}
+UISpeciesNode = defineSubclass(UISkillTreeNode, "UISpeciesNode")()
 
 -- Constructor ----------------------------------------------------------------
 
 function UISpeciesNode:init(skill, canvas)
+   Assets = Assets or root.assetJson(PATH.."/species_node_assets.config")
+   self.defaultBackground = Assets.background.default
+   self.defaultIcon = Assets.icon.default
+   self.defaultMask = Assets.mask.default
    UISkillTreeNode.init(self, skill, canvas) -- super()
 
    assert(
