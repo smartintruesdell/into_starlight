@@ -83,7 +83,7 @@ function ISLSkillModule.load_from_path(path)
 
    for skill_id, skill_data in pairs(file_data.skills) do
       skill_data.id = skill_id
-      new_module.skills[skill_id] = ISLSkill.new(skill_data)
+      new_module.skills[skill_id] = ISLSkill.from_module(skill_data)
    end
 
    for child_id, binding in pairs(file_data.children) do
