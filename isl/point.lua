@@ -37,6 +37,28 @@ function Point:mag()
    return math.sqrt(math.abs(self[1])^2 + math.abs(self[2])^2)
 end
 
+--- Applies modular arithmatic to our point.
+function Point:mod(mod_point)
+   return Point.new({
+      self[1] % mod_point[1],
+      self[2] % mod_point[2]
+   })
+end
+
+function Point:floor()
+   return Point.new({
+      math.floor(self[1]),
+      math.floor(self[2])
+   })
+end
+
+function Point:ceil()
+   return Point.new({
+      math.ceil(self[1]),
+      math.ceil(self[2])
+   })
+end
+
 function Point:transform(dt, dr, ds)
    dt = dt or { 0, 0 }
    dr = dr or 0
