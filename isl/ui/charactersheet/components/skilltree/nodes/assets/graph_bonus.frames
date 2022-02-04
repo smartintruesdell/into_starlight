@@ -1,0 +1,34 @@
+{
+  "frameGrid": {
+    "size": [
+      24,
+      24
+    ],
+    "dimensions": [
+      3,
+      4
+    ],
+    "names": [
+      [
+        "default:unavailable",
+        "default:available",
+        "default:unlocked"
+      ],
+      [
+        "melee:unavailable",
+        "melee:available",
+        "melee:unlocked"
+      ],
+      [
+        "ranged:unavailable",
+        "ranged:available",
+        "ranged:unlocked"
+      ],
+      [
+        "magical:unavailable",
+        "magical:available",
+        "magical:unlocked"
+      ]
+    ]
+  }
+}
