@@ -11,7 +11,7 @@
 ]]
 require("/scripts/questgen/util.lua")
 require("/isl/point.lua")
-require("/isl/skill/skill.lua")
+require("/isl/skillgraph/skill.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
 
 -- Class ----------------------------------------------------------------------
