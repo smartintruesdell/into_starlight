@@ -20,38 +20,38 @@ function UIComponent:removeChild(key)
    self.children[key] = nil
 end
 
-function UIComponent:draw()
-   self:drawChildren()
+function UIComponent:draw(...)
+   self:drawChildren(...)
 end
 
-function UIComponent:drawChildren()
+function UIComponent:drawChildren(...)
    for _, child in pairs(self.children or {}) do
       if child ~= nil and child["draw"] ~= nil then
-         child:draw()
+         child:draw(...)
       end
    end
 end
 
-function UIComponent:update(dt)
-   self:updateChildren(dt)
+function UIComponent:update(...)
+   self:updateChildren(...)
 end
 
-function UIComponent:updateChildren(dt)
+function UIComponent:updateChildren(... --[[dt, ...]])
    for _, child in pairs(self.children or {}) do
       if child ~= nil and child["update"] ~= nil then
-         child:update(dt)
+         child:update(...)
       end
    end
 end
 
-function UIComponent:createTooltip(mouse_position)
-   return self:createTooltipsForChildren(mouse_position)
+function UIComponent:createTooltip(... --[[mouse_position, ...]])
+   return self:createTooltipsForChildren(...)
 end
 
-function UIComponent:createTooltipsForChildren(mouse_position)
+function UIComponent:createTooltipsForChildren(... --[[mouse_position, ...]])
    for _, child in pairs(self.children or {}) do
       if child ~= nil and child["createTooltip"] ~= nil then
-         local res = child:createTooltip(mouse_position)
+         local res = child:createTooltip(...)
 
          if res ~= nil then
             return res
@@ -60,9 +60,9 @@ function UIComponent:createTooltipsForChildren(mouse_position)
    end
 end
 
-function UIComponent:handleMouseEvent(mouse_position, button, is_down)
+function UIComponent:handleMouseEvent(... --[[mouse_position, button, is_down]])
    --ISLLog.debug("Handle Mouse Event Clicked(%s) %s, %s, %s", self.className, mouse_position, button, is_down)
-   self:handleMouseEventForChildren(mouse_position, button, is_down)
+   self:handleMouseEventForChildren(...)
 end
 
 function UIComponent:handleMouseEventForChildren(...)
