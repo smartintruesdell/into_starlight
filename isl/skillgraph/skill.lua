@@ -39,6 +39,15 @@ function ISLSkill:init(data)
    self.unlocks.techs = data.unlocks.techs or {}
 end
 
+function ISLSkill.from_module(data)
+   -- If the type isn't `bonus`, this is staright forward.
+   if data.type ~= "bonus" then return ISLSkill.new(data) end
+
+   -- If the type IS `bonus`, then we need to derive the skill from available
+   -- templates.
+   return ISLBonusSkill.new(data)
+end
+
 -- Methods --------------------------------------------------------------------
 
 function ISLSkill:transform(dt, dr, ds)
@@ -50,4 +59,25 @@ function ISLSkill:transform(dt, dr, ds)
    res.position = self.position:transform(dt, dr, ds)
 
    return res
+end
+
+-- Subclass -------------------------------------------------------------------
+
+ISLBonusSkill = defineSubclass(ISLSkill, "ISLBonusSkill")
+
+-- Constructor ----------------------------------------------------------------
+
+function ISLBonusSkill:init(data)
+   ISLSkill.init(self, data)
+   ISLBonusSkill.templates = ISLBonusSkill.templates or root.assetJson("/isl/skillgraph/bonus_types.config")
+
+   -- Additional "Bonus" type configuration
+   self.bonusType = data.bonusType or nil
+   self.level = data.level or 1
+   self.backgroundType = data.backgroundType
+
+   local stat_points = root.evalFunction(data.levelingFunction, self.level)
+   for stat_id, multiplier in pairs(data.statDistribution) do
+      self.unlocks.stats[stat_id] = math.floor(stat_points * multiplier)
+   end
 end
