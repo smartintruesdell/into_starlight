@@ -15,12 +15,16 @@ UICharacterSheetStatText = defineSubclass(UIComponent, "UICharacterSheetStatText
 -- Constructor ----------------------------------------------------------------
 
 function UICharacterSheetStatText:init(stat_name, is_right_aligned, layout_prefix)
+   UIComponent.init(self) -- super()
+
    self.stat_name = stat_name
    self.is_right_aligned = is_right_aligned
    self.layout_prefix = layout_prefix or ""
 end
 
 function UICharacterSheetStatText:draw()
+   UIComponent.draw(self)
+
    local long_widget_path = self.layout_prefix.."."..self.stat_name
    local amount_widget_id = long_widget_path.."Amount"
    local bonus_widget_id = long_widget_path.."BonusAmount"
@@ -44,6 +48,7 @@ function UICharacterSheetStatText:draw()
    )
 end
 
-function UICharacterSheetStatText:update(_ --[[dt: number]])
+function UICharacterSheetStatText:update(dt)
+   UIComponent.update(self, dt)
    self:draw()
 end
