@@ -25,5 +25,23 @@
   },
   "stats_health_label": {
     "en_US": "Health"
+  },
+  "skills_warrior__the_warrior__name": {
+    "en_US": "The Warrior"
+  },
+  "skills_warrior__the_warrior_description": {
+    "en_US": "^orange;The Master of Melee Combat^reset;\n\nThe Way of the Warrior is to approach conflict head-on. With powerful blows you will protect those dear to you and inflict great pain on those who stand against you."
+  },
+  "skills_hunter__the_hunter__name": {
+    "en_US": "The Hunter"
+  },
+  "skills_hunter__the_hunter__description": {
+    "en_US": "^orange;The Master of Ranged Combat^reset;\n\nTBD"
+  },
+  "skills_scholar__the_scholar__name": {
+    "en_US": "The Scholar"
+  },
+  "skills_scholar__the_scholar__description": {
+    "en_US": "^orange;The Master of Magical Combat^reset;\n\nTBD"
   }
 }
