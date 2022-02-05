@@ -8,7 +8,7 @@ require("/isl/log.lua")
 require("/isl/util.lua")
 require("/isl/strings.lua")
 require("/isl/ui/uicomponent.lua")
-require("/isl/ui/charactersheet/components/portrait/portrait.lua")
+require("/isl/ui/charactersheet/portrait/portrait.lua")
 
 -- Constants ------------------------------------------------------------------
 local Widgets = {}

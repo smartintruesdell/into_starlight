@@ -4,8 +4,9 @@
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/ui/uicomponent.lua")
+require("/isl/util.lua")
 
-local PATH = "/isl/ui/charactersheet/components/skilltree/background"
+local PATH = "/isl/ui/skilltree/background"
 local Assets = {}
 Assets.grid_tile = PATH.."/assets/grid_tile.png"
 
@@ -30,17 +31,17 @@ end
 
 -- Methods --------------------------------------------------------------------
 
-function UISkillTreeBackground:draw(drag_state)
+function UISkillTreeBackground:draw(skilltree_state)
    -- This part of the background scrolls with the user's drag
    -- and gives them the sense of moving a space around.
    self.canvas:drawTiledImage(
       Assets.grid_tile,
-      drag_state.offset:mod(self.grid_tile_size),
+      skilltree_state.drag_offset:mod(self.grid_tile_size),
       {
          0,
          0,
-         self.bounds[1] + self.grid_tile_size[1],
-         self.bounds[2] + self.grid_tile_size[2]
+         self.bounds.max[1] + self.grid_tile_size[1],
+         self.bounds.max[2] + self.grid_tile_size[2]
       }
    )
 end

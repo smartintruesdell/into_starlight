@@ -2,7 +2,7 @@
    UISpeciesNode extends UISkillTreeNode to provide types specific rendering
    instructions for the root Species node of the Skills graph
 ]]
-local PATH = "/isl/ui/charactersheet/components/skilltree/nodes"
+local PATH = "/isl/ui/skilltree/nodes"
 
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
@@ -35,42 +35,53 @@ end
 -- Methods --------------------------------------------------------------------
 
 function UISpeciesNode:draw(skilltree_state)
-   if not self.canvas.bounds:collides_bounds(self.bounds) then
+   local canvas_bounds = Bounds.new(
+      {0, 0},
+      self.canvas:size()
+   )
+   if not canvas_bounds:collides_bounds(self.bounds) then
       return
    end
 
    UISkillTreeNode.draw(self, skilltree_state)
 
-   local target_position = self.skill.position:translate(skilltree_state.offset)
+   local target_position = self.skill.position:translate(skilltree_state.drag_offset)
 
    if not self.has_custom_background then
       -- Now, if we're not using a customized graphic we're going to print
       -- the base Strength/Precision/Wits values onto the frame.
+      local font_size = 7
+      local strength = self.skill.unlocks.stats.isl_strength or 0
       self.canvas:drawText(
-         "^shadow;"..self.skill.stats.strength,
+         "^shadow;^#ffd752;"..strength,
          {
-            position = target_position:translate({ 0, 32 }),
+            position = target_position:translate({ 0, 28 }),
             horizontalAnchor = "mid",
             verticalAnchor = "mid"
-         }
+         },
+         font_size
       )
 
+      local precision = self.skill.unlocks.stats.isl_precision or 0
       self.canvas:drawText(
-         "^shadow;"..self.skill.stats.precision,
+         "^shadow;^#51b9ff;"..precision,
          {
-            position = target_position:translate(Point.new({ 0, 32 }):rotate(120)),
+            position = target_position:translate(Point.new({ 0, 29 }):rotate(120)),
             horizontalAnchor = "mid",
             verticalAnchor = "mid"
-         }
+         },
+         font_size
       )
 
+      local wits = self.skill.unlocks.stats.isl_wits or 0
       self.canvas:drawText(
-         "^shadow;"..self.skill.stats.wits,
+         "^shadow;^#3fe8ae;"..wits,
          {
-            position = target_position:translate(Point.new({ 0, 32 }):rotate(240)),
+            position = target_position:translate(Point.new({ 0, 29 }):rotate(240)),
             horizontalAnchor = "mid",
             verticalAnchor = "mid"
-         }
+         },
+         font_size
       )
    end
 end

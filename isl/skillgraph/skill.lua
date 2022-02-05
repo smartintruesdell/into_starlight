@@ -78,14 +78,26 @@ function ISLBonusSkill:init(data)
    ISLBonusSkill.templates = ISLBonusSkill.templates or root.assetJson("/isl/skillgraph/bonus_types.config")
 
    -- Additional "Bonus" type configuration
-   self.bonusType = data.bonusType or nil
+   assert(data.bonusType ~= nil, "Expected a valid bonus type for node "..data.id)
+   self.bonusType = data.bonusType
    self.level = data.level or 1
-   self.backgroundType = data.backgroundType
    self.template = ISLBonusSkill.templates[self.bonusType]
    assert(self.template, "Expected a valid template for bonus skill "..data.id)
+   self.background_type = self.template.backgroundType
 
    local stat_points = root.evalFunction(self.template.levelingFunction, self.level)
    for stat_id, multiplier in pairs(self.template.statDistribution) do
       self.unlocks.stats[stat_id] = math.floor(stat_points * multiplier)
    end
+end
+
+function ISLBonusSkill:transform(dt, dr, ds)
+   dt = dt or { 0, 0 }
+   dr = dr or 0
+   ds = ds or 1
+
+   local res = ISLBonusSkill.new(self)
+   res.position = self.position:transform(dt, dr, ds)
+
+   return res
 end

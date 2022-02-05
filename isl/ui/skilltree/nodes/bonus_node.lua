@@ -2,10 +2,11 @@
    UIBonusNode extends UIComponent to provide types specific rendering
    instructions for Bonus nodes of the Skills graph
 ]]
-local PATH = "/isl/ui/charactersheet/components/skilltree/nodes"
+local PATH = "/isl/ui/skilltree/nodes"
 
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
+--require("/isl/util.lua")
 require(PATH.."/node.lua")
 
 local Assets = nil
@@ -22,17 +23,20 @@ function UIBonusNode:init(skill, canvas)
    self.defaultMask = Assets.mask.default
    self.defaultIcon = Assets.icon.default
 
-   UISkillTreeNode.init(self, skill, canvas) -- super
-
+   -- Validations
+   assert(skill ~= nil, "Tried to instantiate a UIBonusNode without a Skill")
    assert(
-      self.skill.type == "bonus",
+      skill.type == "bonus",
       string.format(
          "Tried to render a '%s' skill as a Bonus node",
-         self.skill.type
+         skill.type
       )
    )
+
+   UISkillTreeNode.init(self, skill, canvas) -- super
+
    -- Set the background based on the bonus type
-   self.background = skill.background or Assets[skill.bonusType].background
+   self.background = skill.background or Assets.background[skill.background_type]
 
    -- Set the icon based on the primary stat
    local primary_stat = self:get_primary_stat()
@@ -42,7 +46,11 @@ end
 -- Overrides -----------------------------------------------------------------
 
 function UIBonusNode:get_background_image(skilltree_state)
-   local background_image = self.background
+   skilltree_state = skilltree_state or {
+      unlocked_skills = {},
+      available_skills = {}
+   }
+   local background_image = nil
    if skilltree_state.unlocked_skills[self.skill.id] ~= nil then
       background_image = self.background..":unlocked"
    elseif skilltree_state.available_skills[self.skill.id] ~= nil then
@@ -58,8 +66,8 @@ end
 function UIBonusNode:get_primary_stat()
    local primary_stat = nil
 
-   for stat_id, value in pairs(self.unlocks.stats) do
-      if not primary_stat or value > self.unlocks.stats[primary_stat] then
+   for stat_id, value in pairs(self.skill.unlocks.stats) do
+      if not primary_stat or value > self.skill.unlocks.stats[primary_stat] then
          primary_stat = stat_id
       end
    end

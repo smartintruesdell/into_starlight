@@ -11,8 +11,8 @@ require("/isl/bounds.lua")
 require("/isl/skillgraph/skillgraph.lua")
 require("/isl/stats/stats.lua")
 require("/isl/ui/uicomponent.lua")
-require("/isl/ui/charactersheet/components/portrait/portrait.lua")
-require("/isl/ui/charactersheet/components/stats/stat_text.lua")
+require("/isl/ui/charactersheet/portrait/portrait.lua")
+require("/isl/ui/charactersheet/stats/stat_text.lua")
 
 -- Class ----------------------------------------------------------------------
 
