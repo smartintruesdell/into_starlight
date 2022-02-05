@@ -7,6 +7,7 @@ require("/isl/colors.lua")
 require("/isl/point.lua")
 require("/isl/bounds.lua")
 require("/isl/skillgraph/skillgraph.lua")
+require("/isl/ui/charactersheet/components/skilltree/background/background.lua")
 require("/isl/ui/charactersheet/components/skilltree/nodes/bonus_node.lua")
 require("/isl/ui/charactersheet/components/skilltree/nodes/perk_node.lua")
 require("/isl/ui/charactersheet/components/skilltree/nodes/species_node.lua")
@@ -23,12 +24,14 @@ function UISkillTree:init(canvas_id)
    self.canvas = widget.bindCanvas(canvas_id)
    assert(self.canvas, "Failed to bind SkillTree Canvas")
 
+   if not SkillGraph then ISLSkillGraph.initialize() end
+
    -- Mount child components
    -- - Add the UISkillTreeBackground component
    self.background = UISkillTreeBackground.new(self.canvas)
 
    -- - Add a UISkillTreeNode for each skill
-   self:addChildrenForSkills(ISLSkillGraph.initialize().skills)
+   self:addChildrenForSkills(SkillGraph.skills)
 
    -- This state object is passed to all children in the `update` event
    self.state = {

@@ -51,8 +51,8 @@ function ISLSkillModule:transform(dt, dr, ds)
    ds = ds or 1
 
    local updated_children = {}
-   for child_id, child in pairs(self.children) do
-      updated_children[child_id] = child.transform(dt, dr)
+   for child_id, child in pairs(self.children or {}) do
+      updated_children[child_id] = child:transform(dt, dr)
    end
 
    return ISLSkillModule.new(

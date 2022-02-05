@@ -81,12 +81,11 @@ function ISLBonusSkill:init(data)
    self.bonusType = data.bonusType or nil
    self.level = data.level or 1
    self.backgroundType = data.backgroundType
+   self.template = ISLBonusSkill.templates[self.bonusType]
+   assert(self.template, "Expected a valid template for bonus skill "..data.id)
 
-   self.levelingFunction = ISLBonusSkill.templates[self.bonusType].levelingFunction
-
-   assert(self.levelingFunction, "Expected a levelingFunction for skill "..data.id)
-   local stat_points = root.evalFunction(self.levelingFunction, self.level)
-   for stat_id, multiplier in pairs(data.statDistribution) do
+   local stat_points = root.evalFunction(self.template.levelingFunction, self.level)
+   for stat_id, multiplier in pairs(self.template.statDistribution) do
       self.unlocks.stats[stat_id] = math.floor(stat_points * multiplier)
    end
 end
