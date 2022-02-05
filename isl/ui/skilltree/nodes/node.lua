@@ -29,7 +29,7 @@ function UISkillTreeNode:init(skill, canvas)
    self.has_custom_background = skill.background ~= nil
    self.has_custom_icon = skill.icon ~= nil
 
-   self.radius = root.imageSize(self.background)[1] * 0.5
+   self.radius = root.imageSize(self:get_background_image())[1] * 0.5
    self.bounds = Bounds.new(
       skill.position:translate({ -1 * self.radius, -1 * self.radius }),
       skill.position:translate({ self.radius, self.radius })
@@ -40,7 +40,11 @@ end
 
 function UISkillTreeNode:draw(skilltree_state)
    -- If we're not close enough to the viewable area to be drawn, skip.
-   if not self.canvas.bounds:collides_bounds(self.bounds) then
+   local canvas_bounds = Bounds.new(
+      {0, 0},
+      self.canvas:size()
+   )
+   if not canvas_bounds:collides_bounds(self.bounds) then
       return
    end
 
@@ -56,13 +60,15 @@ function UISkillTreeNode:draw(skilltree_state)
    )
 
    -- Draw a skill-defined icon or the default node icon
-   self.canvas:drawImage(
-      self.get_icon_image(skilltree_state),
-      target_position,
-      1,
-      DEFAULT_COLOR,
-      true
-   )
+   if self.icon then
+      self.canvas:drawImage(
+         self:get_icon_image(skilltree_state),
+         target_position,
+         1,
+         DEFAULT_COLOR,
+         true
+      )
+   end
 
    UIComponent.draw(self, skilltree_state)
 end
@@ -85,15 +91,3 @@ function UISkillTreeNode:area_contains_position(position)
 
    return distance <= self.radius
 end
-
-function UISkillTreeNode:handleMouseEvent(position, button, pressed, skilltree_state)
-   -- Don't care about right clicks at the moment
-   if not pressed then return end
-   if button == 0 then
-      -- Left click, check for double clicks.
-
-   end
-end
-
-function UISkillTreeNode:handle_left_click() end
-function UISkillTreeNode:handle_left_double_click() end

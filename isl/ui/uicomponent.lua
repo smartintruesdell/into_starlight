@@ -25,6 +25,7 @@ UIComponent.mouse = {
    last_position = Point.new({ 0, 0 }),
    last_clicked_position = Point.new({ 0, 0 }),
    last_clicked_time = os.time(),
+   clicked_time = os.time(),
    pressed = false
 }
 
@@ -52,13 +53,6 @@ function UIComponent:drawChildren(...)
 end
 
 function UIComponent:update(...)
-   if UIComponent.mouse.pressed then
-      self:handleMouseDrag(
-         UIComponent.mouse.last_position,
-         UIComponent.mouse.drag_start_position
-      )
-   end
-
    self:updateChildren(...)
 end
 
@@ -88,38 +82,41 @@ end
 
 function UIComponent:handleMouseEvent(mouse_position, button, pressed, ...)
    local position = Point.new(mouse_position)
+   UIComponent.mouse.last_pressed = UIComponent.mouse.pressed
+   UIComponent.mouse.pressed = pressed
+   UIComponent.mouse.last_position = UIComponent.mouse.position
+   UIComponent.mouse.position = position
 
    self:handleMouseEventForChildren(position, button, pressed, ...)
 
-   if pressed and button == 0 then
-      -- If we weren't pressed before, but now are, we want to start a drag maybe
-      if not UIComponent.mouse.pressed then
-         UIComponent.mouse.drag_start_position = position;
-      end
+   if pressed then
+      -- If the mouse IS pressed,
+      -- and the pressed button is the left mouse button
+      if button == 0 then
+         -- If it wasn't pressed before,
+         UIComponent.mouse.last_clicked_time = UIComponent.mouse.clicked_time
+         UIComponent.mouse.clicked_time = os.time()
 
-      -- Check for double clicks
-      local distance = position:translate(UIComponent.mouse.last_position:inverse()):mag()
-      local time_elapsed = os.time() - UIComponent.mouse.last_clicked_time
-      local is_fast_enough = time_elapsed <= DOUBLE_CLICK_TIME_TOLERANCE
-      local is_close_enough = distance <= DOUBLE_CLICK_DISTANCE_TOLERANCE
-      local is_double_click = is_fast_enough and is_close_enough
+         -- Check for double clicks
+         local distance = position:translate(UIComponent.mouse.last_position:inverse()):mag()
+         local time_elapsed = os.time() - UIComponent.mouse.last_clicked_time
+         local is_fast_enough = time_elapsed <= DOUBLE_CLICK_TIME_TOLERANCE
+         local is_close_enough = distance <= DOUBLE_CLICK_DISTANCE_TOLERANCE
+         local is_double_click = is_fast_enough and is_close_enough
 
-      if is_double_click then
-         self:handleMouseDoubleClick(position, button, ...)
-      else
-         self:handleMouseClick(position, button, ...)
+         if is_double_click then
+            self:handleMouseDoubleClick(position, button, ...)
+         else
+            self:handleMouseClick(position, button, ...)
+         end
       end
    end
-
-   UIComponent.mouse.pressed = pressed
-   UIComponent.mouse.last_position = position
-   UIComponent.mouse.last_clicked_time = os.time()
 end
 
-function UIComponent:handleMouseEventForChildren(...)
+function UIComponent:handleMouseEventForChildren(mouse_position, button, pressed, ...)
    for _, child in pairs(self.children or {}) do
       if child ~= nil and child["handleMouseEvent"] ~= nil then
-         child:handleMouseEvent(...)
+         child:handleMouseEvent(mouse_position, button, pressed, ...)
       end
    end
 end
@@ -136,14 +133,14 @@ function UIComponent:handleMouseClickForChildren(...)
    end
 end
 
-function UIComponent:handleMouseDrag(...)
-   self:handleMouseDragForChildren(...)
+function UIComponent:handleMouseDoubleClick(...)
+   self:handleMouseDoubleClickForChildren(...)
 end
 
-function UIComponent:handleMouseDragForChildren(...)
+function UIComponent:handleMouseDoubleClickForChildren(...)
    for _, child in pairs(self.children or {}) do
-      if child ~= nil and child["handleMouseDrag"] ~= nil then
-         child:handleMouseDrag(...)
+      if child ~= nil and child["handleMouseDoubleClick"] ~= nil then
+         child:handleMouseDoubleClick(...)
       end
    end
 end

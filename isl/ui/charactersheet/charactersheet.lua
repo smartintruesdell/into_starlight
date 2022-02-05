@@ -8,9 +8,9 @@ require("/isl/point.lua")
 require("/isl/strings.lua")
 require("/isl/skillgraph/skillgraph.lua")
 require("/isl/ui/uicomponent.lua")
-require("/isl/ui/charactersheet/components/skilltree/skilltree.lua")
-require("/isl/ui/charactersheet/components/header/header.lua")
-require("/isl/ui/charactersheet/components/stats/stats.lua")
+require("/isl/ui/skilltree/skilltree.lua")
+require("/isl/ui/charactersheet/header/header.lua")
+require("/isl/ui/charactersheet/stats/stats.lua")
 
 -- Class --------------------------------------------------------------------
 
@@ -43,35 +43,35 @@ function closeButton()
 end
 
 function strengthButton()
-   return self.CharacterSheet:handleWidgetClicked("strengthButton")
+   --return self.CharacterSheet:handleWidgetClicked("strengthButton")
 end
 
 function precisionButton()
-   return self.CharacterSheet:handleWidgetClicked("precisionButton")
+   --return self.CharacterSheet:handleWidgetClicked("precisionButton")
 end
 
 function witsButton()
-   return self.CharacterSheet:handleWidgetClicked("witsButton")
+   --return self.CharacterSheet:handleWidgetClicked("witsButton")
 end
 
 function healthButton()
-   return self.CharacterSheet:handleWidgetClicked("healthButton")
+   --return self.CharacterSheet:handleWidgetClicked("healthButton")
 end
 
 function defenseButton()
-   return self.CharacterSheet:handleWidgetClicked("defenseButton")
+   --return self.CharacterSheet:handleWidgetClicked("defenseButton")
 end
 
 function evasionButton()
-   return self.CharacterSheet:handleWidgetClicked("evasionButton")
+   --return self.CharacterSheet:handleWidgetClicked("evasionButton")
 end
 
 function energyButton()
-   return self.CharacterSheet:handleWidgetClicked("energyButton")
+   --return self.CharacterSheet:handleWidgetClicked("energyButton")
 end
 
 function mobilityButton()
-   return self.CharacterSheet:handleWidgetClicked("mobilityButton")
+   --return self.CharacterSheet:handleWidgetClicked("mobilityButton")
 end
 
 

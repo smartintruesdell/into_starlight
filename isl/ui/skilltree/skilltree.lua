@@ -7,10 +7,10 @@ require("/isl/colors.lua")
 require("/isl/point.lua")
 require("/isl/bounds.lua")
 require("/isl/skillgraph/skillgraph.lua")
-require("/isl/ui/charactersheet/components/skilltree/background/background.lua")
-require("/isl/ui/charactersheet/components/skilltree/nodes/bonus_node.lua")
-require("/isl/ui/charactersheet/components/skilltree/nodes/perk_node.lua")
-require("/isl/ui/charactersheet/components/skilltree/nodes/species_node.lua")
+require("/isl/ui/skilltree/background/background.lua")
+require("/isl/ui/skilltree/nodes/bonus_node.lua")
+require("/isl/ui/skilltree/nodes/perk_node.lua")
+require("/isl/ui/skilltree/nodes/species_node.lua")
 
 -- Class ----------------------------------------------------------------------
 
@@ -37,11 +37,15 @@ function UISkillTree:init(canvas_id)
    self.state = {
       selected_skill = nil,
       unlocked_skills = SkillGraph.unlocked_skills,
-      available_skills = SkillGraph.available_skils,
+      available_skills = SkillGraph.available_skills,
       drag_offset = Point.new({
-         self.canvas_size[1] * 0.5,
-         self.canvas_size[2] * 0.5
-      })
+         self.canvas:size()[1] * 0.5,
+         self.canvas:size()[2] * 0.5
+      }),
+      mouse = {
+         last_position = Point.new({ 0, 0 }),
+         position = Point.new({ 0, 0 })
+      }
    }
 end
 
@@ -66,17 +70,32 @@ end
 -- Event Handlers -------------------------------------------------------------
 
 function UISkillTree:handleMouseEvent(position, button, pressed)
+   local canvas_relative_position = Point.new(self.canvas:mousePosition())
+
    UIComponent.handleMouseEvent(
       self,
       position,
       button,
       pressed,
+      canvas_relative_position,
       self.state
    )
 end
 
-function UISkillTree:handleMouseDrag(position, start_position)
-   local motion = position:translate(start_position:inverse())
+function UISkillTree:handleMouseDrag()
+   local position = Point.new(self.canvas:mousePosition())
+
+   self.state.mouse.last_position = self.state.mouse.position
+   self.state.mouse.position = position
+
+   local motion = position:translate(self.state.mouse.last_position:inverse())
+
+   ISLLog.debug(
+      "Dragging from %s to %s, new offset is %s",
+      self.state.mouse.last_position:toString(),
+      self.state.mouse.position:toString(),
+      self.state.drag_offset:translate(motion):toString()
+   )
 
    self.state.drag_offset = self.state.drag_offset:translate(motion)
 
@@ -87,6 +106,10 @@ function UISkillTree:update(dt)
    self.state.unlocked_skills = SkillGraph.unlocked_skills
    self.state.available_skills = SkillGraph.available_skills
 
+   if UIComponent.mouse.pressed then
+      self:handleMouseDrag()
+   end
+
    UIComponent:update(dt, self.state)
 end
 
@@ -95,7 +118,7 @@ end
 function UISkillTree:draw()
    self.canvas:clear()
 
-   self.background:draw()
+   self.background:draw(self.state)
    self:draw_graph_lines()
 
    -- Draws the skill nodes
@@ -156,8 +179,8 @@ function UISkillTree:draw_graph_lines()
          end
 
          self.canvas:drawLine(
-            SkillGraph.skills[from_id].position:translate(self.offset),
-            SkillGraph.skills[to_id].position:translate(self.offset),
+            SkillGraph.skills[from_id].position:translate(self.state.drag_offset),
+            SkillGraph.skills[to_id].position:translate(self.state.drag_offset),
             line_color,
             line_width
          )
