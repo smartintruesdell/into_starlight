@@ -21,6 +21,8 @@ err_msg.MODULE_BINDING_BAD = "Bad module binding for '%s'"
 
 local SKILLS_PROPERTY_NAME = "isl_unlocked_skills"
 
+SkillGraph = SkillGraph or nil
+
 -- Class ----------------------------------------------------------------------
 
 ISLSkillGraph = createClass("ISLSkillGraph")
@@ -34,8 +36,6 @@ function ISLSkillGraph:init()
    self.perks = {}
    self.stats = ISLStats.new()
 end
-
-SkillGraph = SkillGraph or nil
 
 function ISLSkillGraph.initialize()
    if not SkillGraph then
