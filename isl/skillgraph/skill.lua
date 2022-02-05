@@ -16,6 +16,12 @@ ISLSkill = createClass("ISLSkill")
 
 --- Constructor
 function ISLSkill:init(data)
+   -- Safety defaults
+   data = data or {}
+   data.strings = data.strings or {}
+   data.unlocks = data.unlocks or {}
+
+   -- Id
    self.id = data.id or ''
    self.type = data.type or 'bonus'
 
@@ -63,7 +69,7 @@ end
 
 -- Subclass -------------------------------------------------------------------
 
-ISLBonusSkill = defineSubclass(ISLSkill, "ISLBonusSkill")
+ISLBonusSkill = defineSubclass(ISLSkill, "ISLBonusSkill")()
 
 -- Constructor ----------------------------------------------------------------
 
@@ -76,7 +82,10 @@ function ISLBonusSkill:init(data)
    self.level = data.level or 1
    self.backgroundType = data.backgroundType
 
-   local stat_points = root.evalFunction(data.levelingFunction, self.level)
+   self.levelingFunction = ISLBonusSkill.templates[self.bonusType].levelingFunction
+
+   assert(self.levelingFunction, "Expected a levelingFunction for skill "..data.id)
+   local stat_points = root.evalFunction(self.levelingFunction, self.level)
    for stat_id, multiplier in pairs(data.statDistribution) do
       self.unlocks.stats[stat_id] = math.floor(stat_points * multiplier)
    end
