@@ -6,5 +6,13 @@
       "representativeItem": "isl_experience_mote",
       "playerMax": 999999
     }
+  },
+  {
+    "op": "add",
+    "path": "/isl_skill_point",
+    "value": {
+      "representativeItem": "isl_skill_point",
+      "playerMax": 999
+    }
   }
 ]

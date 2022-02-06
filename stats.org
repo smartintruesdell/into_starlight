@@ -1,0 +1,303 @@
+#+TITLE:IntoStarlight Stats
+#+AUTHOR:Shawn Martin-Truesdell
+#+EMAIL:shawn@martin-truesdell.com
+
+* Vanilla Starbound Stats
+
+** Power
+
+*** In /Vanilla Starbound/
+
+In Vanilla Starbound, players begin with 100% "Power" and each piece of armor offers a flat +% boost. This affects all damage dealt, regardless of the weapon type, and leads to a very linear playstyle. Get higher tier gear, replace lower tier gear, do more damage.
+
+*** In /Frackin' Universe/
+
+/Frackin' Universe/ takes a deep cut at the vanilla game's idea of armor sets. Instead of the same A -> B -> C -> D -> E progression, Frackin' adds a plethora of new armor sets and gives each a special "set bonus", so armors with roughly equivalent "Power" can be beneficial in different contexts. There is still a kind of Power obsolescence, but it's mitigated by /Frackin' Universe/'s =upgradableWeapon= tag which allows weapons and armor to have their level increased at the cost of Upgrade Modules / Ancient Essence.
+
+*** In /RPG Growth/
+
+/RPG Growth/ adds the =Strength= and =Dexterity= stats to the base game, and grants the player additional Power based on their current weapon and the value of those stats. Each weapon type has a different ratio by which those two stats impact the player's Power. This makes weapon specialization feel more meaningful.
+
+Unfortunately /RPG Growth/ does nothing with armor Power %s, so the player's power gets big fast.
+
+*** In /IntoStarlight/
+
+*Goal*: I want to take Power % off of armor entirely. This might be the hardest thing I want to do, because compatability with other mods could really suffer.
+
+I want to combine /RPG Growth/'s =Strength= and =Dexterity= stats with the Skill Tree to give players the ability to increase their power over time but without making the same huge jumps we see with tiered gear.
+
+** Energy
+
+*** In /Vanilla Starbound/
+
+Like health, Armor boosts a player's max energy.
+
+Unlike health, Energy regenerates (quickly) when the player isn't spending it actively. This makes it a bit of a tempo based mechanic, forcing the player to take breaks and recover before diving back in.
+
+Unfortunately, attacks and techs both spend Energy, which makes energy-based weapons a real bummer for a player who likes to use tech based mobility powers.
+
+*** In /Frackin' Universe/
+
+Unchanged, though there are more ways to get more of it and some rare pieces of gear actually change the speed at which you regain energy or how long it takes before it starts to recover.
+
+*** In /RPG Growth/
+
+With the addition of the =Vigor= stat you can really stack up a lot of Energy, but it mostly doesn't matter. I never feel like this is a good place to put my stat points because I'd rather hit harder and then take a step back into safety.
+
+*** In /Into Starlight/
+
+TBD. I'm sure there's something we can do to make this more interesting. Maybe add a passive regen stat on top of the cooldown-based regen so you can potentially build into smoother tempo.
+
+** Health
+
+*** In /Vanilla Starbound/
+
+Health on armor makes higher tier armor more better.
+
+*** In /Frackin' Universe/
+
+Health on armor makes higher tier armor more better.
+
+*** In /RPG Growth/
+
+The =Vitality= stat adds to max health. I tend to spend points here because I play on Hardcore, but otherwise I probably wouldn't.
+
+*** In /Into Starlight/
+
+TBD. I definitely think health needs some consideration.
+
+** Protection
+
+*** In /Vanilla Starbound/
+
+In Vanilla Starbound, players begin with 0 "Protection" and each piece of armor offers a flat +# boost. Each 1 point of Protection reduces all incoming damage by 1%, with 100 Protection making you essentially immune to damage.
+
+*** In /Frackin' Universe/
+
+Satyr rightly cut down the effectiveness of Protection and moved the cap up. It's nearly impossible to reach the cap except temporarily with food buffs. This is the way.
+
+/Frackin' Universe/ also makes elemental damage more significant, by adding a whole array of resistance types and allowing the player to stack them up. What I like about this is that a very tanky character might still be very vulnerable to a specific element, which adds to the tension.
+
+*** In /RPG Growth/
+
+Both =Strength= and =Endurance= contribute to your Protection stat, which makes hitting the cap much easier. Add /Frackin Universe/ and you're in real trouble.
+
+*** In /Into Starlight/
+
+I want armor to offer substantially less Protection overall.
+
+Then I want to grab Frackin Universe's scaling, resistances, and move +protection stat bonuses to be exclusively on Endurance and on Skill unlocks.
+
+A fully Protection-built character should still be able to hit 80% physical damage reduction
+
+** (Movement) Speed
+
+In Vanilla Starbound, players have a fixed movement speed that is constant for all species and does not change throughout the game. /Frackin/ and /RPG Growth/ make it possible to go faster/higher.
+
+** Jump Height
+
+In Vanilla Starbound, players have a fixed jump height that is constant for all species and does not change throughout the game. /Frackin/ and /RPG Growth/ make it possible to go faster/higher.
+
+* RPG Growth Stats
+
+** Strength
+
+- Strength adds Power % to 2h melee weapons.
+- Strength (or Dexterity, choose higher) adds Power % to 1h melee weapons
+- Strength adds shield health, shield bash damage
+
+** Dexterity (Guns, Bows, 1h Weapons)
+
+- Dexterity adds Power % to ranged weapons.
+- Dexterity (or Strength, choose higher) adds Power % to 1h melee weapons
+
+** Intelligence (Staffs, Wands, Grimoires)
+
+Intelligence adds power to a player's Staff, Wand, Grimoire, and related magical attacks.
+
+** Agility
+
+Agility increases movement speed and jump height and reduces fall damage.
+
+I always want to load my characters up with Agility in /RPG Growth/ because this is at its heart an exploration game and Agility really helps with the exploration.
+
+** Vigor
+
+Vigor increases max Energy. It's pretty much the worst. I'll probably drop it.
+
+** Vitality
+
+Vitality increases max Health.
+
+Especially on harder difficulty settings (Survival, Hardcore**), this is pretty key so I don't feel like it needs too much more going on to make it worthwhile. Maybe just better scaling.
+
+** Endurance
+
+Endurance increases Protection and Resistances
+
+I actually don't love the flat resistance gain when paired with /Frackin' Universe/, because I feel like it can trivialize some of that mod's hazard-based progression as a side-effect of wanting more armor. With that said, having +% resistances on the skill tree might be fine compromise because I can put them on opposite sides of the tree and they won't have to be universal. Building into fire resistance is less of an issue for me than building into whoops immune to all moderate hazards.
+
+* Frackin Universe Stats
+** Masteries
+
+Masteries bundle together a bunch of weapon-related stats into a single stat with varied scaling for each as appropriate to balance. For example, _Katana Mastery_ might increase attack speed, crit damage, and crit chance.
+
+I love these. I want more of them, and I want to look at ways to overlap them.
+
+"Melee Weapon Mastery" + "Shortsword Mastery" would let me put broader but less powerful masteries lower in the tree without loading up the player's stats page with a bunch of unused masteries.
+
+I also want a mastery equivalent for health regen so that I can express health regen without showing the player a fixed % gain.
+
+** Charisma
+
+This stat improves trading outcomes on space stations. That's... all. I wish it had a broader impact on shops. Probably won't include this in /Into Starlight/.
+
+* Into Starlight Stats
+
+The point of this document so far has been to come to a better understanding of what I can put on a Skill Tree node to make those nodes valuable and interesting.
+
+Now I want to think about what my stats are going to be, and how they're going to work together.
+
+** Primary Stats (Combat Power)
+
+*** Strength (Melee Damage)
+
+Strength adds power to a player's weapon attacks as a % of base damage, modified by base attack speed of the weapon.
+
+I'm not going to have the Strength/Dexterity duality on 1h weapons. If you want to hit things in melee you want strength, period.
+
+I'll probably mimic /RPG Growth/ and let Strength improve 1h-weapon + shield builds with more damage and more shield health / bash damage.
+
+**** 2-Handed Mastery
+
+**** Heavy Blade Mastery (Broadswords, Axes)
+
+**** Crushing Mastery (Hammers, Quarterstaffs)
+
+**** Piercing Mastery (Spears)
+
+**** 1-Handed Mastery
+
+***** Hand to Hand Mastery (Daggers, Fists)
+
+***** Light Blade Mastery (Shortswords, Longswords, Katana)
+
+***** Shield Mastery
+***** Dual Wield Mastery
+
+*** Precision (Ranged)
+
+Agility adds power to a player's ranged weapons (Guns, Bows, Yoyos, Whips).
+
+Agility also adds (small) Movement speed and Jump speed benefits, but those stats are scattered around otherwise so they're not tightly coupled.
+
+**** Gun Mastery
+
+***** Small Arms Mastery (Pistols, Machinepistols, SMGs)
+
+***** Rifle Mastery (Assault Rifles, Sniper Rifles)
+
+***** Explosives Mastery (Grenade / Rocket Launchers)
+
+**** Ballistics Mastery
+***** Bow Mastery
+
+***** Thrown Mastery
+
+***** Grenade Mastery
+
+*** Wits (Magic)
+
+Intelligence adds power to a player's magical attacks (Staffs, Wands, Grimoires).
+Intelligence masteries are based on the kind of magic attached to the item, so it matters more that you're a "Fire Wizard" than that you're a "Staffs Wizard"
+
+Maybe put Pet related bonuses here? Pet AI isn't going to change, but people sure like pets.
+
+**** Elemental Mastery
+
+***** Fire Mastery
+
+***** Ice Mastery
+
+***** Electrical Mastery
+
+**** Mastery 2 TBD. Pet mastery?
+** Secondary Stats (Combat Support)
+
+*** Defense (Melee Damage Reduction)
+
+This is your vanilla "Protection" stat, but with logarithmic returns.
+
+*** Evasion (TBD)
+
+This is either
+
+- Ranged damage reduction, assuming I can differentiate between the two
+- A % chance to "dodge" any given hit, amounting to a burstier kind of damage reduction over time compared with Defense.
+
+*** Energy
+
+I want "I can shoot more" and "I can cast more spells" to be worthy buildarounds, but I'm not sure how to make it worthwhile. TBD.
+
+** Tertiary Stats (Ubiquitous)
+
+*** Health
+
+No intermediary "Vitality" stat here, just Health. This should appear in every part of the tree as filler, with particularly dense values available to the melee builds.
+
+Mixing up +N flat boosts with +N% scaling boosts can make it easy to balance.
+
+*** Mobility
+
+Mobility is the Movement Speed + Jump Height stat, and scales quickly at first and levels off.
+
+Mobility takes its name from a vanilla Augment that has the same effect.
+
+This should be pretty ubiquitous in the melee and agility branches but is the big weakeness of magic builds.
+
+* The Skill Tree (Graph)
+
+** Center: Your Species Start
+
+Each of the vanilla Species will have a unique center core of the graph with species-specific abilities and bonuses. This REPLACES /Frackin' Races/ or /Race Traits/ mods and makes the different races a little more diverse. Maybe I'm an Apex who isn't that smart, eh?
+
+There can be any number of paths out of the core to the bridge, depending on your species. Humans can probably go out in any direction but don't get any particular advantage towards any of them, while maybe Apex trend towards the ranged playstyles (soldiers) and the Glitch towards melee / wizardry
+
+** The Bridge: Choose your Path
+
+The first ring outside of the core of the graph is The Bridge, which features three major "Perks" that form pivots into the different branches of the tree.
+
+- Way of the Warrior (Strength)
+- Way of the Hunter (Agility)
+- Way of the Wise (Intelligence)
+
+** The Warrior
+
+Going clockwise from 12-o'clock, the Warrior 1/3 wedge of the graph is the melee focused part of the skill tree.
+
+*** The Guardian - 1H Melee + Shield
+(Adjacent to The Sorcerer in The Wise)
+
+*** The Destroyer - 2H Melee
+
+*** The Berserker (1H + 1H Melee)
+
+** The Hunter
+
+The Hunter 1/3 wedge of the graph is ranged weapon focused.
+
+*** The Operative (1H Guns)
+
+*** The Soldier (2H Guns)
+
+*** The Ranger (Bows)
+
+** The Scholar
+
+The Scholar 1/3 wedge of the graph is magic/pets focused
+
+*** The Master (Pets)
+
+*** The Sage (2H Spells)
+
+*** The Sorcerer (1H Spell + Shield (Orb))
