@@ -34,8 +34,8 @@ end
 
 -- Event Handlers -------------------------------------------------------------
 
-function handle_canvas_mouse_event(mouse_position, button, is_down)
-   self.CharacterSheet:handleMouseEvent(mouse_position, button, is_down)
+function handle_canvas_mouse_event(...)
+   self.CharacterSheet:handleMouseEvent(...)
 end
 
 function closeButton()

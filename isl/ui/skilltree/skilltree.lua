@@ -14,12 +14,12 @@ require("/isl/ui/skilltree/nodes/species_node.lua")
 
 -- Class ----------------------------------------------------------------------
 
-UISkillTree = defineSubclass(UIComponent, "UISkillTree")()
+UISkillTree = defineSubclass(UIComponentWithMouseState, "UISkillTree")()
 
 -- Constructor ----------------------------------------------------------------
 
 function UISkillTree:init(canvas_id)
-   UIComponent.init(self) -- super()
+   UIComponentWithMouseState.init(self) -- super()
    -- initialize the canvas for drawing
    self.canvas = widget.bindCanvas(canvas_id)
    assert(self.canvas, "Failed to bind SkillTree Canvas")
@@ -69,13 +69,13 @@ end
 
 -- Event Handlers -------------------------------------------------------------
 
-function UISkillTree:handleMouseEvent(position, button, pressed)
+function UISkillTree:handleMouseEvent(window_position, button, pressed)
    local canvas_relative_position = Point.new(self.canvas:mousePosition())
    self.state.mouse.position = canvas_relative_position
 
-   UIComponent.handleMouseEvent(
+   UIComponentWithMouseState.handleMouseEvent(
       self,
-      position,
+      canvas_relative_position,
       button,
       pressed,
       self.state
@@ -95,11 +95,15 @@ function UISkillTree:handleMouseDrag()
    self:draw()
 end
 
+function UISkillTree:handleMouseDoubleClick(position, button)
+   UIComponentWithMouseState.handleMouseDoubleClick(self, position, button, self.state)
+end
+
 function UISkillTree:update(dt)
    self.state.unlocked_skills = SkillGraph.unlocked_skills
    self.state.available_skills = SkillGraph.available_skills
 
-   if UIComponent.mouse.pressed then
+   if self.mouse.pressed then
       self:handleMouseDrag()
    end
 

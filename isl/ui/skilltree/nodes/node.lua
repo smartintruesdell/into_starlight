@@ -4,6 +4,8 @@
 ]]
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
+require("/isl/log.lua")
+require("/isl/skillgraph/skillgraph.lua")
 require("/isl/ui/uicomponent.lua")
 
 local DEFAULT_COLOR = "#FFFFFF"
@@ -83,11 +85,19 @@ end
 
 --- Skill tree nodes are circular, and so must calculate mouseovers and clicks
 --- based on their circular area rather than using simple rectangular bounds.
-function UISkillTreeNode:area_contains_position(position)
+function UISkillTreeNode:area_contains_position(offset, position)
    -- Offset such that skill.position is 0,0
-   local relative_point = Point.new(position):translate(self.skill.position:inverse())
+   local relative_point = Point.new(position):translate(self.skill.position:translate(offset):inverse())
    -- Then distance by the Pythagorean theorum
    local distance = math.sqrt((relative_point[1]^2)+(relative_point[2]^2))
 
    return distance <= self.radius
+end
+
+function UISkillTreeNode:handleMouseDoubleClick(position, _, skilltree_state)
+   local is_in_bounds = self:area_contains_position(skilltree_state.drag_offset, position)
+   if is_in_bounds then
+      ISLLog.debug( "User double clicked '%s'", self.skill.id)
+      SkillGraph:unlock_skill(self.skill.id)
+   end
 end
