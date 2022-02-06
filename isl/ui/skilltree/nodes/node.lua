@@ -44,7 +44,7 @@ function UISkillTreeNode:draw(skilltree_state)
       {0, 0},
       self.canvas:size()
    )
-   if not canvas_bounds:collides_bounds(self.bounds) then
+   if not canvas_bounds:collides_bounds(self.bounds:translate(skilltree_state.drag_offset)) then
       return
    end
 

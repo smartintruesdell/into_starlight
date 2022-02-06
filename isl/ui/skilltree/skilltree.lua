@@ -71,13 +71,13 @@ end
 
 function UISkillTree:handleMouseEvent(position, button, pressed)
    local canvas_relative_position = Point.new(self.canvas:mousePosition())
+   self.state.mouse.position = canvas_relative_position
 
    UIComponent.handleMouseEvent(
       self,
       position,
       button,
       pressed,
-      canvas_relative_position,
       self.state
    )
 end
@@ -89,13 +89,6 @@ function UISkillTree:handleMouseDrag()
    self.state.mouse.position = position
 
    local motion = position:translate(self.state.mouse.last_position:inverse())
-
-   ISLLog.debug(
-      "Dragging from %s to %s, new offset is %s",
-      self.state.mouse.last_position:toString(),
-      self.state.mouse.position:toString(),
-      self.state.drag_offset:translate(motion):toString()
-   )
 
    self.state.drag_offset = self.state.drag_offset:translate(motion)
 
