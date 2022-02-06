@@ -199,10 +199,19 @@ function ISLSkillGraph:reset_unlocked_skills()
 end
 
 function ISLSkillGraph:apply_skill_to_stats(skill_id)
+   ISLLog.debug(
+      "Applying stats from skill '%s'",
+      skill_id
+   )
    local skill = self.skills[skill_id]
    if not skill then return end
 
-   for stat_name, stat_value in pairs(skill.stats or {}) do
+   for stat_name, stat_value in pairs(skill.unlocks.stats or {}) do
+      ISLLog.debug(
+         "Applying +%d to %s",
+         stat_value,
+         stat_name
+      )
       self.stats:modify_stat(stat_name, stat_value)
    end
 end
