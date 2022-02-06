@@ -19,8 +19,6 @@ ISLStatEffects.effect_category_identifier = "isl_stat_based_effects"
 -- Constructor ----------------------------------------------------------------
 
 function ISLStatEffects:init(entity_id)
-   ISLLog.debug("ISLStatEffects Initializing...")
-
    self.entity_id = entity_id
    self.state = {}
 
@@ -31,7 +29,7 @@ end
 -- Methods --------------------------------------------------------------------
 
 function ISLStatEffects:update(dt)
-   ISLLog.debug("ISLStatEffects update")
+   --ISLLog.debug("ISLStatEffects update")
    if self:update_state(dt) then
       self:apply_stat_modifiers()
       self:apply_movement_modifiers()

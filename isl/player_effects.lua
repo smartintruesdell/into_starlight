@@ -13,7 +13,6 @@ local super_update = update or function () end
 local super_uninit = uninit or function () end
 
 function init()
-   ISLLog.debug("player_effects.lua:init()")
    super_init()
 end
 
