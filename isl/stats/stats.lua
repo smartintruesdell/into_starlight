@@ -88,3 +88,17 @@ function ISLPlayerStats:reset_stats()
 
    return self
 end
+
+function ISLPlayerStats.hard_reset(player)
+   Config = Config or root.assetJson("/isl/stats/stats.config")
+
+   for stat_name, stat_data in pairs(Config) do
+      local last = player.currency(stat_name)
+      local ds = last - stat_data.defaultValue
+      if ds > 0 then
+         player.consumeCurrency(stat_name, ds) -- reset to default
+      elseif ds < 0 then
+         player.addCurrency(stat_name, math.abs(ds))
+      end
+   end
+end
