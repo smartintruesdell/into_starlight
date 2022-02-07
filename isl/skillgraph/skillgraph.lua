@@ -60,13 +60,6 @@ function ISLSkillGraph.load(path)
    graph:load_modules(graph_config.skillModules.common)
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
-   -- Initialize unlocked skills
-   if LOG_LEVEL == LOG_LEVELS.DEBUG then
-      ISLLog.debug("Resetting ISL Progression")
-      graph:reset_unlocked_skills()
-      graph.stats:reset_stats()
-   end
-
    -- First, load any skills from the player property
    ISLLog.debug("Initializing Unlocked Skills - saved")
    graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
@@ -76,10 +69,6 @@ function ISLSkillGraph.load(path)
    -- Then, load "initialSkills" for the player's species
    ISLLog.debug("Initializing Unlocked Skills - %s", player.species())
    graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
-
-   -- Apply save_unlocked_skills here to commit stat updates and any changes
-   -- afforded by updates to initialSkills.*
-   graph:apply_to_player()
 
    -- Build available skills data
    ISLLog.info("Deriving Available Skills")

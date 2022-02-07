@@ -3,6 +3,7 @@
    sets up the components of IntoStarlight that impact Player stats/equipment/etc.
 ]]
 require("/isl/log.lua")
+require("/isl/skillgraph/skillgraph.lua")
 
 -- Script `init`, `update`, and `uninit` will REPLACE scripts loaded before
 -- ours. These `super_*` local variables save references to the scripts before
@@ -15,6 +16,16 @@ local super_uninit = uninit
 function init()
    super_init()
    ISLLog.info("Initializing IntoStarlight Player Features")
+   local graph = ISLSkillGraph.initialize()
+
+   -- Initialize unlocked skills
+   if LOG_LEVEL == LOG_LEVELS.DEBUG then
+      ISLLog.debug("Resetting ISL Progression")
+      graph:reset_unlocked_skills()
+      graph.stats:reset_stats()
+   end
+
+   graph:apply_to_player()
 end
 
 -- Player Update --------------------------------------------------------------
