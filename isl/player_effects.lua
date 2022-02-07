@@ -3,7 +3,6 @@
    sets up the components of IntoStarlight that impact Player stats/equipment/etc.
 ]]
 require("/isl/log.lua")
-require("/isl/skillgraph/skillgraph.lua")
 
 -- Script `init`, `update`, and `uninit` will REPLACE scripts loaded before
 -- ours. These `super_*` local variables save references to the scripts before

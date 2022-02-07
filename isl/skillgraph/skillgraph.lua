@@ -34,7 +34,7 @@ function ISLSkillGraph:init()
    self.available_skills = {}
    self.unlocked_skills = {}
    self.perks = {}
-   self.stats = ISLPlayerStats.new()
+   self.stats = ISLPlayerStats.new(player.id())
    self.stats:update(0)
 end
 

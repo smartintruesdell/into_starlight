@@ -4,9 +4,13 @@
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 
+-- Constants ------------------------------------------------------------------
+
+local Config = nil
+
 -- Class ----------------------------------------------------------------------
 
-ISLPlayerStats = ISLPlayerStats or createClass("Stats")
+ISLPlayerStats = ISLPlayerStats or createClass("ISLPlayerStats")
 
 function ISLPlayerStats:init(entity_id)
    self.entity_id = entity_id
@@ -14,9 +18,9 @@ function ISLPlayerStats:init(entity_id)
       self.entity_id = player.id()
    end
 
-   local data = root.assetJson("/isl/stats/stats.config")
+   Config = Config or root.assetJson("/isl/stats/stats.config")
 
-   for stat_name, stat_data in pairs(data) do
+   for stat_name, stat_data in pairs(Config) do
       -- save configuration from the json file
       self[stat_name] = stat_data
       self[stat_name].current = 0
@@ -24,28 +28,30 @@ function ISLPlayerStats:init(entity_id)
 end
 
 function ISLPlayerStats:set_stat(stat_name, new_value)
-   new_value = new_value or self[stat_name].defaultValue
-
-   self[stat_name].current = new_value
+   next = new_value
+   assert(next ~= nil, "Tried to set "..stat_name.." to nil")
+   self[stat_name].current = next
 
    return self
 end
 
 function ISLPlayerStats:modify_stat(stat_name, dv)
    dv = dv or 0
-   self[stat_name].current = (self[stat_name].current or 0) + dv
+   local next = (self[stat_name].current or 0) + dv
 
-   return self
+   return self:set_stat(stat_name, next)
 end
 
 function ISLPlayerStats:update(_dt)
    local changed = false
 
-   for stat_name, _ in pairs(self) do
-      local new_value = world.entityCurrency(self.entity_id, stat_name)
-      if self[stat_name].current ~= new_value then
+   for stat_name, _ in pairs(Config) do
+      local next = world.entityCurrency(self.entity_id, stat_name) or 0
+      assert(self[stat_name] ~= nil, "Found a nil stat "..stat_name)
+
+      if self[stat_name].current ~= next then
          changed = true
-         self[stat_name].current = new_value
+         self:set_stat(stat_name, next)
       end
    end
    return changed
@@ -56,9 +62,11 @@ function ISLPlayerStats:save()
       player ~= nil,
       "Tried to save stats in a context where the `player` object was unavailable"
    )
-   for stat_name, stat_data in pairs(self) do
+   for stat_name, _ in pairs(Config) do
       local last = player.currency(stat_name)
-      local ds = stat_data.current - last
+      assert(self[stat_name] ~= nil, "Found a nil stat "..stat_name)
+      assert(self[stat_name].current ~= nil, "Found a nil stat "..stat_name)
+      local ds = self[stat_name].current - last
       if ds > 0 then
          player.addCurrency(stat_name, ds)
       elseif ds < 0 then
@@ -74,7 +82,7 @@ function ISLPlayerStats:reset_stat(stat_name)
 end
 
 function ISLPlayerStats:reset_stats()
-   for stat_name, _ in pairs(self) do
+   for stat_name, _ in pairs(Config) do
       self:reset_stat(stat_name)
    end
 
