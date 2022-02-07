@@ -34,7 +34,8 @@ function ISLSkillGraph:init()
    self.available_skills = {}
    self.unlocked_skills = {}
    self.perks = {}
-   self.stats = ISLStats.new()
+   self.stats = ISLPlayerStats.new()
+   self.stats:update(0)
 end
 
 function ISLSkillGraph.initialize()
@@ -76,7 +77,7 @@ function ISLSkillGraph.load(path)
    graph:build_available_skills()
 
    ISLLog.debug(
-      "Loading the skill tree took %f seconds",
+      "Loading the SkillGraph took %f seconds",
       os.clock()-start_time
    )
    return graph
@@ -180,7 +181,7 @@ function ISLSkillGraph:apply_to_player()
    player.setProperty(SKILLS_PROPERTY_NAME, unlocked_skills)
 
    -- Apply derived stat updates
-   self.stats:save_to_player()
+   self.stats:save()
 
    return self;
 end
