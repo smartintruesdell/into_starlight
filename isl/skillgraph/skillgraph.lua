@@ -47,6 +47,7 @@ end
 
 -- ISLSkillGraph.load(path) -> error, ISLSkillGraph
 function ISLSkillGraph.load(path)
+   local start_time = os.clock()
    local graph = nil
    if not path then
       return ISLLog.error(err_msg.GRAPH_FILE_BAD_PATH), nil
@@ -74,6 +75,10 @@ function ISLSkillGraph.load(path)
    ISLLog.info("Deriving Available Skills")
    graph:build_available_skills()
 
+   ISLLog.debug(
+      "Loading the skill tree took %f seconds",
+      os.clock()-start_time
+   )
    return graph
 end
 
