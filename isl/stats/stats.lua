@@ -43,6 +43,8 @@ function ISLPlayerStats:update(_dt)
    if not player then
       ISLLog.debug("Tried to update stats before the `player` was ready")
       return false
+   else
+      ISLLog.debug("Updating stats")
    end
    for stat_name, _ in pairs(self) do
       local new_value = player.getProperty(stat_name)

@@ -54,9 +54,14 @@ function ISLStatEffects:update_state(dt)
 end
 
 function ISLStatEffects:apply_stat_modifiers()
-   local new_effects = {}
+   local new_effects_map = {}
 
-   table.insert(new_effects, { stat="powerMultiplier", amount=0.5 })
+   new_effects_map = self:apply_strength_stat_effects(new_effects_map)
+
+   local new_effects = {}
+   for _, effect in pairs(new_effects_map) do
+      table.insert(new_effects, effect)
+   end
 
    status.setPersistentEffects(
       ISLStatEffects.effect_category_identifier,
@@ -64,3 +69,30 @@ function ISLStatEffects:apply_stat_modifiers()
    )
 end
 function ISLStatEffects:apply_movement_modifiers() end
+
+function ISLStatEffects:apply_strength_stat_effects(effects_map)
+   effects_map = effects_map or {}
+
+   -- TODO: move this into a config
+   local two_handed_power_ratio = 0.01
+   local one_handed_power_ratio = 0.008
+   effects_map.powerMultiplier = effects_map.powerMultiplier or {
+      stat = "powerMultiplier",
+      amount = 0,
+      baseMultiplier = 1,
+      effectiveMultiplier = 1
+   }
+
+   if self.state.held_items.primary then
+      if self.state.held_items.primary.twoHanded then
+         effects_map.powerMultiplier.amount =
+            effects_map.powerMultiplier.amount +
+            self.state.stats.isl_strength.current * two_handed_power_ratio
+      else
+         effects_map.powerMultiplier.amount =
+            effects_map.powerMultiplier.amount +
+            self.state.stats.isl_strength.current * one_handed_power_ratio
+      end
+   end
+   return effects_map
+end
