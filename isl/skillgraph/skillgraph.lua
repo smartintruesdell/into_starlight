@@ -64,14 +64,14 @@ function ISLSkillGraph.load(path, is_debug)
 
    if not is_debug then
       -- First, load any skills from the player property
-      ISLLog.debug("Initializing Unlocked Skills - saved")
+--      ISLLog.debug("Initializing Unlocked Skills - saved")
       graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
    end
    -- Then, load common "initialSkills" from the graph config (usually just "start")
-   ISLLog.debug("Initializing Unlocked Skills - common")
+--   ISLLog.debug("Initializing Unlocked Skills - common")
    graph:load_unlocked_skills(graph_config.initialSkills.common)
    -- Then, load "initialSkills" for the player's species
-   ISLLog.debug("Initializing Unlocked Skills - %s", player.species())
+--   ISLLog.debug("Initializing Unlocked Skills - %s", player.species())
    graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
 
    -- Build available skills data
@@ -82,6 +82,7 @@ function ISLSkillGraph.load(path, is_debug)
       "Loading the SkillGraph took %f seconds",
       os.clock()-start_time
    )
+
    return graph
 end
 
@@ -140,7 +141,6 @@ function ISLSkillGraph:unlock_skill(skill_id, do_save, force)
 
    -- Guard against repeat-unlocks
    if can_unlock and not self.unlocked_skills[skill_id] then
-      ISLLog.debug("Player has unlocked '%s'", skill_id)
       self.unlocked_skills[skill_id] = true
 
       self:build_available_skills()
@@ -196,19 +196,10 @@ function ISLSkillGraph:reset_unlocked_skills()
 end
 
 function ISLSkillGraph:apply_skill_to_stats(skill_id)
-   ISLLog.debug(
-      "Applying stats from skill '%s'",
-      skill_id
-   )
    local skill = self.skills[skill_id]
    if not skill then return end
 
    for stat_name, stat_value in pairs(skill.unlocks.stats or {}) do
-      ISLLog.debug(
-         "Applying +%d to %s",
-         stat_value,
-         stat_name
-      )
       self.stats:modify_stat(stat_name, stat_value)
    end
 end

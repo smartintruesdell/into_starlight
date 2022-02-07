@@ -97,7 +97,6 @@ end
 function UISkillTreeNode:handleMouseDoubleClick(position, _, skilltree_state)
    local is_in_bounds = self:area_contains_position(skilltree_state.drag_offset, position)
    if is_in_bounds then
-      ISLLog.debug( "User double clicked '%s'", self.skill.id)
       SkillGraph:unlock_skill(self.skill.id, true --[[do_save]])
    end
 end

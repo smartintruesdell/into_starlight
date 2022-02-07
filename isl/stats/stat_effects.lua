@@ -63,8 +63,6 @@ function ISLStatEffects:apply_stat_modifiers()
       table.insert(new_effects, effect)
    end
 
-   ISLLog.debug("Assigning %d effects", #new_effects)
-
    status.setPersistentEffects(
       ISLStatEffects.effect_category_identifier,
       new_effects
@@ -81,8 +79,6 @@ function ISLStatEffects:apply_strength_stat_effects(effects_map)
    effects_map.powerMultiplier = effects_map.powerMultiplier or {
       stat = "powerMultiplier",
       amount = 0
-      -- baseMultiplier = 1,
-      -- effectiveMultiplier = 1
    }
 
    if self.state.held_items.primary then
@@ -90,12 +86,10 @@ function ISLStatEffects:apply_strength_stat_effects(effects_map)
          effects_map.powerMultiplier.amount =
             effects_map.powerMultiplier.amount +
             self.state.stats.isl_strength.current * two_handed_power_ratio
-         ISLLog.debug("Two Handed Bonus: +%f", effects_map.powerMultiplier.amount)
       else
          effects_map.powerMultiplier.amount =
             effects_map.powerMultiplier.amount +
             self.state.stats.isl_strength.current * one_handed_power_ratio
-         ISLLog.debug("One Handed Bonus: +%f", effects_map.powerMultiplier.amount)
       end
    end
    return effects_map
