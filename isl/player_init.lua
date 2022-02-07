@@ -16,14 +16,7 @@ local super_uninit = uninit
 function init()
    super_init()
    ISLLog.info("Initializing IntoStarlight Player Features")
-   local graph = ISLSkillGraph.initialize()
-
-   -- Initialize unlocked skills
-   if LOG_LEVEL == LOG_LEVELS.DEBUG then
-      ISLLog.debug("Resetting ISL Progression")
-      graph:reset_unlocked_skills()
-      graph.stats:reset_stats()
-   end
+   local graph = ISLSkillGraph.initialize(LOG_LEVEL == LOG_LEVELS.DEBUG)
 
    graph:apply_to_player()
 end

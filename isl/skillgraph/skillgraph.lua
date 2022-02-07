@@ -38,16 +38,16 @@ function ISLSkillGraph:init()
    self.stats:update(0)
 end
 
-function ISLSkillGraph.initialize()
+function ISLSkillGraph.initialize(is_debug)
    if not SkillGraph then
-      SkillGraph = ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.config")
+      SkillGraph = ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.config", is_debug)
    end
 
    return SkillGraph
 end
 
 -- ISLSkillGraph.load(path) -> error, ISLSkillGraph
-function ISLSkillGraph.load(path)
+function ISLSkillGraph.load(path, is_debug)
    local start_time = os.clock()
    local graph = nil
    if not path then
@@ -62,9 +62,11 @@ function ISLSkillGraph.load(path)
    graph:load_modules(graph_config.skillModules.common)
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
-   -- First, load any skills from the player property
-   ISLLog.debug("Initializing Unlocked Skills - saved")
-   graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
+   if not is_debug then
+      -- First, load any skills from the player property
+      ISLLog.debug("Initializing Unlocked Skills - saved")
+      graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
+   end
    -- Then, load common "initialSkills" from the graph config (usually just "start")
    ISLLog.debug("Initializing Unlocked Skills - common")
    graph:load_unlocked_skills(graph_config.initialSkills.common)
