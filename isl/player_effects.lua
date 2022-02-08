@@ -2,7 +2,7 @@
    This script is called when the player is spawned into the world, and
    sets up the components of IntoStarlight that impact Player stats/equipment/etc.
 ]]
-require("/isl/log.lua")
+require("/isl/lib/log.lua")
 
 -- Script `init`, `update`, and `uninit` will REPLACE scripts loaded before
 -- ours. These `super_*` local variables save references to the scripts before

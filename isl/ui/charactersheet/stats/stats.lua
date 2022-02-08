@@ -4,7 +4,7 @@
 
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
-require("/isl/log.lua")
+require("/isl/lib/log.lua")
 require("/isl/util.lua")
 require("/isl/strings.lua")
 require("/isl/lib/bounds.lua")

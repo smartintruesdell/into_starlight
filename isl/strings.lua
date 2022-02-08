@@ -1,7 +1,7 @@
 --[[
   Strings management for IntoStarlight
 ]]
-require("/isl/log.lua")
+require("/isl/lib/log.lua")
 -- Globals --------------------------------------------------------------------
 
 Strings = Strings or nil

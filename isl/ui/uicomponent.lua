@@ -3,7 +3,7 @@
 ]]
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
-require("/isl/log.lua")
+require("/isl/lib/log.lua")
 
 -- Constants ------------------------------------------------------------------
 

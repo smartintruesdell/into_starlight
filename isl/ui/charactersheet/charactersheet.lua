@@ -3,7 +3,7 @@
    Based in part on the Frackin' Universe researchTree
 ]]
 require("/scripts/questgen/util.lua")
-require("/isl/log.lua")
+require("/isl/lib/log.lua")
 require("/isl/lib/point.lua")
 require("/isl/strings.lua")
 require("/isl/skillgraph/skillgraph.lua")

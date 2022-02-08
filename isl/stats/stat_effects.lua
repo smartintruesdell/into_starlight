@@ -11,7 +11,7 @@
 ]]
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
-require("/isl/log.lua")
+require("/isl/lib/log.lua")
 require("/isl/held_items/held_items.lua")
 require("/isl/stats/stats.lua")
 
