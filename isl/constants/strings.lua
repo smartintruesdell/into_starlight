@@ -11,7 +11,7 @@ Strings = Strings or nil
 function Strings.init()
   ISLLog.debug("Initializing Strings")
   Strings = Strings or {}
-  strings_data = root.assetJson("/isl/strings.config")
+  strings_data = root.assetJson("/isl/constants/strings.config")
   Strings.locale = Strings.locale or 'en_US'
 
   for string_id, string_data in pairs(strings_data) do
