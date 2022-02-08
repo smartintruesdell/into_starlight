@@ -4,7 +4,7 @@
 ]]
 require("/scripts/questgen/util.lua")
 require("/isl/log.lua")
-require("/isl/point.lua")
+require("/isl/lib/point.lua")
 require("/isl/strings.lua")
 require("/isl/skillgraph/skillgraph.lua")
 require("/isl/ui/uicomponent.lua")

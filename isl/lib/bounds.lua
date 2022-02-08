@@ -3,7 +3,7 @@
    and layout
 ]]
 require("/scripts/questgen/util.lua")
-require("/isl/point.lua")
+require("/isl/lib/point.lua")
 
 --- Models a 2d bounding box
 Bounds = createClass("Bounds")

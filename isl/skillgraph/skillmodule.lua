@@ -10,7 +10,7 @@
    hassle.
 ]]
 require("/scripts/questgen/util.lua")
-require("/isl/point.lua")
+require("/isl/lib/point.lua")
 require("/isl/skillgraph/skill.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
 

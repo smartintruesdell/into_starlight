@@ -7,7 +7,7 @@
 ]]
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
-require("/isl/point.lua")
+require("/isl/lib/point.lua")
 
 -- Class ----------------------------------------------------------------------
 

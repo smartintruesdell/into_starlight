@@ -8,7 +8,7 @@
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/log.lua")
-require("/isl/point.lua")
+require("/isl/lib/point.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
 require("/isl/stats/stats.lua")
 require("/isl/util.lua")
