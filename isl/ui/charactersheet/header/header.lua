@@ -23,7 +23,7 @@ UICharacterSheetHeader = defineSubclass(UIComponent, "UICharacterSheetHeader")()
 -- Constructor ----------------------------------------------------------------
 
 function UICharacterSheetHeader:init(layout_id)
-   if not Strings.ready then Strings.init() end
+   if not Strings then Strings.init() end
    self.layout_id = layout_id
    self.children = {}
 

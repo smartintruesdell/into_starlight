@@ -21,7 +21,7 @@ UICharacterSheetStats = defineSubclass(UIComponent, "UICharacterSheetStats")()
 -- Constructor ----------------------------------------------------------------
 
 function UICharacterSheetStats:init(layout_id)
-   if not Strings.ready then Strings.init() end
+   if not Strings then Strings.init() end
 
    self.stats = ISLPlayerStats.new(player.id())
    self.stats:update(0)
