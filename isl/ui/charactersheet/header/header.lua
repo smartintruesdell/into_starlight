@@ -22,7 +22,7 @@ UICharacterSheetHeader = defineSubclass(UIComponent, "UICharacterSheetHeader")()
 -- Constructor ----------------------------------------------------------------
 
 function UICharacterSheetHeader:init(layout_id)
-   if not Strings then Strings.init() end
+   if not Strings then ISLStrings.initialize() end
    self.layout_id = layout_id
    self.children = {}
 
@@ -38,7 +38,7 @@ function UICharacterSheetHeader:draw()
    )
    widget.setText(
       self.layout_id..'.'..Widgets.Subtitle,
-      Strings.getString("charactersheet_subtitle")
+      Strings:getString("charactersheet_subtitle")
    )
 
    self:drawChildren()

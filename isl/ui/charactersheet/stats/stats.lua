@@ -20,7 +20,7 @@ UICharacterSheetStats = defineSubclass(UIComponent, "UICharacterSheetStats")()
 -- Constructor ----------------------------------------------------------------
 
 function UICharacterSheetStats:init(layout_id)
-   if not Strings then Strings.init() end
+   if not Strings then ISLStrings.initialize() end
 
    self.stats = ISLPlayerStats.new(player.id())
    self.stats:update(0)
@@ -85,7 +85,7 @@ function UICharacterSheetStats:createTooltip(mouse_position)
       for child_id, child in pairs(config.getParameter("gui."..self.layout_id..".children")) do
          if child.tooltipStringId then
             if widget.inMember(self.layout_id.."."..child_id, mouse_position) then
-               return Strings.getString(child.tooltipStringId)
+               return Strings:getString(child.tooltipStringId)
             end
          end
       end

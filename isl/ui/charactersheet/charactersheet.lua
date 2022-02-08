@@ -80,7 +80,7 @@ end
 function init()
    -- Initialize UI components
    if not SkillGraph then ISLSkillGraph.initialize() end
-   if not Strings then Strings.init() end
+   if not Strings then ISLStrings.initialize() end
 
    self.CharacterSheet = UICharacterSheet.new()
 
