@@ -6,7 +6,6 @@ local PATH = "/isl/ui/skilltree/nodes"
 
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
---require("/isl/util.lua")
 require(PATH.."/node.lua")
 
 local Assets = nil

@@ -172,3 +172,22 @@ function ISLUtil.IsArray(tbl)
    end
    return false
 end
+
+
+-- Returns just the keys of a table
+function ISLUtil.keys(tbl)
+   local res = {}
+   for key, _ in pairs(tbl) do
+      table.insert(res, key)
+   end
+   return res
+end
+
+-- Returns just the values of a table
+function ISLUtil.values(tbl)
+   local res = {}
+   for _, val in pairs(tbl) do
+      table.insert(res, val)
+   end
+   return res
+end

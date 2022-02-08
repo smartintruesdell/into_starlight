@@ -4,7 +4,6 @@
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/ui/uicomponent.lua")
-require("/isl/util.lua")
 
 local PATH = "/isl/ui/skilltree/background"
 local Assets = {}

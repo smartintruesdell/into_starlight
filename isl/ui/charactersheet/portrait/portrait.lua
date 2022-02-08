@@ -4,7 +4,6 @@
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
-require("/isl/util.lua")
 require("/isl/ui/uicomponent.lua")
 
 UIPortraitType = {}
@@ -40,10 +39,6 @@ function UIPortrait:draw()
    self.canvas:clear()
 
    local layers = world.entityPortrait(player.id(), self.portrait_type)
-
-   -- if self.is_debug then
-   --    ISLUtil.DeepPrintTable(layers)
-   -- end
 
    for _, layer in ipairs(layers) do
       local scale = 1
