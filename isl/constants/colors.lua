@@ -12,7 +12,7 @@ Colors = Colors or {}
 local color_data = nil
 
 function Colors.get_color(color_id)
-   if not color_data then color_data = root.assetJson("/isl/colors.config") end
+   if not color_data then color_data = root.assetJson("/isl/constants/colors.config") end
 
    local color_name = color_data.colorAlias[color_id]
 
