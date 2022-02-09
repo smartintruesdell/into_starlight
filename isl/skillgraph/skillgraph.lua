@@ -202,3 +202,11 @@ function ISLSkillGraph:apply_skill_to_stats(skill_id)
       self.stats:modify_stat(stat_name, stat_value)
    end
 end
+
+function ISLSkillGraph:get_stat_details(stat_id)
+  return {
+    from_species = 10,
+    from_skills = 0,
+    from_perks = 0
+  }
+end
