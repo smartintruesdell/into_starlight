@@ -1,0 +1,145 @@
+#+title:Plan Document
+ #+subtitle:Tasks and Feature planning
+#+author:Shawn Martin-Truesdell
+#+email:shawn@martin-truesdell.com
+
+* v1.1 Release
+
+This is our first release, and should be feature (if not content) complete.
+
+** Currencies
+
+*** DONE Basic stat currencies [11/11]
+
+We need to create currencies for the basic tracking numbers we use for the player.
+We'd use =player.stat= entries except that we don't have access to the =player= object in entity update events which is where we have to calculate and apply stat effects to get them to apply to the player.
+
+- [X] Strength
+- [X] Precision
+- [X] Wits
+- [X] Defense
+- [X] Evasion
+- [X] Energy
+- [X] Health
+- [X] Mobility
+- [X] Experience Motes
+- [X] Character Level
+- [X] Skill Points
+
+** SkillGraph
+
+*** STARTED Feat/skillgraph
+
+There is a data structure called the =ISLSkillGraph= that loads =ISLSkillModule= data from config and manages the bonus/perk/species nodes that the player can unlock.
+
+**** DONE There are skills on the skill graph in three flavors
+
+- [X] Bonus skills are created from simple stat-based templates and add stats. They are filler nodes.
+- [X] Perk skills are more significant, and represent something worth building TOWARDS.
+- [X] Species nodes are unique per species, and are the root/center of the Skill Graph providing species-specific buffs/stats to the player.
+
+**** DONE Skill Modules allow for easy construction of the SkillGraph
+
+Each module can have a discreet position/rotation value such that you can design the layout for a module
+in a single frame of reference and then when building the skill tree they can be repositioned.
+
+It's really hard to do the math to correctly position every node by hand, and this lets you draw a line and then pivot that line more organically.
+
+** UI
+
+*** STARTED Feat/charactersheet
+
+There is a character sheet UI that allows the player to track the total stats and any perks they've unlocked on the skill graph.
+
+**** DONE Display primary stats [6/6]
+
+- [X] Strength
+- [X] Precision
+- [X] Wits
+- [X] Defense
+- [X] Evasion
+- [X] Energy
+
+**** TODO Display secondary stats [/]
+
+- [ ] Health
+- [ ] Mobility
+- [ ] Crit Chance
+
+**** TODO Display Radar Chart
+
+Behind the player's portrait we want to show a proportional radar chart that shifts in composition and color as the player acquires more and more of a single stat.
+
+We'll probably want the differences on the chart to be logarithmic rather than linear because most players are going to end up going deep on one stat or the other, and I wouldn't want all players to have a dramatic V behind them every time.
+
+*** STARTED Feat/skilltree
+
+There is a canvas UI that allows the player to browse the skill graph, see the effects of nodes, and unlock those nodes for their character by spending skill points.
+
+**** TODO Add tooltips to skill tree nodes [0/2]
+
+***** TODO Add tooltip for bonus nodes that shows the stats affected and the bonuses applied
+
+***** TODO Add tooltip for Perk nodes that describes the perk
+
+**** TODO Revise =bonus= node graphcs to be (2^n)-1 scale (ie, to have a discreet center line)
+
+**** TODO Create =perk= node graphics and default icons
+
+** Stats and Stat Effects
+
+*** DONE Differentiate between melee/ranged/magical
+
+Conveniently, most* weapons have the =weapon= and =melee= or =ranged= tag on them already.
+
+Inconveniently, Starbound base assets staff/wand weapons do NOT have the =magical= tag on them.
+
+*** STARTED =Strength= Effects [2/3]
+
+**** DONE Strength improves powerMultiplier for 2h Melee Weapons
+
+**** DONE Strength improves powerMultiplier for 1h Melee Weapons
+
+**** TODO Strength improves shieldHealth for Shields
+
+*** DONE =Precision= Effects [2/2]
+
+**** DONE Precision improves powerMultiplier for 2h ranged weapons
+
+**** DONE Precision improves powerMultiplier for 1h ranged weapons
+
+*** TODO =Wits= Effects
+
+**** TODO Wits improves powerMultiplier for 2h magical weapons
+
+**** TODO Wits improves powerMultiplier for 1h magical weapons
+
+*** TODO =Defense= Effects
+
+**** TODO Defense adds to the player's Protection
+
+*** TODO =Evasion= Effects
+
+**** TODO Evasion reduces incoming damage (TBD)
+
+We want this to be a chance to avoid damage entirely (dodge) but we may have to settle for damage reduction against ranged/magical attacks.
+
+*** TODO =Energy= Effects
+
+**** TODO Energy increases the player's Max Energy
+
+*** TODO =Health= Effects
+
+**** TODO Health increases the player's Max Health
+
+*** TODO =Mobility= Effects
+
+**** TODO Mobility increases the player's movespeed and jumpheight
+
+** Items
+
+*** STARTED Experience Motes
+
+*** TODO Skill Reset Device
+
+* Backlog

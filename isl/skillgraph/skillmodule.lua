@@ -10,8 +10,8 @@
    hassle.
 ]]
 require("/scripts/questgen/util.lua")
-require("/isl/point.lua")
-require("/isl/skill/skill.lua")
+require("/isl/lib/point.lua")
+require("/isl/skillgraph/skill.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
 
 -- Class ----------------------------------------------------------------------
@@ -51,8 +51,8 @@ function ISLSkillModule:transform(dt, dr, ds)
    ds = ds or 1
 
    local updated_children = {}
-   for child_id, child in pairs(self.children) do
-      updated_children[child_id] = child.transform(dt, dr)
+   for child_id, child in pairs(self.children or {}) do
+      updated_children[child_id] = child:transform(dt, dr)
    end
 
    return ISLSkillModule.new(
@@ -83,7 +83,7 @@ function ISLSkillModule.load_from_path(path)
 
    for skill_id, skill_data in pairs(file_data.skills) do
       skill_data.id = skill_id
-      new_module.skills[skill_id] = ISLSkill.new(skill_data)
+      new_module.skills[skill_id] = ISLSkill.from_module(skill_data)
    end
 
    for child_id, binding in pairs(file_data.children) do

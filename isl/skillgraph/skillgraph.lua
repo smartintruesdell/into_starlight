@@ -7,11 +7,10 @@
 ]]
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
-require("/isl/log.lua")
-require("/isl/point.lua")
+require("/isl/lib/log.lua")
+require("/isl/lib/point.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
 require("/isl/stats/stats.lua")
-require("/isl/util.lua")
 
 -- Constants ------------------------------------------------------------------
 
@@ -20,6 +19,8 @@ err_msg.GRAPH_FILE_BAD_PATH = "Expected the path to a .skillgraph file"
 err_msg.MODULE_BINDING_BAD = "Bad module binding for '%s'"
 
 local SKILLS_PROPERTY_NAME = "isl_unlocked_skills"
+
+SkillGraph = SkillGraph or nil
 
 -- Class ----------------------------------------------------------------------
 
@@ -32,21 +33,21 @@ function ISLSkillGraph:init()
    self.available_skills = {}
    self.unlocked_skills = {}
    self.perks = {}
-   self.stats = ISLStats.new()
+   self.stats = ISLPlayerStats.new(player.id())
+   self.stats:update(0)
 end
 
-SkillGraph = SkillGraph or nil
-
-function ISLSkillGraph.initialize()
+function ISLSkillGraph.initialize(is_debug)
    if not SkillGraph then
-      SkillGraph = ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.config")
+      SkillGraph = ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.config", is_debug)
    end
 
    return SkillGraph
 end
 
 -- ISLSkillGraph.load(path) -> error, ISLSkillGraph
-function ISLSkillGraph.load(path)
+function ISLSkillGraph.load(path, is_debug)
+   local start_time = os.clock()
    local graph = nil
    if not path then
       return ISLLog.error(err_msg.GRAPH_FILE_BAD_PATH), nil
@@ -60,30 +61,26 @@ function ISLSkillGraph.load(path)
    graph:load_modules(graph_config.skillModules.common)
    graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
-   -- Initialize unlocked skills
-   if LOG_LEVEL == LOG_LEVELS.DEBUG then
-      ISLLog.debug("Resetting ISL Progression")
-      graph:reset_unlocked_skills()
-      graph.stats:reset_stats()
+   if not is_debug then
+      -- First, load any skills from the player property
+--      ISLLog.debug("Initializing Unlocked Skills - saved")
+      graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
    end
-
-   -- First, load any skills from the player property
-   ISLLog.debug("Initializing Unlocked Skills - saved")
-   graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
    -- Then, load common "initialSkills" from the graph config (usually just "start")
-   ISLLog.debug("Initializing Unlocked Skills - common")
+--   ISLLog.debug("Initializing Unlocked Skills - common")
    graph:load_unlocked_skills(graph_config.initialSkills.common)
    -- Then, load "initialSkills" for the player's species
-   ISLLog.debug("Initializing Unlocked Skills - %s", player.species())
+--   ISLLog.debug("Initializing Unlocked Skills - %s", player.species())
    graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
-
-   -- Apply save_unlocked_skills here to commit stat updates and any changes
-   -- afforded by updates to initialSkills.*
-   graph:apply_to_player()
 
    -- Build available skills data
    ISLLog.info("Deriving Available Skills")
    graph:build_available_skills()
+
+   ISLLog.debug(
+      "Loading the SkillGraph took %f seconds",
+      os.clock()-start_time
+   )
 
    return graph
 end
@@ -143,7 +140,6 @@ function ISLSkillGraph:unlock_skill(skill_id, do_save, force)
 
    -- Guard against repeat-unlocks
    if can_unlock and not self.unlocked_skills[skill_id] then
-      ISLLog.debug("Player has unlocked '%s'", skill_id)
       self.unlocked_skills[skill_id] = true
 
       self:build_available_skills()
@@ -186,7 +182,7 @@ function ISLSkillGraph:apply_to_player()
    player.setProperty(SKILLS_PROPERTY_NAME, unlocked_skills)
 
    -- Apply derived stat updates
-   self.stats:save_to_player()
+   self.stats:save()
 
    return self;
 end
@@ -202,7 +198,7 @@ function ISLSkillGraph:apply_skill_to_stats(skill_id)
    local skill = self.skills[skill_id]
    if not skill then return end
 
-   for stat_name, stat_value in pairs(skill.stats or {}) do
+   for stat_name, stat_value in pairs(skill.unlocks.stats or {}) do
       self.stats:modify_stat(stat_name, stat_value)
    end
 end

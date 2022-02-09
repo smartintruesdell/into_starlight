@@ -4,7 +4,8 @@
     "path": "/isl_experience_mote",
     "value": {
       "representativeItem": "isl_experience_mote",
-      "playerMax": 999999
+      "playerMax": 999999,
+      "sail_hidden": true
     }
   },
   {
@@ -12,7 +13,89 @@
     "path": "/isl_skill_point",
     "value": {
       "representativeItem": "isl_skill_point",
-      "playerMax": 999
+      "playerMax": 999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_character_level",
+    "value": {
+      "representativeItem": "isl_character_level",
+      "playerMax": 999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_strength",
+    "value": {
+      "representativeItem": "isl_strength_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_precision",
+    "value": {
+      "representativeItem": "isl_precision_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_wits",
+    "value": {
+      "representativeItem": "isl_wits_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_defense",
+    "value": {
+      "representativeItem": "isl_defense_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_evasion",
+    "value": {
+      "representativeItem": "isl_evasion_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_energy",
+    "value": {
+      "representativeItem": "isl_energy_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_health",
+    "value": {
+      "representativeItem": "isl_health_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_mobility",
+    "value": {
+      "representativeItem": "isl_mobility_point",
+      "playerMax": 9999,
+      "sail_hidden": true
     }
   }
 ]
