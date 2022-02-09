@@ -78,12 +78,10 @@ function ISLStatEffects:init(entity_id)
   -- Initialize effect controllers Each is a module with a static `get_effects`
   -- function so that we can compartmentalize our effects logic. Note that each
   -- controller will recieve the full state along with the config tree.
-  local load_time = os.clock()
   self.effect_configuration = {
     isl_strength = root.assetJson(PATH.."/strength_effects.config"),
     isl_precision = root.assetJson(PATH.."/precision_effects.config")
   }
-  ISLLog.debug("Loading stat config took %f seconds", os.clock()-load_time)
 end
 
 -- Update ---------------------------------------------------------------------
@@ -100,7 +98,6 @@ function ISLStatEffects:update(dt)
           tag_tree
         )
         if effect ~= nil then
-          ISLLog.debug(util.tableToString(effect))
           effects_map:concat({
             [modifier] = effect
           })
