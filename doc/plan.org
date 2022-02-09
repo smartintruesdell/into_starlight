@@ -51,6 +51,27 @@ It's really hard to do the math to correctly position every node by hand, and th
 
 There is a character sheet UI that allows the player to track the total stats and any perks they've unlocked on the skill graph.
 
+**** DONE Display primary stats [6/6]
+
+- [X] Strength
+- [X] Precision
+- [X] Wits
+- [X] Defense
+- [X] Evasion
+- [X] Energy
+
+**** TODO Display secondary stats [/]
+
+- [ ] Health
+- [ ] Mobility
+- [ ] Crit Chance
+
+**** TODO Display Radar Chart
+
+Behind the player's portrait we want to show a proportional radar chart that shifts in composition and color as the player acquires more and more of a single stat.
+
+We'll probably want the differences on the chart to be logarithmic rather than linear because most players are going to end up going deep on one stat or the other, and I wouldn't want all players to have a dramatic V behind them every time.
+
 *** STARTED Feat/skilltree
 
 There is a canvas UI that allows the player to browse the skill graph, see the effects of nodes, and unlock those nodes for their character by spending skill points.
@@ -67,7 +88,11 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 ** Stats and Stat Effects
 
-*** TODO Differentiate between melee/ranged/magical
+*** STARTED Differentiate between melee/ranged/magical
+
+Conveniently, most* weapons have the =weapon= and =melee= or =ranged= tag on them already.
+
+Inconveniently, Starbound base assets staff/wand weapons do NOT have the =magical= tag on them.
 
 *** TODO =Strength= Effects
 
