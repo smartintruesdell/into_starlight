@@ -7,6 +7,6 @@
   {
     "op": "add",
     "path": "/statusControllerSettings/primaryScriptSources/-",
-    "value": "/isl/player/player_effects.lua"
+    "value": "/isl/player/player_primary.lua"
   }
 ]

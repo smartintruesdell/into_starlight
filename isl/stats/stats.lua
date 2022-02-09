@@ -102,3 +102,7 @@ function ISLPlayerStats.hard_reset(player)
       end
    end
 end
+
+function ISLPlayerStats.get_evasion_dodge_chance(evasion)
+  return 35 * math.log(evasion * 0.025) + 0.2
+end
