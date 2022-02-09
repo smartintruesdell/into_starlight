@@ -191,3 +191,24 @@ function ISLUtil.values(tbl)
    end
    return res
 end
+
+-- Performs a functional reduction over a list
+function ISLUtil.reduce(reducer_fn, initial_value, list)
+  local acc = initial_value
+  for i, next in ipairs(list) do
+    acc = reducer_fn(acc, next, i, list)
+  end
+
+  return acc
+end
+
+-- Performs an functional mapping over a list
+function ISLUtil.map(map_fn, list)
+  local results = {}
+
+  for i, next in ipairs(list) do
+    table.insert(results, map_fn(next, i, list))
+  end
+
+  return results
+end

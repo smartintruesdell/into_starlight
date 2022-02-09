@@ -32,4 +32,5 @@ end
 function uninit()
    super_uninit()
    ISLLog.info("Cleaning up IntoStarlight Player Features")
+   status.removeEphemeralEffect("isl_main_effect")
 end

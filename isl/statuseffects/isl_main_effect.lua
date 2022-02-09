@@ -3,7 +3,7 @@
    mod are applied to their damage/health/etc.
 ]]
 require("/isl/stats/stats.lua")
-require("/isl/stats/stat_effects.lua")
+require("/isl/stat_effects/stat_effects.lua")
 
 function init()
    -- Change the status effect to only check for updates every 30 ticks, which

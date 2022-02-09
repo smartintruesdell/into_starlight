@@ -9,6 +9,54 @@ require("/isl/lib/string_set.lua")
 local PATH = "/isl/held_items"
 local TAG_CONFIG_PATH = PATH.."/item_tag_mappings.config"
 
+local TagConfig = nil
+
+-- Utility Functions ----------------------------------------------------------
+
+--- Given an item config, makes inferences about that item based on its existing
+--- properties and tags and then returns a new set of tags.
+---
+--- Mod authors are notoriously bad at the homogenous application of item tags.
+---
+--- derive_tags :: ItemConfig -> string[]
+local function derive_tags(item_config)
+  assert(item_config ~= nil, "`derive_tags` Received a nil item config")
+  assert(type(item_config) == "table", "`derive_tags` Recieved a non-table value")
+
+  TagConfig = TagConfig or root.assetJson(TAG_CONFIG_PATH)
+
+  -- Start from the list of `itemTags` on the item config provided.
+  local new_tags = StringSet.new(item_config.itemTags or {})
+
+  -- Get any inferred tags from the TagConfig data
+  for _, tag in ipairs(item_config.itemTags or {}) do
+    if TagConfig.byTag[tag] then
+      new_tags.add_many(TagConfig.byTag[tag])
+    end
+  end
+
+  -- Get any inferred category tags from the TagConfig data
+  if
+    item_config.category ~= nil and
+    TagConfig.byCategory[item_config.category]
+  then
+    new_tags.add_many(
+      TagConfig.byCategory[item_config.category]
+    )
+  end
+
+  if
+    item_config.level ~= nil and
+    TagConfig.byLevel[math.floor(item_config.level)]
+  then
+    new_tags.add_many(
+      TagConfig.byLevel[math.floor(item_config.level)]
+    )
+  end
+
+  return new_tags;
+end
+
 -- Class ----------------------------------------------------------------------
 
 ISLHeldItemsManager = createClass("ISLHeldItemDetails")
@@ -18,100 +66,82 @@ ISLHeldItemsManager = createClass("ISLHeldItemDetails")
 function ISLHeldItemsManager:init(entity_id)
   self.entity_id = entity_id
 
+  self._left = nil
+  self._right = nil
   self.primary = nil
   self.alt = nil
-  self.tags = {
-    primary = StringSet.new(),
-    alt = StringSet.new()
-  }
+  self.tags = StringSet.new()
 
   self:update()
 end
 
 -- Methods --------------------------------------------------------------------
+
 function ISLHeldItemsManager:update(--[[dt: number]])
+  -- read item data
   local changed = false
-  changed = self:update_held_item(
-    'primary',
-    world.entityHandItem(self.entity_id, "primary")
-  )
-  changed = self:update_held_item(
-    'alt',
-    world.entityHandItem(self.entity_id, "alt")
-  ) or changed
+  local new_left_id = world.entityHandItem(self.entity_id, "primary")
+  local new_right_id = world.entityHandItem(self.entity_id, "alt")
+
+  -- Check for changes
+  if new_left_id == nil and self._left ~= nil then
+    self._left = nil
+    changed = true
+  elseif
+    (not self._left and new_left_id) or
+    (new_left_id and self._left.itemName ~= new_left_id)
+  then
+    local status, item_data = pcall(root.itemConfig, new_left_id)
+    if status then
+      self._left = item_data.config
+      changed = true
+    end
+  end
+
+  if new_right_id == nil and self._right ~= nil then
+    self._right = nil
+    changed = true
+  elseif
+    (not self._right and new_right_id) or
+    (new_right_id and self._right.itemName ~= new_right_id)
+  then
+    local status, item_data = pcall(root.itemConfig, new_right_id)
+    if status then
+      self._right = item_data.config
+      changed = true
+    end
+  end
+
+  if changed then
+    -- When one or more items changed, determine new primary/alt item
+    local left_tags = (self._left and derive_tags(self._left)) or StringSet.new()
+    local right_tags = (self._right and derive_tags(self._right)) or StringSet.new()
+    local alt_tags = nil
+
+    if right_tags.contains("weapon") and not left_tags.contains("weapon") then
+      self.primary = self._right
+      self.alt = self._left
+      self.tags = right_tags
+      alt_tags = left_tags
+    else
+      self.primary = self._left
+      self.alt = self._right
+      self.tags = left_tags
+      alt_tags = right_tags
+    end
+
+    -- Perform some weapon super-categorization
+    if self.tags:contains("weapon") then
+      if alt_tags:contains("weapon") then
+        self.tags:add("dualWield")
+      elseif self.primary.twoHanded then
+        self.tags:add("twoHanded")
+      else
+        self.tags:add("oneHanded")
+      end
+    end
+  end
+
 
   return changed
-end
-
-function ISLHeldItemsManager:update_held_item(key, new_item_id)
-  -- IF we didn't have an item and we have one now
-  -- OR we did have an item and it does not match the one we have now
-  local should_replace_empty = not self[key] and new_item_id
-  local should_replace_existing = self[key] and self[key].itemName ~= new_item_id
-
-  if should_replace_empty or should_replace_existing then
-    ISLLog.debug("%s held item changed to '%s'", key, new_item_id)
-    if not new_item_id then
-      -- Handle changing to `nil`
-      self[key] = nil
-      self.tags[key] = {}
-    else
-      -- Handle changing to another item
-      local is_success, new_item_data = pcall(root.itemConfig, new_item_id)
-
-      if not is_success then
-        ISLLog.error(
-          "Failed to load itemConfig for '%s'",
-          new_item_id
-        )
-        return
-      end
-      self.changed = true
-      self[key] = new_item_data.config
-      self.tags[key] = ISLHeldItemsManager.derive_tags(new_item_data.config)
-    end
-  end
-end
-
---- Given an item config, makes inferences about that item based on its existing
---- properties and tags and then returns a new set of tags.
----
---- Mod authors are notoriously bad at the homogenous application of item tags.
----
---- derive_tags :: ItemConfig -> string[]
-function ISLHeldItemsManager.derive_tags(item_config)
-  assert(item_config ~= nil, "`derive_tags` Received a nil item config")
-
-  ISLHeldItemsManager.TagConfig = ISLHeldItemsManager.TagConfig or root.assetJson(TAG_CONFIG_PATH)
-
-  -- Start from the list of `itemTags` on the item config provided.
-  local new_tags = StringSet.new(item_config.itemTags or {})
-
-  -- Get any inferred tags from the TagConfig data
-  for _, tag in ipairs(item_config.itemTags or {}) do
-    if ISLHeldItemsManager.TagConfig.byTag[tag] then
-      new_tags.add_many(ISLHeldItemsManager.TagConfig.byTag[tag])
-    end
-  end
-
-  -- Get any inferred category tags from the TagConfig data
-  if
-    item_config.category ~= nil and
-    ISLHeldItemsManager.TagConfig.byCategory[item_config.category]
-  then
-    new_tags.add_many(
-      ISLHeldItemsManager.TagConfig.byCategory[item_config.category]
-    )
-  end
-
-  if
-    item_config.level ~= nil and
-    ISLHeldItemsManager.TagConfig.byLevel[math.floor(item_config.level)]
-  then
-    new_tags.add_many(
-      ISLHeldItemsManager.TagConfig.byLevel[math.floor(item_config.level)]
-    )
-  end
-
-  return new_tags;
 end

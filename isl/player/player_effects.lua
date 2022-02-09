@@ -25,7 +25,7 @@ function update(dt)
 
    -- Every Tick, we're going to make sure that the player has a live instance
    -- of the status effect that applies ISL stats to the player.
-   status.addEphemeralEffect("isl_stat_effects", math.huge)
+   status.addEphemeralEffect("isl_main_effect", math.huge)
 end
 
 function uninit()
