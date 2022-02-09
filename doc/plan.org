@@ -45,9 +45,28 @@ in a single frame of reference and then when building the skill tree they can be
 
 It's really hard to do the math to correctly position every node by hand, and this lets you draw a line and then pivot that line more organically.
 
+**** TODO Design the Skill Graph
+
+#+begin_src text
+
+                     2H Melee
+        DW Melee                  1H Melee (+shield)
+                     Strength
+
+
+  1H Ranged                      1H Magical
+                       CORE
+
+         Precision               Wits
+     2H Ranged                      2H Magical
+
+                 Sniper    Pets(?)
+#+end_src
+
+
 ** UI
 
-*** STARTED Feat/charactersheet
+*** STARTED Feat/charactersheet [1/3]
 
 There is a character sheet UI that allows the player to track the total stats and any perks they've unlocked on the skill graph.
 
@@ -118,11 +137,21 @@ Inconveniently, Starbound base assets staff/wand weapons do NOT have the =magica
 
 **** TODO Defense adds to the player's Protection
 
-*** TODO =Evasion= Effects
+We're absorbing FU's 0-200 Protection with diminishing returns instead of Vanilla's 0-100 linear scaling, which is a start. But we also want an intermediary "Defense" stat that adds to protection in smaller increments allowing for larger numbers (and for interaction with the default Protection from armor)
 
-**** TODO Evasion reduces incoming damage (TBD)
+We want to avoid the player's damage reduction going over 80%, for balance reasons.
 
-We want this to be a chance to avoid damage entirely (dodge) but we may have to settle for damage reduction against ranged/magical attacks.
+Note: Players can stack Defense and Evasion, so it's still possible to mitigate more damage by virtue of ignoring some hits and soaking the others.
+
+*** STARTED =Evasion= Effects
+
+**** DONE Evasion provides a dodge chance to the player on incoming damage
+
+When the player receives a damageRequest, we apply a % chance that the damage will be ignored.
+
+It's like a reverse crit.
+
+Note that because it reduces incoming damage by 100%, and we want to keep pace with Protection, we have to have pretty specific math to ensure that the player never has >80% damage reduction.
 
 *** TODO =Energy= Effects
 
