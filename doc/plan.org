@@ -88,25 +88,25 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 ** Stats and Stat Effects
 
-*** STARTED Differentiate between melee/ranged/magical
+*** DONE Differentiate between melee/ranged/magical
 
 Conveniently, most* weapons have the =weapon= and =melee= or =ranged= tag on them already.
 
 Inconveniently, Starbound base assets staff/wand weapons do NOT have the =magical= tag on them.
 
-*** TODO =Strength= Effects
+*** STARTED =Strength= Effects [2/3]
 
-**** TODO Strength improves powerMultiplier for 2h Melee Weapons
+**** DONE Strength improves powerMultiplier for 2h Melee Weapons
 
-**** TODO Strength improves powerMultiplier for 1h Melee Weapons
+**** DONE Strength improves powerMultiplier for 1h Melee Weapons
 
 **** TODO Strength improves shieldHealth for Shields
 
-*** TODO =Precision= Effects
+*** DONE =Precision= Effects [2/2]
 
-**** TODO Precision improves powerMultiplier for 2h ranged weapons
+**** DONE Precision improves powerMultiplier for 2h ranged weapons
 
-**** TODO Precision improves powerMultiplier for 1h ranged weapons
+**** DONE Precision improves powerMultiplier for 1h ranged weapons
 
 *** TODO =Wits= Effects
 
