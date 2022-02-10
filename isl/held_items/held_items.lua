@@ -59,29 +59,25 @@ end
 
 -- Class ----------------------------------------------------------------------
 
-ISLHeldItemsManager = createClass("ISLHeldItemDetails")
+ISLHeldItems = createClass("ISLHeldItemDetails")
 
 -- Constructor ----------------------------------------------------------------
 
-function ISLHeldItemsManager:init(entity_id)
-  self.entity_id = entity_id
-
+function ISLHeldItems:init()
   self._left = nil
   self._right = nil
   self.primary = nil
   self.alt = nil
   self.tags = StringSet.new()
-
-  self:update()
 end
 
 -- Methods --------------------------------------------------------------------
 
-function ISLHeldItemsManager:update(--[[dt: number]])
+function ISLHeldItems:read_from_entity(entity_id)
   -- read item data
   local changed = false
-  local new_left_id = world.entityHandItem(self.entity_id, "primary")
-  local new_right_id = world.entityHandItem(self.entity_id, "alt")
+  local new_left_id = world.entityHandItem(entity_id, "primary")
+  local new_right_id = world.entityHandItem(entity_id, "alt")
 
   -- Check for changes
   if new_left_id == nil and self._left ~= nil then
@@ -142,6 +138,5 @@ function ISLHeldItemsManager:update(--[[dt: number]])
     end
   end
 
-
-  return changed
+  return self, changed
 end
