@@ -43,6 +43,11 @@ function ISLSkillGraph.initialize()
   return SkillGraph
 end
 
+function ISLSkillGraph.revert()
+  SkillGraph = nil
+  return ISLSkillGraph.initialize()
+end
+
 -- ISLSkillGraph.load(path) -> error, ISLSkillGraph
 function ISLSkillGraph.load(path)
   local start_time = os.clock()

@@ -42,6 +42,11 @@ function closeButton()
    pane.dismiss()
 end
 
+function handle_revert_button()
+  ISLSkillGraph.revert()
+  self.CharacterSheet:update()
+end
+
 function no_op() end
 
 -- Init -----------------------------------------------------------------------
