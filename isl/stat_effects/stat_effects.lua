@@ -13,7 +13,7 @@ require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/held_items/held_items.lua")
-require("/isl/stats/stats.lua")
+require("/isl/player_stats/player_stats.lua")
 
 local PATH = "/isl/stat_effects"
 require(PATH.."/effects_map.lua")
@@ -72,8 +72,11 @@ function ISLStatEffects:init(entity_id)
 
   -- Initialize state managers
   self.state = {}
-  self.state.held_items = ISLHeldItemsManager.new(self.entity_id)
-  self.state.stats = ISLPlayerStats.new(self.entity_id)
+  local held_items, _ = ISLHeldItems.new():read_from_entity(entity_id)
+  self.state.held_items = held_items
+
+  local stats, _ = ISLPlayerStats.new():read_from_entity(entity_id)
+  self.state.stats = stats
 
   -- Initialize effect controllers Each is a module with a static `get_effects`
   -- function so that we can compartmentalize our effects logic. Note that each
@@ -86,14 +89,14 @@ end
 
 -- Update ---------------------------------------------------------------------
 
-function ISLStatEffects:update(dt)
-  if self:update_state(dt) then
+function ISLStatEffects:update(--[[dt: number]])
+  if self:update_state() then
     local effects_map = ISLEffectsMap.new()
 
     for stat, configuration in pairs(self.effect_configuration) do
       for modifier, tag_tree in pairs(configuration) do
         local effect = get_effect_from_tag_tree(
-          self.state.stats[stat].current,
+          self.state.stats[stat].amount,
           self.state.held_items.tags,
           tag_tree
         )
@@ -112,15 +115,14 @@ function ISLStatEffects:update(dt)
   end
 end
 
-function ISLStatEffects:update_state(dt)
-  local changed = false
-  for _, state_manager in pairs(self.state) do
-    if state_manager['update'] ~= nil then
-      changed = state_manager:update(dt) or changed
-    end
-  end
+function ISLStatEffects:update_state()
+  local stats_changed = false
+  self.state.stats, stats_changed = self.state.stats:read_from_entity(self.entity_id)
 
-  return changed
+  local items_changed = false
+  self.state.held_items, items_changed = self.state.held_items:read_from_entity(self.entity_id)
+
+  return stats_changed or items_changed
 end
 
 -- Methods --------------------------------------------------------------------

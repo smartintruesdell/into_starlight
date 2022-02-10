@@ -13,59 +13,14 @@ function ISLUtil.clamp(min, max, value) -- luacheck: ignore 142
    return math.max(min, math.min(value, max))
 end
 
---- Prints the contents of the given table to the SB log
-function ISLUtil.printTable(tbl)
-   if type(tbl) == "table" then
-      local str = "\n{"
-      for k, v in pairs(tbl) do
-         local lenFix = ""
-         for _ = 1, 30 - string.len(tostring(k)) do
-            lenFix = lenFix.." "
-         end
-
-         str = str.."\n  "..tostring(k)..lenFix.."=          ("..type(v)..") "..tostring(v)
-      end
-
-      sb.logInfo("\n%s", str.."\n}")
-   else
-      sb.logInfo("\n%s", tbl)
-   end
-end
-
---- Recursively applies ..PrintTable to `tbl` and its members
-function ISLUtil.deepPrintTable(tbl)
-   sb.logInfo("%s", ISLUtil._deepPrintTableHelper(tbl, 0))
-end
-
-function ISLUtil._deepPrintTableHelper(toPrint, level)
-   level = level or 0
-   local str = ""
-
-   if type(toPrint) == "table" then
-      for k, v in pairs(toPrint) do
-         for _ = 0, level do
-            str = str.."  "
-         end
-
-         local lenFix = ""
-         for _ = 1, 30 - string.len(tostring(k)) do
-            lenFix = lenFix.." "
-         end
-
-         str = str..tostring(k)..lenFix.."=          ("..type(v)..") "..tostring(v)
-
-         if type(v) == "table" then
-            str = str..ISLUtil._deepPrintTableHelper(v, level +1).."\n"
-         else
-            str = str.."\n"
-         end
-      end
-
-   else
-      str = tostring(toPrint)
-   end
-
-   return "\n"..str
+-- Rounds a floating point to a specified number of digits
+---@param n number A number to round
+---@param d integer A number of digits after the decimal to keep
+function ISLUtil.round_to_digits(d, n)
+  d = d or 1
+  n = n or 0
+  local shift = 10^d
+  return math.floor(n * shift) / shift
 end
 
 --- Turns a number between 0 and 255 into hex (0 = 00, 255 = FF)
@@ -80,7 +35,7 @@ end
 
 --- Turns a number between 0 and 1 into the hex equivalent.
 function ISLUtil.ValToHex(num)
-   return ISLUtil.RGBToHex(255 * math.clamp(num, 0, 1))
+   return ISLUtil.RGBToHex(255 * ISLUtil.clamp(num, 0, 1))
 end
 
 --- Turns a hex into a number between 0 and 255

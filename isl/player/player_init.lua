@@ -2,9 +2,10 @@
    This script is called when the player is spawned into the world, and
    sets up the components of IntoStarlight that impact Player stats/equipment/etc.
 ]]
+require("/scripts/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/skillgraph/skillgraph.lua")
-require("/isl/stats/stats.lua")
+require("/isl/player_stats/player_stats.lua")
 
 -- Script `init`, `update`, and `uninit` will REPLACE scripts loaded before
 -- ours. These `super_*` local variables save references to the scripts before
@@ -17,10 +18,9 @@ local super_uninit = uninit
 function init()
    super_init()
    ISLLog.info("Initializing IntoStarlight Player Features")
-   ISLPlayerStats.hard_reset(player);
-   local graph = ISLSkillGraph.initialize(LOG_LEVEL == LOG_LEVELS.DEBUG)
-
-   graph:apply_to_player()
+   ISLPlayerStats.hard_reset(player)
+   ISLSkillGraph.initialize():apply_to_player(player)
+   ISLPlayerStats.debug_player(player)
 end
 
 -- Player Update --------------------------------------------------------------

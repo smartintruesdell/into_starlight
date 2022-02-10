@@ -41,7 +41,7 @@ function ISLStrings:getString(string_id, default)
       return self[string_id].en_US or string_id
     end
   else
-    ISLLog.debug("Failed to find localizable string '%s'", string_id)
+    ISLLog.warn("Failed to find localizable string '%s'", string_id)
 
     return default
   end

@@ -36,6 +36,7 @@ function UIBonusNode:init(skill, canvas)
 
    -- Set the background based on the bonus type
    self.background = skill.background or Assets.background[skill.background_type]
+   assert(self.background ~= nil, "failed to find a background for "..skill.id)
 
    -- Set the icon based on the primary stat
    local primary_stat = self:get_primary_stat()

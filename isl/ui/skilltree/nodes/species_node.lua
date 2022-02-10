@@ -51,7 +51,7 @@ function UISpeciesNode:draw(skilltree_state)
       -- Now, if we're not using a customized graphic we're going to print
       -- the base Strength/Precision/Wits values onto the frame.
       local font_size = 7
-      local strength = self.skill.unlocks.stats.isl_strength or 0
+      local strength = self.skill.unlocks.stats.isl_strength.amount or 0
       self.canvas:drawText(
          "^shadow;^#ffd752;"..strength,
          {
@@ -62,7 +62,7 @@ function UISpeciesNode:draw(skilltree_state)
          font_size
       )
 
-      local precision = self.skill.unlocks.stats.isl_precision or 0
+      local precision = self.skill.unlocks.stats.isl_precision.amount or 0
       self.canvas:drawText(
          "^shadow;^#51b9ff;"..precision,
          {
@@ -73,7 +73,7 @@ function UISpeciesNode:draw(skilltree_state)
          font_size
       )
 
-      local wits = self.skill.unlocks.stats.isl_wits or 0
+      local wits = self.skill.unlocks.stats.isl_wits.amount or 0
       self.canvas:drawText(
          "^shadow;^#3fe8ae;"..wits,
          {
