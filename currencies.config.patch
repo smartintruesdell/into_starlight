@@ -37,9 +37,27 @@
   },
   {
     "op": "add",
+    "path": "/isl_strength_multiplier",
+    "value": {
+      "representativeItem": "isl_strength_multiplier_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
     "path": "/isl_precision",
     "value": {
       "representativeItem": "isl_precision_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_precision_multiplier",
+    "value": {
+      "representativeItem": "isl_precision_multiplier_point",
       "playerMax": 9999,
       "sail_hidden": true
     }
@@ -55,9 +73,27 @@
   },
   {
     "op": "add",
+    "path": "/isl_wits_multiplier",
+    "value": {
+      "representativeItem": "isl_wits_multiplier_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
     "path": "/isl_defense",
     "value": {
       "representativeItem": "isl_defense_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_defense_multiplier",
+    "value": {
+      "representativeItem": "isl_defense_multiplier_point",
       "playerMax": 9999,
       "sail_hidden": true
     }
@@ -73,9 +109,27 @@
   },
   {
     "op": "add",
+    "path": "/isl_evasion_multiplier",
+    "value": {
+      "representativeItem": "isl_evasion_multiplier_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
     "path": "/isl_energy",
     "value": {
       "representativeItem": "isl_energy_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_energy_multiplier",
+    "value": {
+      "representativeItem": "isl_energy_multiplier_point",
       "playerMax": 9999,
       "sail_hidden": true
     }
@@ -91,9 +145,27 @@
   },
   {
     "op": "add",
+    "path": "/isl_health_multiplier",
+    "value": {
+      "representativeItem": "isl_health_multiplier_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
     "path": "/isl_mobility",
     "value": {
       "representativeItem": "isl_mobility_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_mobility_multiplier",
+    "value": {
+      "representativeItem": "isl_mobility_multiplier_point",
       "playerMax": 9999,
       "sail_hidden": true
     }

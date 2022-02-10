@@ -93,7 +93,7 @@ function ISLStatEffects:update(dt)
     for stat, configuration in pairs(self.effect_configuration) do
       for modifier, tag_tree in pairs(configuration) do
         local effect = get_effect_from_tag_tree(
-          self.state.stats[stat].current,
+          self.state.stats[stat].amount,
           self.state.held_items.tags,
           tag_tree
         )
