@@ -32,7 +32,6 @@ function ISLSkillGraph:init()
   self.skills = {}
   self.available_skills = {}
   self.unlocked_skills = {}
-  self.perks = {}
   self.stats = ISLPlayerStats.new()
 end
 
@@ -187,18 +186,70 @@ function ISLSkillGraph:reset_unlocked_skills()
 end
 
 function ISLSkillGraph:apply_skill_to_stats(skill_id)
+  self._get_stat_details_cache = self._get_stat_details_cache or {}
   local skill = self.skills[skill_id]
   if not skill then return end
 
   for stat_name, stat_value in pairs(skill.unlocks.stats or {}) do
+    self._get_stat_details_cache[stat_name] = nil
     self.stats:modify_stat(stat_name, stat_value)
   end
 end
 
-function ISLSkillGraph:get_stat_details(stat_id)
-  return {
-    from_species = 10,
-    from_skills = 0,
-    from_perks = 0
+function ISLSkillGraph:get_stat_details(stat_name)
+  self._get_stat_details_cache = self._get_stat_details_cache or {}
+  if self._get_stat_details_cache[stat_name] then
+    return self._get_stat_details_cache[stat_name]
+  end
+
+  local total_amount = 0
+  local skill_diffs = {
+    from_skills = {
+      amount = 0,
+      multiplier = 0
+    },
+    from_perks = {
+      amount = 0,
+      multiplier = 0
+    },
+    from_species = {
+      amount = 0,
+      multiplier = 0
+    }
   }
+  for skill_id, _ in pairs(self.unlocked_skills) do
+    local skill_diff = self.skills[skill_id].unlocks.stats[stat_name]
+    if skill_diff ~= nil then
+      total_amount =
+        total_amount + self.skills[skill_id].unlocks.stats[stat_name].amount
+
+      if self.skills[skill_id].type == "species" then
+        skill_diffs.from_species.amount =
+          skill_diffs.from_species.amount + (skill_diff.amount or 0)
+        skill_diffs.from_species.multiplier =
+          skill_diffs.from_species.multiplier +
+          ((skill_diff.multiplier or 1) - 1)
+      elseif self.skills[skill_id].type == "perk" then
+        skill_diffs.from_perks.amount =
+          skill_diffs.from_perks.amount + (skill_diff.amount or 0)
+        skill_diffs.from_perks.multiplier =
+          skill_diffs.from_perks.multiplier +
+          ((skill_diff.multiplier or 1) - 1)
+      else
+        skill_diffs.from_skills.amount =
+          skill_diffs.from_skills.amount + (skill_diff.amount or 0)
+        skill_diffs.from_skills.multiplier =
+          skill_diffs.from_skills.multiplier +
+          ((skill_diff.multiplier or 1) - 1)
+      end
+    end
+  end
+
+  self._get_stat_details_cache[stat_name] = {
+    from_skills = skill_diffs.from_skills.amount + (skill_diffs.from_skills.multiplier * total_amount),
+    from_perks = skill_diffs.from_perks.amount + (skill_diffs.from_perks.multiplier * total_amount),
+    from_species = skill_diffs.from_species.amount + (skill_diffs.from_species.multiplier * total_amount)
+  }
+
+  return self._get_stat_details_cache[stat_name]
 end
