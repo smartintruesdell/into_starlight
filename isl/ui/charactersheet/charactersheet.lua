@@ -42,38 +42,7 @@ function closeButton()
    pane.dismiss()
 end
 
-function strengthButton()
-   --return self.CharacterSheet:handleWidgetClicked("strengthButton")
-end
-
-function precisionButton()
-   --return self.CharacterSheet:handleWidgetClicked("precisionButton")
-end
-
-function witsButton()
-   --return self.CharacterSheet:handleWidgetClicked("witsButton")
-end
-
-function healthButton()
-   --return self.CharacterSheet:handleWidgetClicked("healthButton")
-end
-
-function defenseButton()
-   --return self.CharacterSheet:handleWidgetClicked("defenseButton")
-end
-
-function evasionButton()
-   --return self.CharacterSheet:handleWidgetClicked("evasionButton")
-end
-
-function energyButton()
-   --return self.CharacterSheet:handleWidgetClicked("energyButton")
-end
-
-function mobilityButton()
-   --return self.CharacterSheet:handleWidgetClicked("mobilityButton")
-end
-
+function no_op() end
 
 -- Init -----------------------------------------------------------------------
 
