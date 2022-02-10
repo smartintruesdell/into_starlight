@@ -33,8 +33,7 @@ function ISLSkillGraph:init()
   self.available_skills = {}
   self.unlocked_skills = {}
   self.perks = {}
-  self.stats = ISLPlayerStats.new(player.id())
-  self.stats:update(0)
+  self.stats = ISLPlayerStats.new()
 end
 
 function ISLSkillGraph.initialize()
@@ -49,9 +48,7 @@ end
 function ISLSkillGraph.load(path)
   local start_time = os.clock()
   local graph = nil
-  if not path then
-    return ISLLog.error(err_msg.GRAPH_FILE_BAD_PATH), nil
-  end
+  assert(path ~= nil, err_msg.GRAPH_FILE_BAD_PATH)
 
   local graph_config = root.assetJson(path)
 
@@ -119,7 +116,7 @@ function ISLSkillGraph:load_unlocked_skills(data)
   data = data or {}
 
   for _, skill_id in ipairs(data) do
-    self:unlock_skill(skill_id, false, true)
+    self:unlock_skill(skill_id, true)
   end
 
   return self
@@ -129,7 +126,7 @@ local function player_has_skill_point_available()
   return player.isAdmin()
 end
 
-function ISLSkillGraph:unlock_skill(skill_id, do_save, force)
+function ISLSkillGraph:unlock_skill(skill_id, force)
   -- Guard against inappropriate unlocks
   local can_unlock = force or (SkillGraph.available_skills[skill_id] and player_has_skill_point_available())
 
@@ -141,10 +138,7 @@ function ISLSkillGraph:unlock_skill(skill_id, do_save, force)
     self:build_available_skills()
     -- TODO: Spend skill point
 
-    if do_save then
-      self:apply_skill_to_stats(skill_id)
-      self:apply_to_player()
-    end
+    self:apply_skill_to_stats(skill_id)
   end
 
   return self
@@ -168,7 +162,8 @@ function ISLSkillGraph:build_available_skills()
   return self
 end
 
-function ISLSkillGraph:apply_to_player()
+function ISLSkillGraph:apply_to_player(player)
+  assert(player ~= nil, "Tried to apply the skill graph while the player was nil")
   local unlocked_skills = {}
   for unlocked_skill_id, _ in pairs(self.unlocked_skills) do
     table.insert(unlocked_skills, unlocked_skill_id)
@@ -178,7 +173,8 @@ function ISLSkillGraph:apply_to_player()
   player.setProperty(SKILLS_PROPERTY_NAME, unlocked_skills)
 
   -- Apply derived stat updates
-  self.stats:save()
+  ISLLog.debug(util.tableToString(self.stats))
+  self.stats:apply_to_player(player)
 
   return self;
 end
@@ -187,7 +183,7 @@ function ISLSkillGraph:reset_unlocked_skills()
   player.setProperty(SKILLS_PROPERTY_NAME, { "start" })
   -- TODO: Refund skill points
 
-  return self:apply_to_player()
+  return self:apply_to_player(player)
 end
 
 function ISLSkillGraph:apply_skill_to_stats(skill_id)

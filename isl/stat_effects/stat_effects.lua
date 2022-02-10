@@ -72,10 +72,11 @@ function ISLStatEffects:init(entity_id)
 
   -- Initialize state managers
   self.state = {}
-  self.state.held_items, _ =
-    ISLHeldItems.new():read_from_entity(entity_id)
-  self.state.stats, _ =
-    ISLPlayerStats.new():read_from_entity(entity_id)
+  local held_items, _ = ISLHeldItems.new():read_from_entity(entity_id)
+  self.state.held_items = held_items
+
+  local stats, _ = ISLPlayerStats.new():read_from_entity(entity_id)
+  self.state.stats = stats
 
   -- Initialize effect controllers Each is a module with a static `get_effects`
   -- function so that we can compartmentalize our effects logic. Note that each
@@ -116,10 +117,10 @@ end
 
 function ISLStatEffects:update_state()
   local stats_changed = false
-  self.stats, stats_changed = self.stats:read_from_entity(self.entity_id)
+  self.state.stats, stats_changed = self.state.stats:read_from_entity(self.entity_id)
 
   local items_changed = false
-  self.held_items, items_changed = self.held_items:read_from_entity(self.entity_id)
+  self.state.held_items, items_changed = self.state.held_items:read_from_entity(self.entity_id)
 
   return stats_changed or items_changed
 end

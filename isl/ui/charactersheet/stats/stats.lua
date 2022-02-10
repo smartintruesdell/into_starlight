@@ -22,8 +22,6 @@ UICharacterSheetStats = defineSubclass(UIComponent, "UICharacterSheetStats")()
 function UICharacterSheetStats:init(layout_id)
   if not Strings then ISLStrings.initialize() end
 
-  self.stats = ISLPlayerStats.new():read_from_entity(player.id())
-
   self.layout_id = layout_id
   self:addChild("portrait", UIPortrait.new(layout_id..".portrait", "full"))
   self:addChild("portrait", UIPortrait.new(layout_id..".portrait", "full"))
