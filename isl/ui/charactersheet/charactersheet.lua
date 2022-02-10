@@ -44,7 +44,12 @@ end
 
 function handle_revert_button()
   ISLSkillGraph.revert()
-  self.CharacterSheet:update()
+  self.CharacterSheet:draw()
+end
+
+function handle_apply_button()
+  SkillGraph:apply_to_player(player)
+  self.CharacterSheet:draw()
 end
 
 function no_op() end
