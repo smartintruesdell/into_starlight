@@ -13,7 +13,7 @@ require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/held_items/held_items.lua")
-require("/isl/stats/stats.lua")
+require("/isl/player_stats/player_stats.lua")
 
 local PATH = "/isl/stat_effects"
 require(PATH.."/effects_map.lua")

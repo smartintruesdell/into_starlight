@@ -10,12 +10,12 @@ require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/lib/point.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
-require("/isl/stats/stats.lua")
+require("/isl/player_stats/player_stats.lua")
 
 -- Constants ------------------------------------------------------------------
 
 local err_msg = {}
-err_msg.GRAPH_FILE_BAD_PATH = "Expected the path to a .skillgraph file"
+err_msg.GRAPH_FILE_BAD_PATH = "Expected the path to a skillgraph file"
 err_msg.MODULE_BINDING_BAD = "Bad module binding for '%s'"
 
 local SKILLS_PROPERTY_NAME = "isl_unlocked_skills"
@@ -37,16 +37,16 @@ function ISLSkillGraph:init()
   self.stats:update(0)
 end
 
-function ISLSkillGraph.initialize(is_debug)
+function ISLSkillGraph.initialize()
   if not SkillGraph then
-    SkillGraph = ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.config", is_debug)
+    SkillGraph = ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.config")
   end
 
   return SkillGraph
 end
 
 -- ISLSkillGraph.load(path) -> error, ISLSkillGraph
-function ISLSkillGraph.load(path, is_debug)
+function ISLSkillGraph.load(path)
   local start_time = os.clock()
   local graph = nil
   if not path then
@@ -61,16 +61,11 @@ function ISLSkillGraph.load(path, is_debug)
   graph:load_modules(graph_config.skillModules.common)
   graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
-  if not is_debug then
-    -- First, load any skills from the player property
-    --      ISLLog.debug("Initializing Unlocked Skills - saved")
-    graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
-  end
+  -- First, load any skills from the player property
+  graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
   -- Then, load common "initialSkills" from the graph config (usually just "start")
-  --   ISLLog.debug("Initializing Unlocked Skills - common")
   graph:load_unlocked_skills(graph_config.initialSkills.common)
   -- Then, load "initialSkills" for the player's species
-  --   ISLLog.debug("Initializing Unlocked Skills - %s", player.species())
   graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
 
   -- Build available skills data
@@ -144,10 +139,10 @@ function ISLSkillGraph:unlock_skill(skill_id, do_save, force)
     self.unlocked_skills[skill_id] = true
 
     self:build_available_skills()
-    self:apply_skill_to_stats(skill_id)
     -- TODO: Spend skill point
 
     if do_save then
+      self:apply_skill_to_stats(skill_id)
       self:apply_to_player()
     end
   end
