@@ -17,7 +17,6 @@ require("/isl/player_stats/player_stats.lua")
 
 local PATH = "/isl/stat_effects"
 require(PATH.."/effects_map.lua")
-require(PATH.."/strength_effects.lua")
 
 -- Utility functions ----------------------------------------------------------
 
@@ -83,7 +82,8 @@ function ISLStatEffects:init(entity_id)
   -- controller will recieve the full state along with the config tree.
   self.effect_configuration = {
     isl_strength = root.assetJson(PATH.."/strength_effects.config"),
-    isl_precision = root.assetJson(PATH.."/precision_effects.config")
+    isl_precision = root.assetJson(PATH.."/precision_effects.config"),
+    isl_wits = root.assetJson(PATH.."/wits_effects.config")
   }
 end
 
@@ -121,6 +121,8 @@ function ISLStatEffects:update_state()
 
   local items_changed = false
   self.state.held_items, items_changed = self.state.held_items:read_from_entity(self.entity_id)
+
+  if items_changed then ISLLog.debug(util.tableToString(self.state.held_items)) end
 
   return stats_changed or items_changed
 end
