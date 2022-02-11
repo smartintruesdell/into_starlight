@@ -119,7 +119,11 @@ function UISkillTree:draw()
    self:draw_graph_lines()
 
    -- Draws the skill nodes
-   UIComponent.draw(self, self.state)
+   for _, child in pairs(self.children or {}) do
+      if child ~= nil and child["draw"] ~= nil then
+         child:draw(self.state)
+      end
+   end
 end
 
 function UISkillTree:draw_graph_lines()

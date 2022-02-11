@@ -183,11 +183,11 @@ function ISLSkillGraph:apply_to_player(player)
   return self;
 end
 
-function ISLSkillGraph:reset_unlocked_skills()
+function ISLSkillGraph.reset_unlocked_skills(player)
   player.setProperty(SKILLS_PROPERTY_NAME, { "start" })
   -- TODO: Refund skill points
 
-  return self:apply_to_player(player)
+  return ISLSkillGraph.revert()
 end
 
 function ISLSkillGraph:apply_skill_to_stats(skill_id)
@@ -202,6 +202,8 @@ function ISLSkillGraph:apply_skill_to_stats(skill_id)
 end
 
 function ISLSkillGraph:get_stat_details(stat_name)
+  assert(stat_name ~= nil, "Tried to retrieve stat details for `nil`")
+
   self._get_stat_details_cache = self._get_stat_details_cache or {}
   if self._get_stat_details_cache[stat_name] then
     return self._get_stat_details_cache[stat_name]
@@ -223,7 +225,11 @@ function ISLSkillGraph:get_stat_details(stat_name)
     }
   }
   for skill_id, _ in pairs(self.unlocked_skills) do
+    assert(self.skills ~= nil, "Skills was not initialized")
+    assert(self.skills[skill_id] ~= nil, "Had an unlocked skill that was not available")
+    assert(self.skills[skill_id].unlocks ~= nil, "Bad skill data")
     local skill_diff = self.skills[skill_id].unlocks.stats[stat_name]
+
     if skill_diff ~= nil then
       total_amount =
         total_amount + self.skills[skill_id].unlocks.stats[stat_name].amount
@@ -248,6 +254,7 @@ function ISLSkillGraph:get_stat_details(stat_name)
           ((skill_diff.multiplier or 1) - 1)
       end
     end
+    ::continue::
   end
 
   self._get_stat_details_cache[stat_name] = {
