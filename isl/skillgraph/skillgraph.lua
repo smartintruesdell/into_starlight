@@ -9,6 +9,7 @@ require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/lib/point.lua")
+require("/isl/lib/string_set.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
 require("/isl/player_stats/player_stats.lua")
 
@@ -30,8 +31,9 @@ ISLSkillGraph = createClass("ISLSkillGraph")
 function ISLSkillGraph:init()
   self.loaded_modules = {}
   self.skills = {}
-  self.available_skills = {}
-  self.unlocked_skills = {}
+  self.saved_skills = StringSet.new()
+  self.available_skills = StringSet.new()
+  self.unlocked_skills = StringSet.new()
   self.stats = ISLPlayerStats.new()
 end
 
@@ -63,7 +65,8 @@ function ISLSkillGraph.load(path)
   graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
 
   -- First, load any skills from the player property
-  graph:load_unlocked_skills(player.getProperty(SKILLS_PROPERTY_NAME) or {})
+  graph.saved_skills.add_many(player.getProperty(SKILLS_PROPERTY_NAME) or {})
+  graph:load_unlocked_skills(graph.saved_skills:to_Vec())
   -- Then, load common "initialSkills" from the graph config (usually just "start")
   graph:load_unlocked_skills(graph_config.initialSkills.common)
   -- Then, load "initialSkills" for the player's species
@@ -117,9 +120,7 @@ function ISLSkillGraph:load_modules(bindings)
 end
 
 function ISLSkillGraph:load_unlocked_skills(data)
-  data = data or {}
-
-  for _, skill_id in ipairs(data) do
+  for _, skill_id in ipairs(data or {}) do
     self:unlock_skill(skill_id, true)
   end
 
@@ -132,12 +133,15 @@ end
 
 function ISLSkillGraph:unlock_skill(skill_id, force)
   -- Guard against inappropriate unlocks
-  local can_unlock = force or (SkillGraph.available_skills[skill_id] and player_has_skill_point_available())
+  local skill_is_available = self.available_skills:contains(skill_id)
+  local skill_is_affordable = player_has_skill_point_available()
+  local can_unlock =
+    force or (skill_is_available and skill_is_affordable)
 
   -- Guard against repeat-unlocks
-  if can_unlock and not self.unlocked_skills[skill_id] then
-    ISLLog.debug("Unlocking skill '%s'", skill_id)
-    self.unlocked_skills[skill_id] = true
+  if can_unlock and not self.unlocked_skills:contains(skill_id) then
+    ISLLog.info("Unlocking skill '%s'", skill_id)
+    self.unlocked_skills:add(skill_id)
 
     self:build_available_skills()
     -- TODO: Spend skill point
@@ -151,13 +155,13 @@ end
 function ISLSkillGraph:build_available_skills()
   -- A Skill is available for unlocking if it is adjacent to an unlocked skill
   -- and it is not unlocked.
-  self.available_skills = {}
+  self.available_skills = StringSet.new()
 
   for skill_id, skill in pairs(self.skills) do
-    if self.unlocked_skills[skill_id] then
+    if self.unlocked_skills:contains(skill_id) then
       for _, child_skill_id in ipairs(skill.children) do
-        if not self.unlocked_skills[child_skill_id] then
-          self.available_skills[child_skill_id] = true
+        if not self.unlocked_skills:contains(child_skill_id) then
+          self.available_skills:add(child_skill_id)
         end
       end
     end
@@ -168,26 +172,22 @@ end
 
 function ISLSkillGraph:apply_to_player(player)
   assert(player ~= nil, "Tried to apply the skill graph while the player was nil")
-  local unlocked_skills = {}
-  for unlocked_skill_id, _ in pairs(self.unlocked_skills) do
-    table.insert(unlocked_skills, unlocked_skill_id)
-  end
 
   -- Save the player's unlocked skills as a property
-  player.setProperty(SKILLS_PROPERTY_NAME, unlocked_skills)
+  self.saved_skills = self.unlocked_skills:clone()
+  player.setProperty(SKILLS_PROPERTY_NAME, self.unlocked_skills:to_Vec())
 
   -- Apply derived stat updates
-  ISLLog.debug(util.tableToString(self.stats))
   self.stats:apply_to_player(player)
 
   return self;
 end
 
-function ISLSkillGraph:reset_unlocked_skills()
-  player.setProperty(SKILLS_PROPERTY_NAME, { "start" })
+function ISLSkillGraph.reset_unlocked_skills(player)
+  player.setProperty(SKILLS_PROPERTY_NAME, {})
   -- TODO: Refund skill points
 
-  return self:apply_to_player(player)
+  return ISLSkillGraph.revert()
 end
 
 function ISLSkillGraph:apply_skill_to_stats(skill_id)
@@ -202,6 +202,8 @@ function ISLSkillGraph:apply_skill_to_stats(skill_id)
 end
 
 function ISLSkillGraph:get_stat_details(stat_name)
+  assert(stat_name ~= nil, "Tried to retrieve stat details for `nil`")
+
   self._get_stat_details_cache = self._get_stat_details_cache or {}
   if self._get_stat_details_cache[stat_name] then
     return self._get_stat_details_cache[stat_name]
@@ -222,8 +224,14 @@ function ISLSkillGraph:get_stat_details(stat_name)
       multiplier = 0
     }
   }
-  for skill_id, _ in pairs(self.unlocked_skills) do
+  for _, skill_id in ipairs(self.unlocked_skills:to_Vec()) do
+    assert(self.skills ~= nil, "Skills was not initialized")
+    assert(self.skills[skill_id] ~= nil, "Had an unlocked skill that was not available")
+    assert(self.skills[skill_id].unlocks ~= nil, "Bad skill data")
+    if not self.skills[skill_id].unlocks.stats then goto continue end
+
     local skill_diff = self.skills[skill_id].unlocks.stats[stat_name]
+
     if skill_diff ~= nil then
       total_amount =
         total_amount + self.skills[skill_id].unlocks.stats[stat_name].amount
@@ -248,6 +256,7 @@ function ISLSkillGraph:get_stat_details(stat_name)
           ((skill_diff.multiplier or 1) - 1)
       end
     end
+    ::continue::
   end
 
   self._get_stat_details_cache[stat_name] = {

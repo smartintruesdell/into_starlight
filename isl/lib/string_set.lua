@@ -52,6 +52,10 @@ function StringSet:to_Vec()
   return res
 end
 
+function StringSet:clone()
+  return StringSet.new(self:to_Vec())
+end
+
 -- Predicates -----------------------------------------------------------------
 
 function StringSet:contains(value)

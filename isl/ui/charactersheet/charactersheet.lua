@@ -52,6 +52,12 @@ function handle_apply_button()
   self.CharacterSheet:draw()
 end
 
+function handle_respec_button()
+  ISLSkillGraph.reset_unlocked_skills(player)
+
+  self.CharacterSheet:draw()
+end
+
 function no_op() end
 
 -- Init -----------------------------------------------------------------------

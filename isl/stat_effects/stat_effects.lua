@@ -17,7 +17,6 @@ require("/isl/player_stats/player_stats.lua")
 
 local PATH = "/isl/stat_effects"
 require(PATH.."/effects_map.lua")
-require(PATH.."/strength_effects.lua")
 
 -- Utility functions ----------------------------------------------------------
 
@@ -29,6 +28,9 @@ local function get_effect_from_tag_tree(stat_value, tags, tag_tree)
 
   -- For each tag on the tree,
   for tag, child in pairs(tag_tree) do
+    -- Skip the '__always' entry, that's special.
+    if tag == "__always" then goto continue end
+
     -- If our held item has that tag,
     if tags:contains(tag) then
       -- If the subtree is a terminal amount/multiplier struct,
@@ -54,6 +56,7 @@ local function get_effect_from_tag_tree(stat_value, tags, tag_tree)
         if child_result ~= nil then return child_result end
       end
     end
+    ::continue::
   end
 
   return nil
@@ -83,7 +86,12 @@ function ISLStatEffects:init(entity_id)
   -- controller will recieve the full state along with the config tree.
   self.effect_configuration = {
     isl_strength = root.assetJson(PATH.."/strength_effects.config"),
-    isl_precision = root.assetJson(PATH.."/precision_effects.config")
+    isl_precision = root.assetJson(PATH.."/precision_effects.config"),
+    isl_wits = root.assetJson(PATH.."/wits_effects.config"),
+    isl_defense = root.assetJson(PATH.."/defense_effects.config"),
+    isl_focus = root.assetJson(PATH.."/focus_effects.config"),
+    isl_vigor = root.assetJson(PATH.."/vigor_effects.config"),
+    isl_mobility = root.assetJson(PATH.."/mobility_effects.config")
   }
 end
 
@@ -94,15 +102,38 @@ function ISLStatEffects:update(--[[dt: number]])
     local effects_map = ISLEffectsMap.new()
 
     for stat, configuration in pairs(self.effect_configuration) do
+      local stat_value =
+        self.state.stats[stat].amount * self.state.stats[stat].multiplier
+
       for modifier, tag_tree in pairs(configuration) do
         local effect = get_effect_from_tag_tree(
-          self.state.stats[stat].amount,
+          stat_value,
           self.state.held_items.tags,
           tag_tree
         )
         if effect ~= nil then
           effects_map:concat({
             [modifier] = effect
+          })
+        end
+
+        if tag_tree.__always ~= nil then
+          local always_effect = {}
+          if tag_tree.__always.amount then
+            always_effect.amount =
+              tag_tree.__always.amount * stat_value
+          end
+          if tag_tree.__always.baseMultiplier then
+            always_effect.baseMultiplier =
+              tag_tree.__always.baseMultiplier * stat_value
+          end
+          if tag_tree.__always.effectiveMultiplier then
+            always_effect.effectiveMultiplier =
+              tag_tree.__always.effectiveMultiplier * stat_value
+          end
+
+          effects_map:concat({
+            [modifier] = always_effect
           })
         end
       end

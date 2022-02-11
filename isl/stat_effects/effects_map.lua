@@ -4,6 +4,7 @@
 ]]
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
+require("/isl/lib/log.lua")
 
 -- Class ----------------------------------------------------------------------
 
@@ -24,25 +25,26 @@ end
 function ISLEffectsMap:spread()
   local results = {}
   for key, effect in pairs(self) do
-    if effect.amount then
+    if effect.amount ~= 0 then
       table.insert(
         results,
         { stat = key, amount = effect.amount }
       )
     end
-    if effect.baseMultiplier then
+    if effect.baseMultiplier ~= 1 then
       table.insert(
         results,
         { stat = key, baseMultiplier = effect.baseMultiplier }
       )
     end
-    if effect.effectiveMultiplier then
+    if effect.effectiveMultiplier ~= 1 then
       table.insert(
         results,
         { stat = key, effectiveMultiplier = effect.effectiveMultiplier }
       )
     end
   end
+
   return results
 end
 
@@ -57,10 +59,9 @@ function ISLEffectsMap:concat(other_map)
   for key, effect in pairs(other_map) do
     if not self[key] then self[key] = {} end
     self[key].amount = (self[key].amount or 0) + (effect.amount or 0)
-    self[key].baseMultiplier =
-      (self[key].baseMultiplier or 0) + (effect.baseMultiplier or 0)
+    self[key].baseMultiplier = (self[key].baseMultiplier or 1) + ((effect.baseMultiplier or 1) - 1)
     self[key].effectiveMultiplier =
-      (self[key].effectiveMultiplier or 0) + (effect.effectiveMultiplier or 0)
+      (self[key].effectiveMultiplier or 1) + ((effect.effectiveMultiplier or 1) - 1)
   end
 
   return self

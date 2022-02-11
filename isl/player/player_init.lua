@@ -20,7 +20,6 @@ function init()
    ISLLog.info("Initializing IntoStarlight Player Features")
    ISLPlayerStats.hard_reset(player)
    ISLSkillGraph.initialize():apply_to_player(player)
-   ISLPlayerStats.debug_player(player)
 end
 
 -- Player Update --------------------------------------------------------------

@@ -46,7 +46,9 @@ function UISkillTreeNode:draw(skilltree_state)
       {0, 0},
       self.canvas:size()
    )
-   if not canvas_bounds:collides_bounds(self.bounds:translate(skilltree_state.drag_offset)) then
+   if not canvas_bounds:collides_bounds(
+     self.bounds:translate(skilltree_state.drag_offset)
+   ) then
       return
    end
 
@@ -54,7 +56,7 @@ function UISkillTreeNode:draw(skilltree_state)
 
    -- Draw a skill-defined background or the default node background
    self.canvas:drawImage(
-      self:get_background_image(skilltree_state),
+      self:get_background_image(),
       target_position,
       1,
       DEFAULT_COLOR,
@@ -64,7 +66,7 @@ function UISkillTreeNode:draw(skilltree_state)
    -- Draw a skill-defined icon or the default node icon
    if self.icon then
       self.canvas:drawImage(
-         self:get_icon_image(skilltree_state),
+         self:get_icon_image(),
          target_position,
          1,
          DEFAULT_COLOR,
@@ -75,11 +77,11 @@ function UISkillTreeNode:draw(skilltree_state)
    UIComponent.draw(self, skilltree_state)
 end
 
-function UISkillTreeNode:get_background_image(_skilltree_state)
+function UISkillTreeNode:get_background_image()
    return self.background
 end
 
-function UISkillTreeNode:get_icon_image(_skilltree_state)
+function UISkillTreeNode:get_icon_image()
    return self.icon..(self.mask and "?addmask="..self.mask or "")
 end
 
@@ -97,6 +99,6 @@ end
 function UISkillTreeNode:handleMouseDoubleClick(position, _, skilltree_state)
    local is_in_bounds = self:area_contains_position(skilltree_state.drag_offset, position)
    if is_in_bounds then
-      SkillGraph:unlock_skill(self.skill.id, true)
+      SkillGraph:unlock_skill(self.skill.id)
    end
 end
