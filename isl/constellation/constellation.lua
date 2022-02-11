@@ -7,25 +7,25 @@ require("/isl/lib/log.lua")
 require("/isl/lib/point.lua")
 require("/isl/constants/strings.lua")
 require("/isl/skillgraph/skillgraph.lua")
-require("/isl/ui/uicomponent.lua")
-require("/isl/ui/skilltree/skilltree.lua")
-require("/isl/ui/charactersheet/header/header.lua")
-require("/isl/ui/charactersheet/stats/stats.lua")
+require("/isl/lib/uicomponent.lua")
+require("/isl/constellation/skilltree/skilltree.lua")
+require("/isl/constellation/header/header.lua")
+require("/isl/constellation/stats/stats.lua")
 
 -- Class --------------------------------------------------------------------
 
-UICharacterSheet = defineSubclass(UIComponent, "CharacterSheet")()
+UIConstellation = defineSubclass(UIComponent, "UIConstellation")()
 
 -- Constructor ----------------------------------------------------------------
 
-function UICharacterSheet:init()
+function UIConstellation:init()
    UIComponent.init(self) -- super()
 
    -- Info Panel Components
-   self:addChild("header", UICharacterSheetHeader.new("headerLayout"))
+   self:addChild("header", UIConstellationHeader.new("headerLayout"))
    self:addChild(
       "primaryStats",
-      UICharacterSheetStats.new("primaryStatsLayout")
+      UIConstellationStats.new("primaryStatsLayout")
    )
 
    -- Skill Tree Components
@@ -35,7 +35,7 @@ end
 -- Event Handlers -------------------------------------------------------------
 
 function handle_canvas_mouse_event(...)
-   self.CharacterSheet:handleMouseEvent(...)
+   self.Constellation:handleMouseEvent(...)
 end
 
 function closeButton()
@@ -44,18 +44,18 @@ end
 
 function handle_revert_button()
   ISLSkillGraph.revert()
-  self.CharacterSheet:draw()
+  self.Constellation:draw()
 end
 
 function handle_apply_button()
   SkillGraph:apply_to_player(player)
-  self.CharacterSheet:draw()
+  self.Constellation:draw()
 end
 
 function handle_respec_button()
   ISLSkillGraph.reset_unlocked_skills(player)
 
-  self.CharacterSheet:draw()
+  self.Constellation:draw()
 end
 
 function no_op() end
@@ -67,16 +67,16 @@ function init()
    if not SkillGraph then ISLSkillGraph.initialize() end
    if not Strings then ISLStrings.initialize() end
 
-   self.CharacterSheet = UICharacterSheet.new()
+   self.Constellation = UIConstellation.new()
 
    -- Draw
-   self.CharacterSheet:draw()
+   self.Constellation:draw()
 end
 
 function update(dt)
-   self.CharacterSheet:update(dt)
+   self.Constellation:update(dt)
 end
 
 function createTooltip(mouse_position)
-   return self.CharacterSheet:createTooltip(Point.new(mouse_position))
+   return self.Constellation:createTooltip(Point.new(mouse_position))
 end

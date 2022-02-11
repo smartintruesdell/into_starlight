@@ -2,7 +2,7 @@
   UIBonusNode extends UIComponent to provide types specific rendering
   instructions for Bonus nodes of the Skills graph
 ]]
-local PATH = "/isl/ui/skilltree/nodes"
+local PATH = "/isl/constellation/skilltree/nodes"
 
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")

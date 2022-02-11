@@ -4,7 +4,7 @@
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
-require("/isl/ui/uicomponent.lua")
+require("/isl/lib/uicomponent.lua")
 
 UIPortraitType = {}
 -- Just the head, no armor/clothing

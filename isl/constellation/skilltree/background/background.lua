@@ -3,9 +3,9 @@
 ]]
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
-require("/isl/ui/uicomponent.lua")
+require("/isl/lib/uicomponent.lua")
 
-local PATH = "/isl/ui/skilltree/background"
+local PATH = "/isl/constellation/skilltree/background"
 local Assets = {}
 Assets.grid_tile = PATH.."/assets/grid_tile.png"
 

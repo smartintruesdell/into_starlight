@@ -9,17 +9,17 @@ require("/isl/constants/strings.lua")
 require("/isl/lib/bounds.lua")
 require("/isl/skillgraph/skillgraph.lua")
 require("/isl/player_stats/player_stats.lua")
-require("/isl/ui/uicomponent.lua")
-require("/isl/ui/charactersheet/portrait/portrait.lua")
-require("/isl/ui/charactersheet/stats/stat_text.lua")
+require("/isl/lib/uicomponent.lua")
+require("/isl/constellation/portrait/portrait.lua")
+require("/isl/constellation/stats/stat_text.lua")
 
 -- Class ----------------------------------------------------------------------
 
-UICharacterSheetStats = defineSubclass(UIComponent, "UICharacterSheetStats")()
+UIConstellationStats = defineSubclass(UIComponent, "UIConstellationStats")()
 
 -- Constructor ----------------------------------------------------------------
 
-function UICharacterSheetStats:init(layout_id)
+function UIConstellationStats:init(layout_id)
   if not Strings then ISLStrings.initialize() end
 
   self.layout_id = layout_id
@@ -27,7 +27,7 @@ function UICharacterSheetStats:init(layout_id)
   self:addChild("portrait", UIPortrait.new(layout_id..".portrait", "full"))
   self:addChild(
     "isl_strength_text",
-    UICharacterSheetStatText.new(
+    UIConstellationStatText.new(
       "isl_strength",
       true,
       layout_id
@@ -35,7 +35,7 @@ function UICharacterSheetStats:init(layout_id)
   )
   self:addChild(
     "isl_precision_text",
-    UICharacterSheetStatText.new(
+    UIConstellationStatText.new(
       "isl_precision",
       true,
       layout_id
@@ -43,7 +43,7 @@ function UICharacterSheetStats:init(layout_id)
   )
   self:addChild(
     "isl_wits_text",
-    UICharacterSheetStatText.new(
+    UIConstellationStatText.new(
       "isl_wits",
       true,
       layout_id
@@ -51,7 +51,7 @@ function UICharacterSheetStats:init(layout_id)
   )
   self:addChild(
     "isl_defense_text",
-    UICharacterSheetStatText.new(
+    UIConstellationStatText.new(
       "isl_defense",
       false,
       layout_id
@@ -59,7 +59,7 @@ function UICharacterSheetStats:init(layout_id)
   )
   self:addChild(
     "isl_evasion_text",
-    UICharacterSheetStatText.new(
+    UIConstellationStatText.new(
       "isl_evasion",
       false,
       layout_id
@@ -67,7 +67,7 @@ function UICharacterSheetStats:init(layout_id)
   )
   self:addChild(
     "isl_focus_text",
-    UICharacterSheetStatText.new(
+    UIConstellationStatText.new(
       "isl_focus",
       false,
       layout_id
@@ -75,7 +75,7 @@ function UICharacterSheetStats:init(layout_id)
   )
 end
 
-function UICharacterSheetStats:createTooltip(mouse_position)
+function UIConstellationStats:createTooltip(mouse_position)
   if (widget.inMember(self.layout_id, mouse_position)) then
     for child_id, child in pairs(
       config.getParameter("gui."..self.layout_id..".children")
