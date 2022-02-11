@@ -1,13 +1,13 @@
 [
   {
     "op": "add",
-    "path": "/items/isl:charactersheet",
+    "path": "/items/isl:constellation",
     "value": {
-      "label": "Character Sheet",
+      "label": "Constellation",
       "icon": "/objects/isl_experience_mote/isl_experience_mote.png",
       "action": [
         "pane",
-        "/isl/ui/charactersheet/charactersheet.config"
+        "/isl/constellation/constellation.config"
       ]
     }
   }

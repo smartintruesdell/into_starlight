@@ -1,16 +1,16 @@
 --[[
-  Rendering code for drawing the Skill Graph in the CharacterSheet UI
+  Rendering code for drawing the Skill Graph in the Constellation UI
 ]]
 require("/scripts/questgen/util.lua")
-require("/isl/ui/uicomponent.lua")
+require("/isl/lib/uicomponent.lua")
 require("/isl/constants/colors.lua")
 require("/isl/lib/point.lua")
 require("/isl/lib/bounds.lua")
 require("/isl/skillgraph/skillgraph.lua")
-require("/isl/ui/skilltree/background/background.lua")
-require("/isl/ui/skilltree/nodes/bonus_node.lua")
-require("/isl/ui/skilltree/nodes/perk_node.lua")
-require("/isl/ui/skilltree/nodes/species_node.lua")
+require("/isl/constellation/skilltree/background/background.lua")
+require("/isl/constellation/skilltree/nodes/bonus_node.lua")
+require("/isl/constellation/skilltree/nodes/perk_node.lua")
+require("/isl/constellation/skilltree/nodes/species_node.lua")
 
 -- Class ----------------------------------------------------------------------
 

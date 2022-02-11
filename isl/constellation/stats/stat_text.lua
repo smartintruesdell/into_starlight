@@ -6,15 +6,15 @@ require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/lib/point.lua")
 require("/isl/skillgraph/skillgraph.lua")
-require("/isl/ui/uicomponent.lua")
+require("/isl/lib/uicomponent.lua")
 
 -- Class ----------------------------------------------------------------------
 
-UICharacterSheetStatText = defineSubclass(UIComponent, "UICharacterSheetStatText")()
+UIConstellationStatText = defineSubclass(UIComponent, "UIConstellationStatText")()
 
 -- Constructor ----------------------------------------------------------------
 
-function UICharacterSheetStatText:init(stat_name, is_right_aligned, layout_prefix)
+function UIConstellationStatText:init(stat_name, is_right_aligned, layout_prefix)
   UIComponent.init(self) -- super()
 
   self.stat_name = stat_name
@@ -22,7 +22,7 @@ function UICharacterSheetStatText:init(stat_name, is_right_aligned, layout_prefi
   self.layout_prefix = layout_prefix or ""
 end
 
-function UICharacterSheetStatText:draw()
+function UIConstellationStatText:draw()
   UIComponent.draw(self)
 
   local long_widget_path = self.layout_prefix.."."..self.stat_name
@@ -48,7 +48,7 @@ function UICharacterSheetStatText:draw()
   )
 end
 
-function UICharacterSheetStatText:update(dt)
+function UIConstellationStatText:update(dt)
   UIComponent.update(self, dt)
   self:draw()
 end

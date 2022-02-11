@@ -6,8 +6,8 @@ require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/constants/strings.lua")
-require("/isl/ui/uicomponent.lua")
-require("/isl/ui/charactersheet/portrait/portrait.lua")
+require("/isl/lib/uicomponent.lua")
+require("/isl/constellation/portrait/portrait.lua")
 
 -- Constants ------------------------------------------------------------------
 local Widgets = {}
@@ -17,11 +17,11 @@ Widgets.Portrait = "portrait"
 
 -- Class ----------------------------------------------------------------------
 
-UICharacterSheetHeader = defineSubclass(UIComponent, "UICharacterSheetHeader")()
+UIConstellationHeader = defineSubclass(UIComponent, "UIConstellationHeader")()
 
 -- Constructor ----------------------------------------------------------------
 
-function UICharacterSheetHeader:init(layout_id)
+function UIConstellationHeader:init(layout_id)
    if not Strings then ISLStrings.initialize() end
    self.layout_id = layout_id
    self.children = {}
@@ -31,14 +31,14 @@ end
 
 -- Methods --------------------------------------------------------------------
 
-function UICharacterSheetHeader:draw()
+function UIConstellationHeader:draw()
    widget.setText(
       self.layout_id..'.'..Widgets.PlayerName,
       "^shadow;"..world.entityName(player.id())
    )
    widget.setText(
       self.layout_id..'.'..Widgets.Subtitle,
-      Strings:getString("charactersheet_subtitle")
+      Strings:getString("constellation_subtitle")
    )
 
    self:drawChildren()

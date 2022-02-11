@@ -66,7 +66,7 @@ It's really hard to do the math to correctly position every node by hand, and th
 
 ** UI
 
-*** STARTED Feat/charactersheet [1/3]
+*** STARTED Feat/constellation [1/3]
 
 There is a character sheet UI that allows the player to track the total stats and any perks they've unlocked on the skill graph.
 
@@ -79,6 +79,9 @@ Instead, we're going to call it the player's Constellation. As in
 #+begin_quote
 Hey bro, what Constellation are you running for this character?
 #+end_quote
+
+Just feels more space-y.
+One of the things that rubbed me the wrong way about RPG Growth was that it was too "Fantasy" in my Sci-Fi.
 
 **** DONE Display primary stats [6/6]
 
@@ -117,6 +120,10 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 **** TODO Disable Revert/Apply when the state is not dirty
 
 **** TODO Disable Respec when the user is not admin / does not have a respec scroll
+
+**** TODO Add some perks
+
+Right now Perks are an idea and not a reality. The Species and Bonus nodes work great, but we're not seeing any effect from perks.
 
 ** DONE Stats and Stat Effects
 
@@ -180,13 +187,33 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
 
 **** DONE Mobility increases the player's movespeed and jumpheight
 
+** TODO Leveling Up
+
+*** TODO Killing (most) monsters drops experience
+
+*** TODO Killing boss monsters drops LOTs of experience
+
+*** TODO Farming plants drops experience
+
+*** TODO Collecting enough experience levels you up
+
+*** TODO Leveling Up is Exciting
+
+*** TODO Leveling Up gets you skill points
+
 ** Items
 
-*** STARTED Experience Motes
+*** DONE Experience Motes
+
+I've made a graphic for this but it might need more attention.
 
 *** TODO Skill Reset Device
 
+I really like the idea that beating the Ruin (the first time) and Ancient Guardians drops Respec scrolls so you can respec easily after you beat the game.
+
 *** TODO Constellation tool (Sextant) for users w/o StardustLib?
+
+Most (all?) mods that utilize the Stardust Quickbar also offer a craftable inventory item that lets you access that UI directly. This is true of RPG Growth's mysterious book and FU's Tricorder.
 
 * Backlog
 
