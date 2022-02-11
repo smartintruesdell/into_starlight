@@ -1,33 +1,79 @@
 {
   "frameGrid": {
     "size": [
-      24,
-      24
+      25,
+      25
     ],
     "dimensions": [
-      3,
-      4
+      4,
+      11
     ],
     "names": [
       [
-        "default:unavailable",
-        "default:available",
-        "default:unlocked"
-      ],
-      [
         "melee:unavailable",
         "melee:available",
-        "melee:unlocked"
+        "melee:saved",
+        "melee:new"
+      ],
+      [
+        "melee+health:unavailable",
+        "melee+health:available",
+        "melee+health:saved",
+        "melee+health:new"
+      ],
+      [
+        "melee+utility:unavailable",
+        "melee+utility:available",
+        "melee+utility:saved",
+        "melee+utility:new"
       ],
       [
         "ranged:unavailable",
         "ranged:available",
-        "ranged:unlocked"
+        "ranged:saved",
+        "ranged:new"
+      ],
+      [
+        "ranged+health:unavailable",
+        "ranged+health:available",
+        "ranged+health:saved",
+        "ranged+health:new"
+      ],
+      [
+        "ranged+utility:unavailable",
+        "ranged+utility:available",
+        "ranged+utility:saved",
+        "ranged+utility:new"
       ],
       [
         "magical:unavailable",
         "magical:available",
-        "magical:unlocked"
+        "magical:saved",
+        "magical:new"
+      ],
+      [
+        "magical+health:unavailable",
+        "magical+health:available",
+        "magical+health:saved",
+        "magical+health:new"
+      ],
+      [
+        "magical+utility:unavailable",
+        "magical+utility:available",
+        "magical+utility:saved",
+        "magical+utility:new"
+      ],
+      [
+        "utility:unavailable",
+        "utility:available",
+        "utility:saved",
+        "utility:new"
+      ],
+      [
+        "utility+health:unavailable",
+        "utility+health:available",
+        "utility+health:saved",
+        "utility+health:new"
       ]
     ]
   }
