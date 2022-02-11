@@ -70,6 +70,16 @@ It's really hard to do the math to correctly position every node by hand, and th
 
 There is a character sheet UI that allows the player to track the total stats and any perks they've unlocked on the skill graph.
 
+**** TODO Rename to "Constellation"
+
+The player already has a "Character Sheet" of sorts in the form of their inventory, so calling ours the character sheet is both not especially flavorful and likelty confuse people.
+
+Instead, we're going to call it the player's Constellation. As in
+
+#+begin_quote
+Hey bro, what Constellation are you running for this character?
+#+end_quote
+
 **** DONE Display primary stats [6/6]
 
 - [X] Strength
@@ -84,12 +94,7 @@ There is a character sheet UI that allows the player to track the total stats an
 - [ ] Health
 - [ ] Mobility
 - [ ] Crit Chance
-
-**** TODO Display Radar Chart
-
-Behind the player's portrait we want to show a proportional radar chart that shifts in composition and color as the player acquires more and more of a single stat.
-
-We'll probably want the differences on the chart to be logarithmic rather than linear because most players are going to end up going deep on one stat or the other, and I wouldn't want all players to have a dramatic V behind them every time.
+- [ ] Fourth Thing
 
 *** STARTED Feat/skilltree
 
@@ -101,9 +106,17 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 ***** TODO Add tooltip for Perk nodes that describes the perk
 
-**** TODO Revise =bonus= node graphcs to be (2^n)-1 scale (ie, to have a discreet center line)
+**** DONE Revise =bonus= node graphcs to be (2^n)-1 scale (ie, to have a discreet center line)
 
 **** TODO Create =perk= node graphics and default icons
+
+**** DONE Add working state REVERT / APPLY to enable skill shopping
+
+**** DONE Add RESPEC button to allow the user to reset their skills
+
+**** TODO Disable Revert/Apply when the state is not dirty
+
+**** TODO Disable Respec when the user is not admin / does not have a respec scroll
 
 ** Stats and Stat Effects
 
@@ -113,27 +126,27 @@ Conveniently, most* weapons have the =weapon= and =melee= or =ranged= tag on the
 
 Inconveniently, Starbound base assets staff/wand weapons do NOT have the =magical= tag on them.
 
-*** STARTED =Strength= Effects [2/3]
+*** STARTED =Strength= [2/3]
 
 **** DONE Strength improves powerMultiplier for 2h Melee Weapons
 
 **** DONE Strength improves powerMultiplier for 1h Melee Weapons
 
-**** TODO Strength improves shieldHealth for Shields
+**** TODO Strength improves shieldHealth, shieldBash(?) for Shields
 
-*** DONE =Precision= Effects [2/2]
+*** DONE =Precision= [2/2]
 
 **** DONE Precision improves powerMultiplier for 2h ranged weapons
 
 **** DONE Precision improves powerMultiplier for 1h ranged weapons
 
-*** TODO =Wits= Effects
+*** DONE =Wits= [2/2]
 
-**** TODO Wits improves powerMultiplier for 2h magical weapons
+**** DONE Wits improves powerMultiplier for 2h magical weapons
 
-**** TODO Wits improves powerMultiplier for 1h magical weapons
+**** DONE Wits improves powerMultiplier for 1h magical weapons
 
-*** TODO =Defense= Effects
+*** TODO =Defense=
 
 **** TODO Defense adds to the player's Protection
 
@@ -143,7 +156,7 @@ We want to avoid the player's damage reduction going over 80%, for balance reaso
 
 Note: Players can stack Defense and Evasion, so it's still possible to mitigate more damage by virtue of ignoring some hits and soaking the others.
 
-*** STARTED =Evasion= Effects
+*** DONE =Evasion=
 
 **** DONE Evasion provides a dodge chance to the player on incoming damage
 
@@ -153,15 +166,17 @@ It's like a reverse crit.
 
 Note that because it reduces incoming damage by 100%, and we want to keep pace with Protection, we have to have pretty specific math to ensure that the player never has >80% damage reduction.
 
-*** TODO =Energy= Effects
+*** TODO =Focus=
 
-**** TODO Energy increases the player's Max Energy
+**** DONE Rename =isl_energy= to Focus
+**** TODO Focus increases the player's Max Energy
 
-*** TODO =Health= Effects
+*** TODO =Vigor=
 
-**** TODO Health increases the player's Max Health
+**** TODO Rename =isl_health= to Vigor
+**** TODO Vigor increases the player's Max Health
 
-*** TODO =Mobility= Effects
+*** TODO =Mobility=
 
 **** TODO Mobility increases the player's movespeed and jumpheight
 
@@ -171,4 +186,20 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
 
 *** TODO Skill Reset Device
 
+*** TODO Constellation tool (Sextant) for users w/o StardustLib?
+
 * Backlog
+
+** UI
+
+*** Character Sheet
+
+**** WAITING Display Radar Chart
+:LOGBOOK:
+- State "WAITING"    from "TODO"       [2022-02-11 Fri 12:18] \\
+  Moving this to the backlog, it's not a required feature
+:END:
+
+Behind the player's portrait we want to show a proportional radar chart that shifts in composition and color as the player acquires more and more of a single stat.
+
+We'll probably want the differences on the chart to be logarithmic rather than linear because most players are going to end up going deep on one stat or the other, and I wouldn't want all players to have a dramatic V behind them every time.

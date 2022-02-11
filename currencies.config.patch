@@ -118,18 +118,18 @@
   },
   {
     "op": "add",
-    "path": "/isl_energy",
+    "path": "/isl_focus",
     "value": {
-      "representativeItem": "isl_energy_point",
+      "representativeItem": "isl_focus_point",
       "playerMax": 9999,
       "sail_hidden": true
     }
   },
   {
     "op": "add",
-    "path": "/isl_energy_multiplier",
+    "path": "/isl_focus_multiplier",
     "value": {
-      "representativeItem": "isl_energy_multiplier_point",
+      "representativeItem": "isl_focus_multiplier_point",
       "playerMax": 9999,
       "sail_hidden": true
     }

@@ -66,9 +66,9 @@ function UICharacterSheetStats:init(layout_id)
     )
   )
   self:addChild(
-    "isl_energy_text",
+    "isl_focus_text",
     UICharacterSheetStatText.new(
-      "isl_energy",
+      "isl_focus",
       false,
       layout_id
     )
@@ -114,8 +114,8 @@ function UICharacterSheetStats:createTooltip(mouse_position)
             stat = "isl_evasion",
             color = Colors.get_color("ranged")
           },
-          energyButton = {
-            stat = "isl_energy",
+          focusButton = {
+            stat = "isl_focus",
             color = Colors.get_color("magical")
           }
         }
