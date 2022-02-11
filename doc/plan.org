@@ -162,18 +162,16 @@ Note: Players can stack Defense and Evasion, so it's still possible to mitigate 
 
 When the player receives a damageRequest, we apply a % chance that the damage will be ignored.
 
-It's like a reverse crit.
-
 Note that because it reduces incoming damage by 100%, and we want to keep pace with Protection, we have to have pretty specific math to ensure that the player never has >80% damage reduction.
 
-*** TODO =Focus=
+*** STARTED =Focus=
 
 **** DONE Rename =isl_energy= to Focus
 **** TODO Focus increases the player's Max Energy
 
-*** TODO =Vigor=
+*** STARTED =Vigor=
 
-**** TODO Rename =isl_health= to Vigor
+**** DONE Rename =isl_health= to Vigor
 **** TODO Vigor increases the player's Max Health
 
 *** TODO =Mobility=

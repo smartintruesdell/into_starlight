@@ -16,10 +16,10 @@
         "melee:new"
       ],
       [
-        "melee+health:unavailable",
-        "melee+health:available",
-        "melee+health:saved",
-        "melee+health:new"
+        "melee+vigor:unavailable",
+        "melee+vigor:available",
+        "melee+vigor:saved",
+        "melee+vigor:new"
       ],
       [
         "melee+utility:unavailable",
@@ -34,10 +34,10 @@
         "ranged:new"
       ],
       [
-        "ranged+health:unavailable",
-        "ranged+health:available",
-        "ranged+health:saved",
-        "ranged+health:new"
+        "ranged+vigor:unavailable",
+        "ranged+vigor:available",
+        "ranged+vigor:saved",
+        "ranged+vigor:new"
       ],
       [
         "ranged+utility:unavailable",
@@ -52,10 +52,10 @@
         "magical:new"
       ],
       [
-        "magical+health:unavailable",
-        "magical+health:available",
-        "magical+health:saved",
-        "magical+health:new"
+        "magical+vigor:unavailable",
+        "magical+vigor:available",
+        "magical+vigor:saved",
+        "magical+vigor:new"
       ],
       [
         "magical+utility:unavailable",
@@ -70,10 +70,10 @@
         "utility:new"
       ],
       [
-        "utility+health:unavailable",
-        "utility+health:available",
-        "utility+health:saved",
-        "utility+health:new"
+        "utility+vigor:unavailable",
+        "utility+vigor:available",
+        "utility+vigor:saved",
+        "utility+vigor:new"
       ]
     ]
   }

@@ -136,18 +136,18 @@
   },
   {
     "op": "add",
-    "path": "/isl_health",
+    "path": "/isl_vigor",
     "value": {
-      "representativeItem": "isl_health_point",
+      "representativeItem": "isl_vigor_point",
       "playerMax": 9999,
       "sail_hidden": true
     }
   },
   {
     "op": "add",
-    "path": "/isl_health_multiplier",
+    "path": "/isl_vigor_multiplier",
     "value": {
-      "representativeItem": "isl_health_multiplier_point",
+      "representativeItem": "isl_vigor_multiplier_point",
       "playerMax": 9999,
       "sail_hidden": true
     }
