@@ -103,9 +103,12 @@ function ISLStatEffects:update(--[[dt: number]])
     ISLLog.debug(util.tableToString(self.state.stats))
 
     for stat, configuration in pairs(self.effect_configuration) do
+      local stat_value =
+        self.state.stats[stat].amount * self.state.stats[stat].multiplier
+
       for modifier, tag_tree in pairs(configuration) do
         local effect = get_effect_from_tag_tree(
-          self.state.stats[stat].amount,
+          stat_value,
           self.state.held_items.tags,
           tag_tree
         )
@@ -116,8 +119,22 @@ function ISLStatEffects:update(--[[dt: number]])
         end
 
         if tag_tree.__always ~= nil then
+          local always_effect = {}
+          if tag_tree.__always.amount then
+            always_effect.amount =
+              tag_tree.__always.amount * stat_value
+          end
+          if tag_tree.__always.baseMultiplier then
+            always_effect.baseMultiplier =
+              tag_tree.__always.baseMultiplier * stat_value
+          end
+          if tag_tree.__always.effectiveMultiplier then
+            always_effect.effectiveMultiplier =
+              tag_tree.__always.effectiveMultiplier * stat_value
+          end
+
           effects_map:concat({
-            [modifier] = tag_tree.__always
+            [modifier] = always_effect
           })
         end
       end
