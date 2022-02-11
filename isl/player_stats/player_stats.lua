@@ -38,10 +38,6 @@ function ISLPlayerStats.get_evasion_dodge_chance(evasion)
   return 35 * math.log(evasion * 0.025) + 0.2
 end
 
-function ISLPlayerStats.debug_player(player)
-  ISLLog.debug(util.tableToString(ISLPlayerStats.new():read_from_player(player)))
-end
-
 -- Methods --------------------------------------------------------------------
 
 ---@param stat_name string The stat to update
