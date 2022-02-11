@@ -28,6 +28,9 @@ local function get_effect_from_tag_tree(stat_value, tags, tag_tree)
 
   -- For each tag on the tree,
   for tag, child in pairs(tag_tree) do
+    -- Skip the '__always' entry, that's special.
+    if tag == "__always" then goto continue end
+
     -- If our held item has that tag,
     if tags:contains(tag) then
       -- If the subtree is a terminal amount/multiplier struct,
@@ -53,6 +56,7 @@ local function get_effect_from_tag_tree(stat_value, tags, tag_tree)
         if child_result ~= nil then return child_result end
       end
     end
+    ::continue::
   end
 
   return nil
@@ -83,7 +87,10 @@ function ISLStatEffects:init(entity_id)
   self.effect_configuration = {
     isl_strength = root.assetJson(PATH.."/strength_effects.config"),
     isl_precision = root.assetJson(PATH.."/precision_effects.config"),
-    isl_wits = root.assetJson(PATH.."/wits_effects.config")
+    isl_wits = root.assetJson(PATH.."/wits_effects.config"),
+    isl_defense = root.assetJson(PATH.."/defense_effects.config"),
+    isl_focus = root.assetJson(PATH.."/focus_effects.config"),
+    isl_vigor = root.assetJson(PATH.."/vigor_effects.config")
   }
 end
 
@@ -92,6 +99,8 @@ end
 function ISLStatEffects:update(--[[dt: number]])
   if self:update_state() then
     local effects_map = ISLEffectsMap.new()
+
+    ISLLog.debug(util.tableToString(self.state.stats))
 
     for stat, configuration in pairs(self.effect_configuration) do
       for modifier, tag_tree in pairs(configuration) do
@@ -103,6 +112,12 @@ function ISLStatEffects:update(--[[dt: number]])
         if effect ~= nil then
           effects_map:concat({
             [modifier] = effect
+          })
+        end
+
+        if tag_tree.__always ~= nil then
+          effects_map:concat({
+            [modifier] = tag_tree.__always
           })
         end
       end
