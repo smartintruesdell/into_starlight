@@ -34,7 +34,8 @@ function ISLPlayerStats.hard_reset(player)
 end
 
 -- TODO: Make this an instance method, this is silly.
-function ISLPlayerStats.get_evasion_dodge_chance(evasion)
+function ISLPlayerStats:get_evasion_dodge_chance()
+  local evasion = (self.isl_evasion.amount or 0) * (self.isl_evasion.multiplier or 1)
   return 35 * math.log(evasion * 0.025) + 0.2
 end
 

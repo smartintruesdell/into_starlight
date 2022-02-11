@@ -40,15 +40,20 @@ end
 ---
 --- Called on the Player when something tries to damage them.
 function applyDamageRequest(damageRequest)
+  local player_stats = ISLPlayerStats.new():read_from_entity(entity.id())
+
   -- Evasion provides a chance to DODGE attacks made against the player
   -- (it's a small chance with diminishing returns)
-  local evasion = world.entityCurrency(entity.id(), "isl_evasion")
-  if evasion > 0 then
-    if math.random(100)<= ISLPlayerStats.get_evasion_dodge_chance(evasion) then
-      -- TODO: Better particle emitter
-      animator.burstParticleEmitter("outOfEnergy")
-      return {}
-    end
+  local dodge_chance = player_stats:get_evasion_dodge_chance()
+  -- DEBUG: SET DODGE_CHANCE REALLY HIGH
+  dodge_chance = 50
+  -- END DEBUG
+  if dodge_chance > 0 and math.random(100)<= dodge_chance then
+    -- DEBUG: SET HEALTH TO FULL SO WE CAN KEEP DODGING
+    status.setResourcePercentage("health", 1.0)
+    -- END DEBUG
+    status.addEphemeralEffect("isl_dodge") -- "Dodge!" particle
+    return {}
   end
 
   -- When we're done modifying the incoming damage request, we
