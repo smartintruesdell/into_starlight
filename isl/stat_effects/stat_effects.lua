@@ -122,8 +122,6 @@ function ISLStatEffects:update_state()
   local items_changed = false
   self.state.held_items, items_changed = self.state.held_items:read_from_entity(self.entity_id)
 
-  if items_changed then ISLLog.debug(util.tableToString(self.state.held_items)) end
-
   return stats_changed or items_changed
 end
 

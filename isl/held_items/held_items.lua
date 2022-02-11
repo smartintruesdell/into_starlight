@@ -3,6 +3,7 @@
 ]]
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
+require("/isl/lib/log.lua")
 require("/isl/lib/string_set.lua")
 
 -- Constants ------------------------------------------------------------------
@@ -30,8 +31,8 @@ local function derive_tags(item_config)
 
   -- Get any inferred tags from the TagConfig data
   for _, tag in ipairs(item_config.itemTags or {}) do
-    if TagConfig.byTag[tag] then
-      new_tags.add_many(TagConfig.byTag[tag])
+    if TagConfig.byTag[tag] ~= nil then
+      new_tags:add_many(TagConfig.byTag[tag])
     end
   end
 
@@ -40,7 +41,7 @@ local function derive_tags(item_config)
     item_config.category ~= nil and
     TagConfig.byCategory[item_config.category]
   then
-    new_tags.add_many(
+    new_tags:add_many(
       TagConfig.byCategory[item_config.category]
     )
   end
@@ -49,7 +50,7 @@ local function derive_tags(item_config)
     item_config.level ~= nil and
     TagConfig.byLevel[math.floor(item_config.level)]
   then
-    new_tags.add_many(
+    new_tags:add_many(
       TagConfig.byLevel[math.floor(item_config.level)]
     )
   end
