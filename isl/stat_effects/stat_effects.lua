@@ -90,7 +90,8 @@ function ISLStatEffects:init(entity_id)
     isl_wits = root.assetJson(PATH.."/wits_effects.config"),
     isl_defense = root.assetJson(PATH.."/defense_effects.config"),
     isl_focus = root.assetJson(PATH.."/focus_effects.config"),
-    isl_vigor = root.assetJson(PATH.."/vigor_effects.config")
+    isl_vigor = root.assetJson(PATH.."/vigor_effects.config"),
+    isl_mobility = root.assetJson(PATH.."/mobility_effects.config")
   }
 end
 

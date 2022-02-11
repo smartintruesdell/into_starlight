@@ -87,13 +87,13 @@ Hey bro, what Constellation are you running for this character?
 - [X] Wits
 - [X] Defense
 - [X] Evasion
-- [X] Energy
+- [X] Focus
 
 **** TODO Display secondary stats [/]
 
-- [ ] Health
+- [ ] Vigor
 - [ ] Mobility
-- [ ] Crit Chance
+- [ ] Crit Chance?
 - [ ] Fourth Thing
 
 *** STARTED Feat/skilltree
@@ -118,7 +118,7 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 **** TODO Disable Respec when the user is not admin / does not have a respec scroll
 
-** Stats and Stat Effects
+** DONE Stats and Stat Effects
 
 *** DONE Differentiate between melee/ranged/magical
 
@@ -126,13 +126,13 @@ Conveniently, most* weapons have the =weapon= and =melee= or =ranged= tag on the
 
 Inconveniently, Starbound base assets staff/wand weapons do NOT have the =magical= tag on them.
 
-*** STARTED =Strength= [2/3]
+*** DONE =Strength= [3/3]
 
 **** DONE Strength improves powerMultiplier for 2h Melee Weapons
 
 **** DONE Strength improves powerMultiplier for 1h Melee Weapons
 
-**** TODO Strength improves shieldHealth, shieldBash(?) for Shields
+**** DONE Strength improves shieldHealth, shieldBash(?) for Shields
 
 *** DONE =Precision= [2/2]
 
@@ -146,9 +146,9 @@ Inconveniently, Starbound base assets staff/wand weapons do NOT have the =magica
 
 **** DONE Wits improves powerMultiplier for 1h magical weapons
 
-*** TODO =Defense=
+*** DONE =Defense=
 
-**** TODO Defense adds to the player's Protection
+**** DONE Defense adds to the player's Protection
 
 We're absorbing FU's 0-200 Protection with diminishing returns instead of Vanilla's 0-100 linear scaling, which is a start. But we also want an intermediary "Defense" stat that adds to protection in smaller increments allowing for larger numbers (and for interaction with the default Protection from armor)
 
@@ -164,19 +164,21 @@ When the player receives a damageRequest, we apply a % chance that the damage wi
 
 Note that because it reduces incoming damage by 100%, and we want to keep pace with Protection, we have to have pretty specific math to ensure that the player never has >80% damage reduction.
 
-*** STARTED =Focus=
+**** DONE Add a particle when the player dodges so they know what's happening
+
+*** DONE =Focus=
 
 **** DONE Rename =isl_energy= to Focus
-**** TODO Focus increases the player's Max Energy
+**** DONE Focus increases the player's Max Energy
 
-*** STARTED =Vigor=
+*** DONE =Vigor=
 
 **** DONE Rename =isl_health= to Vigor
-**** TODO Vigor increases the player's Max Health
+**** DONE Vigor increases the player's Max Health
 
-*** TODO =Mobility=
+*** DONE =Mobility=
 
-**** TODO Mobility increases the player's movespeed and jumpheight
+**** DONE Mobility increases the player's movespeed and jumpheight
 
 ** Items
 
