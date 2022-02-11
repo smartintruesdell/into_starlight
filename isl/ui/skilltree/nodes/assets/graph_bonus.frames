@@ -16,16 +16,16 @@
         "melee:new"
       ],
       [
-        "melee+vigor:unavailable",
-        "melee+vigor:available",
-        "melee+vigor:saved",
-        "melee+vigor:new"
+        "melee_vigor:unavailable",
+        "melee_vigor:available",
+        "melee_vigor:saved",
+        "melee_vigor:new"
       ],
       [
-        "melee+utility:unavailable",
-        "melee+utility:available",
-        "melee+utility:saved",
-        "melee+utility:new"
+        "melee_utility:unavailable",
+        "melee_utility:available",
+        "melee_utility:saved",
+        "melee_utility:new"
       ],
       [
         "ranged:unavailable",
@@ -34,16 +34,16 @@
         "ranged:new"
       ],
       [
-        "ranged+vigor:unavailable",
-        "ranged+vigor:available",
-        "ranged+vigor:saved",
-        "ranged+vigor:new"
+        "ranged_vigor:unavailable",
+        "ranged_vigor:available",
+        "ranged_vigor:saved",
+        "ranged_vigor:new"
       ],
       [
-        "ranged+utility:unavailable",
-        "ranged+utility:available",
-        "ranged+utility:saved",
-        "ranged+utility:new"
+        "ranged_utility:unavailable",
+        "ranged_utility:available",
+        "ranged_utility:saved",
+        "ranged_utility:new"
       ],
       [
         "magical:unavailable",
@@ -52,16 +52,16 @@
         "magical:new"
       ],
       [
-        "magical+vigor:unavailable",
-        "magical+vigor:available",
-        "magical+vigor:saved",
-        "magical+vigor:new"
+        "magical_vigor:unavailable",
+        "magical_vigor:available",
+        "magical_vigor:saved",
+        "magical_vigor:new"
       ],
       [
-        "magical+utility:unavailable",
-        "magical+utility:available",
-        "magical+utility:saved",
-        "magical+utility:new"
+        "magical_utility:unavailable",
+        "magical_utility:available",
+        "magical_utility:saved",
+        "magical_utility:new"
       ],
       [
         "utility:unavailable",
@@ -70,10 +70,10 @@
         "utility:new"
       ],
       [
-        "utility+vigor:unavailable",
-        "utility+vigor:available",
-        "utility+vigor:saved",
-        "utility+vigor:new"
+        "utility_vigor:unavailable",
+        "utility_vigor:available",
+        "utility_vigor:saved",
+        "utility_vigor:new"
       ]
     ]
   }
