@@ -36,8 +36,6 @@ function UISkillTree:init(canvas_id)
    -- This state object is passed to all children in the `update` event
    self.state = {
       selected_skill = nil,
-      unlocked_skills = SkillGraph.unlocked_skills,
-      available_skills = SkillGraph.available_skills,
       drag_offset = Point.new({
          self.canvas:size()[1] * 0.5,
          self.canvas:size()[2] * 0.5
@@ -100,9 +98,6 @@ function UISkillTree:handleMouseDoubleClick(position, button)
 end
 
 function UISkillTree:update(dt)
-   self.state.unlocked_skills = SkillGraph.unlocked_skills
-   self.state.available_skills = SkillGraph.available_skills
-
    if self.mouse.pressed then
       self:handleMouseDrag()
    end
@@ -148,9 +143,9 @@ function UISkillTree:draw_graph_lines()
          local first_id, second_id = sort_skill_ids(skill.id, child_id)
          lines[first_id] = lines[first_id] or {}
 
-         if SkillGraph.unlocked_skills[skill.id] then
+         if SkillGraph.unlocked_skills:contains(skill.id) then
             lines[first_id][second_id] = LINE_TYPE.UNLOCKED
-         elseif SkillGraph.available_skills[skill.id] then
+         elseif SkillGraph.available_skills:contains(skill.id) then
             if not lines[first_id][second_id] or lines[first_id][second_id] < LINE_TYPE.AVAILABLE then
                lines[first_id][second_id] = LINE_TYPE.AVAILABLE
             end
