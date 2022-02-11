@@ -100,8 +100,6 @@ function ISLStatEffects:update(--[[dt: number]])
   if self:update_state() then
     local effects_map = ISLEffectsMap.new()
 
-    ISLLog.debug(util.tableToString(self.state.stats))
-
     for stat, configuration in pairs(self.effect_configuration) do
       local stat_value =
         self.state.stats[stat].amount * self.state.stats[stat].multiplier

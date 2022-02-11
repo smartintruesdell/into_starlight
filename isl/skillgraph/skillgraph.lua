@@ -137,18 +137,10 @@ function ISLSkillGraph:unlock_skill(skill_id, force)
   local skill_is_affordable = player_has_skill_point_available()
   local can_unlock =
     force or (skill_is_available and skill_is_affordable)
-  ISLLog.debug(
-    "Tried to unlock '%s': %s|%s|%s -> %s",
-    skill_id,
-    skill_is_available,
-    skill_is_affordable,
-    force,
-    can_unlock
-  )
 
   -- Guard against repeat-unlocks
   if can_unlock and not self.unlocked_skills:contains(skill_id) then
-    ISLLog.debug("Unlocking skill '%s'", skill_id)
+    ISLLog.info("Unlocking skill '%s'", skill_id)
     self.unlocked_skills:add(skill_id)
 
     self:build_available_skills()

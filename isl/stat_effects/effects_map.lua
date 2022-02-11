@@ -45,8 +45,6 @@ function ISLEffectsMap:spread()
     end
   end
 
-  ISLLog.debug(util.tableToString(results))
-
   return results
 end
 

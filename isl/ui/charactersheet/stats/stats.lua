@@ -76,8 +76,6 @@ function UICharacterSheetStats:init(layout_id)
 end
 
 function UICharacterSheetStats:createTooltip(mouse_position)
-  --ISLLog.debug('createTooltip called for UICharacterSheetStats');
-
   if (widget.inMember(self.layout_id, mouse_position)) then
     for child_id, child in pairs(
       config.getParameter("gui."..self.layout_id..".children")
