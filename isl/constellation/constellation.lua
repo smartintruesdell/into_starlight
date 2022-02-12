@@ -10,6 +10,7 @@ require("/isl/skillgraph/skillgraph.lua")
 require("/isl/lib/uicomponent.lua")
 require("/isl/constellation/skilltree/skilltree.lua")
 require("/isl/constellation/header/header.lua")
+require("/isl/constellation/progress/progress.lua")
 require("/isl/constellation/stats/stats.lua")
 
 -- Class --------------------------------------------------------------------
@@ -27,6 +28,7 @@ function UIConstellation:init()
     "primaryStats",
     UIConstellationStats.new("primaryStatsLayout")
   )
+  self:addChild("progress", UIConstellationProgress.new("progressLayout"))
 
   -- Skill Tree Components
   self:addChild("skill_tree", UISkillTree.new("canvas"))
@@ -75,7 +77,6 @@ end
 
 function update(dt)
   self.Constellation:update(dt)
-  widget.setText("motes_count_label", player.currency("isl_skill_mote"))
 end
 
 function createTooltip(mouse_position)
