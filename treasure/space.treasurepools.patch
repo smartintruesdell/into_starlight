@@ -1,0 +1,112 @@
+[
+  [
+    {
+      "op": "test",
+      "path": "/spaceRobotPassive/1/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/spaceRobotPassive/1/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/spaceRobotPassive/1/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/spaceRobotPassive/1/1/fill",
+      "value": [
+        {
+          "pool": "isl_skillmotepool"
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/spaceRobot/1/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/spaceRobot/1/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/spaceRobot/1/1/fill/-",
+      "value": {
+        "pool": "ivrpggunpartspool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/spaceRobot/1/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/spaceRobot/1/1/fill",
+      "value": [
+        {
+          "pool": "isl_skillmotepool"
+        },
+        {
+          "pool": "ivrpggunpartspool"
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/spaceRock/1/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/spaceRock/1/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/spaceRock/1/1/fill/-",
+      "value": {
+        "pool": "ivrpgmeteoricmetaltargetpool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/spaceRock/1/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/spaceRock/1/1/fill",
+      "value": [
+        {
+          "pool": "isl_skillmotepool"
+        },
+        {
+          "pool": "ivrpgmeteoricmetaltargetpool"
+        }
+      ]
+    }
+  ]
+]

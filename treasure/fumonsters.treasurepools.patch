@@ -1,0 +1,1963 @@
+ [
+  [
+    {
+      "op": "test",
+      "path": "/gasbagLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/gasbagLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/gasbagLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/gasbagLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/dolphinTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/dolphinTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/dolphinTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/dolphinTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/rimelingTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/rimelingTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/rimelingTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/rimelingTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/rimelinghuntTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/rimelinghuntTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/rimelinghuntTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/rimelinghuntTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/gorgolithLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/gorgolithLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/gorgolithLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/gorgolithLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/warbotTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/warbotTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/warbotTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/warbotTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/servitorTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/servitorTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/servitorTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/servitorTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/servitorHunting/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/servitorHunting/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/servitorHunting/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/servitorHunting/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/webberTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/webberTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/webberTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/webberTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/webberhuntTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/webberhuntTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/webberhuntTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/webberhuntTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/sporgus2Treasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/sporgus2Treasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/sporgus2Treasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/sporgus2Treasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/icecrabcanoHunting/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/icecrabcanoHunting/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/icecrabcanoHunting/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/icecrabcanoHunting/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/icecrabcanoTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/icecrabcanoTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/icecrabcanoTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/icecrabcanoTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ffcannibalTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ffcannibalTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ffcannibalTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ffcannibalTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fleshreaperLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/fleshreaperLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fleshreaperLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/fleshreaperLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/deeponeTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/deeponeTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/deeponeTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/deeponeTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ffelderStarspawnTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ffelderStarspawnTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ffelderStarspawnTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ffelderStarspawnTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ffelderStarspawnTreasureBoss/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ffelderStarspawnTreasureBoss/0/1/fill/-",
+      "value": {
+      "item": ["experienceorb", 500]
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ffelderStarspawnTreasureBoss/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ffelderStarspawnTreasureBoss/0/1/fill",
+      "value": [{
+      "item": ["experienceorb", 500]
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shadowtopLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/shadowtopLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shadowtopLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/shadowtopLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/minishoggothLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/minishoggothLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/minishoggothLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/minishoggothLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shoggothFlesh/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/shoggothFlesh/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shoggothFlesh/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/shoggothFlesh/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shoggothTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/shoggothTreasure/0/1/fill/-",
+      "value": {
+      "item": ["experienceorb", 750]
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shoggothTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/shoggothTreasure/0/1/fill",
+      "value": [{
+      "item": ["experienceorb", 750]
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/slimemonsterectoTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/slimemonsterectoTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/slimemonsterectoTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/slimemonsterectoTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/slimemonstermagmaTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/slimemonstermagmaTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/slimemonstermagmaTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/slimemonstermagmaTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/slimemonstertarTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/slimemonstertarTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/slimemonstertarTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/slimemonstertarTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/slimemonsterTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/slimemonsterTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/slimemonsterTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/slimemonsterTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/slimemonsterlargeTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/slimemonsterlargeTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/slimemonsterlargeTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/slimemonsterlargeTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ffbanditTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ffbanditTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ffbanditTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ffbanditTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ffeliteTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ffeliteTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ffeliteTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ffeliteTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/dinoLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/dinoLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/dinoLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/dinoLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/dinoLootHuge/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/dinoLootHuge/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/dinoLootHuge/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/dinoLootHuge/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/dinoLootBoss/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/dinoLootBoss/0/1/fill/-",
+      "value": {
+      "item": ["experienceorb", 250]
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/dinoLootBoss/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/dinoLootBoss/0/1/fill",
+      "value": [{
+      "item": ["experienceorb", 250]
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/bogdinoLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/bogdinoLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/bogdinoLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/bogdinoLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fucaterpillarLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/fucaterpillarLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fucaterpillarLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/fucaterpillarLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shadowhoundLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/shadowhoundLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shadowhoundLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/shadowhoundLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ashgolemLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ashgolemLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ashgolemLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ashgolemLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/bloodgolemLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/bloodgolemLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/bloodgolemLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/bloodgolemLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/targolemLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/targolemLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/targolemLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/targolemLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/toxicgolemLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/toxicgolemLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/toxicgolemLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/toxicgolemLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fleshblobLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/fleshblobLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fleshblobLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/fleshblobLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ratthingLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ratthingLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/ratthingLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ratthingLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/corruptflyLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/corruptflyLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/corruptflyLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/corruptflyLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fugiantscorpionLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/fugiantscorpionLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fugiantscorpionLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/fugiantscorpionLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fuheadcrabLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/fuheadcrabLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fuheadcrabLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/fuheadcrabLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/icetrollLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/icetrollLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/icetrollLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/icetrollLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/rocktrollLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/rocktrollLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/rocktrollLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/rocktrollLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/sulphurtrollLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/sulphurtrollLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/sulphurtrollLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/sulphurtrollLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/toxicflyLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/toxicflyLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/toxicflyLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/toxicflyLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/beeLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/beeLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/beeLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/beeLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/evilbeeLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/evilbeeLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/evilbeeLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/evilbeeLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/apexsupermutant/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/apexsupermutant/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/apexsupermutant/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/apexsupermutant/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fleshreaperTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/fleshreaperTreasure/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/fleshreaperTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/fleshreaperTreasure/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shadowgolemLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/shadowgolemLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shadowgolemLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/shadowgolemLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shadowgolemminiLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/shadowgolemminiLoot/0/1/fill/-",
+      "value": {
+      "pool": "isl_skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/shadowgolemminiLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/shadowgolemminiLoot/0/1/fill",
+      "value": [{
+      "pool": "isl_skillmotepool"
+      }]
+    }
+  ],
+  //
+  [{
+      "op": "test",
+      "path": "/ffjunkerTreasureBoss",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/ffjunkerTreasureBoss/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ffjunkerTreasureBoss/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/ffjunkerTreasureBoss",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/ffjunkerTreasureBoss/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ffjunkerTreasureBoss/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/ffelitegregTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/ffelitegregTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ffelitegregTreasure/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/ffelitegregTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/ffelitegregTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ffelitegregTreasure/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/meatlumpLoot",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/meatlumpLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/meatlumpLoot/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/meatlumpLoot",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/meatlumpLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/meatlumpLoot/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/toyTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/toyTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/toyTreasure/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/toyTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/toyTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/toyTreasure/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/ffslimebanditTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/ffslimebanditTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ffslimebanditTreasure/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/ffslimebanditTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/ffslimebanditTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ffslimebanditTreasure/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/lesserBossTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/lesserBossTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/lesserBossTreasure/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/lesserBossTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/lesserBossTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/lesserBossTreasure/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/lobsterLoot",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/lobsterLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/lobsterLoot/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/lobsterLoot",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/lobsterLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/lobsterLoot/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/darkmetroidTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/darkmetroidTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/darkmetroidTreasure/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/darkmetroidTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/darkmetroidTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/darkmetroidTreasure/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/fleshreaperhuntLoot",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/fleshreaperhuntLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/fleshreaperhuntLoot/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/fleshreaperhuntLoot",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/fleshreaperhuntLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/fleshreaperhuntLoot/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/ffjunkerTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/ffjunkerTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ffjunkerTreasure/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/ffjunkerTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/ffjunkerTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ffjunkerTreasure/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/frankLoot",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/frankLoot/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/frankLoot/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/frankLoot",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/frankLoot/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/frankLoot/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/frankLootBoss",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/frankLootBoss/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/frankLootBoss/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/frankLootBoss",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/frankLootBoss/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/frankLootBoss/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/dollfaceTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/dollfaceTreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/dollfaceTreasure/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/dollfaceTreasure",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/dollfaceTreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/dollfaceTreasure/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }] ,
+    [{
+      "op": "test",
+      "path": "/ancientruinsBoss",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/ancientruinsBoss/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/ancientruinsBoss/0/1/fill/-",
+      "value": {
+        "pool": "isl_skillmotepool"
+      }
+    }],
+    [{
+      "op": "test",
+      "path": "/ancientruinsBoss",
+      "inverse": false
+    },{
+      "op": "test",
+      "path": "/ancientruinsBoss/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/ancientruinsBoss/0/1/fill",
+      "value": [{
+        "pool": "isl_skillmotepool"
+      }]
+    }]
+]

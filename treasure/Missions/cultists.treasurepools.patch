@@ -1,0 +1,32 @@
+ [
+  [
+    {
+      "op": "test",
+      "path": "/cultisttreasure/0/1/fill",
+      "inverse": false
+    },
+    {
+      "op": "add",
+      "path": "/cultisttreasure/0/1/fill/-",
+      "value": {
+        "pool": "skillmotepool"
+      }
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/cultisttreasure/0/1/fill",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/cultisttreasure/0/1/fill",
+      "value": [
+        {
+          "pool": "skillmotepool"
+        }
+      ]
+    }
+  ]
+]
