@@ -75,12 +75,19 @@ function ISLSkillPoints.get_skill_motes_for_skill_point(skill_point)
   ISLSkillPoints.Config =
     ISLSkillPoints.Config or root.assetJson(ConfigFilePath)
 
-  if
+  if skill_point == 0 then
+    return 0
+  elseif
     skill_point > 0 and
-    #ISLSkillPoints.Config.leveling <= skill_point
+    skill_point <= #ISLSkillPoints.Config.leveling
   then
     return ISLSkillPoints.Config.leveling[skill_point]
   end
+  ISLLog.debug(
+    "Could not get motes for skill point %d, there are %d known values",
+    skill_point,
+    #ISLSkillPoints.Config.leveling
+  )
   return nil
 end
 
