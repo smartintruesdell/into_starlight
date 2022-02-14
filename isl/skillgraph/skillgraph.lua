@@ -179,13 +179,13 @@ function ISLSkillGraph:apply_to_player(player)
 
   -- Apply derived stat updates
   self.stats:apply_to_player(player)
+  self:apply_perks_to_player(player)
 
   return self;
 end
 
 function ISLSkillGraph.reset_unlocked_skills(player)
   player.setProperty(SKILLS_PROPERTY_NAME, {})
-  -- TODO: Refund skill points
 
   return ISLSkillGraph.revert()
 end
@@ -266,4 +266,16 @@ function ISLSkillGraph:get_stat_details(stat_name)
   }
 
   return self._get_stat_details_cache[stat_name]
+end
+
+
+function ISLSkillGraph:apply_perks_to_player(player)
+  for skill_id, _ in pairs(self.saved_skills) do
+    if self.skills[skill_id].type == "perk" then
+      local effect_id = self.skills[skill_id].effectName
+      if not effect_id then goto continue end
+      player.addEphemeralEffect(effect_id, math.huge)
+    end
+    ::continue::
+  end
 end

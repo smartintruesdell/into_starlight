@@ -1,0 +1,7 @@
+{
+  "name": "isl_perk_the_warrior",
+  "defaultDuration": 5,
+  "scripts": [
+    "isl_perk_the_warrior.lua"
+  ]
+}
