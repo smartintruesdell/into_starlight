@@ -26,7 +26,9 @@ function get_progress_frame(current_motes, from_motes, to_motes)
   local percent_complete = (current / target)
 
   -- Cast to 0-9.5 in intervals of 0.5
-  return ":"..math.floor((percent_complete * 10) / 0.5) * 0.5
+  local result = ":"..math.floor((percent_complete * 10) / 0.5) * 0.5
+
+  return result
 end
 
 -- Class ----------------------------------------------------------------------
