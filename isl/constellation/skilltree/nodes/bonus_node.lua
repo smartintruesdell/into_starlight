@@ -66,7 +66,13 @@ function UIBonusNode:createTooltip(position, skilltree_state)
     position
   )
   if is_mouseover then
-    ISLLog.debug("Mouseover on %s", self.skill.id)
+    if player.isAdmin() then
+      self.tooltip.admin_label.value = "^shadow;"..self.skill.id
+      self.tooltip.admin_label.visible = true
+    else
+      self.tooltip.admin_label.visible = false
+    end
+
     self.tooltip.details.value = self.skill.id
 
     return self.tooltip
