@@ -4,7 +4,7 @@
 ]]
 require("/scripts/util.lua")
 require("/isl/lib/log.lua")
-require("/isl/player_stats/player_stats.lua")
+require("/isl/player/stats/player_stats.lua")
 
 -- Script `init`, `update`, and `uninit` will REPLACE scripts loaded before
 -- ours. These `super_*` local variables save references to the scripts before
@@ -49,9 +49,6 @@ function applyDamageRequest(damageRequest)
   dodge_chance = 50
   -- END DEBUG
   if dodge_chance > 0 and math.random(100)<= dodge_chance then
-    -- DEBUG: SET HEALTH TO FULL SO WE CAN KEEP DODGING
-    status.setResourcePercentage("health", 1.0)
-    -- END DEBUG
     status.addEphemeralEffect("isl_dodge") -- "Dodge!" particle
     return {}
   end

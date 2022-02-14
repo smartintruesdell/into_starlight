@@ -16,7 +16,7 @@ ISLPlayerStats = ISLPlayerStats or createClass("ISLPlayerStats")
 -- Constructor ----------------------------------------------------------------
 
 function ISLPlayerStats:init()
-  Config = Config or root.assetJson("/isl/player_stats/player_stats.config")
+  Config = Config or root.assetJson("/isl/player/stats/player_stats.config")
 
   for stat_name, stat_data in pairs(Config) do
     -- save configuration from the json file

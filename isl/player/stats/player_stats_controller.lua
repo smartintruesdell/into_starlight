@@ -13,10 +13,10 @@ require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/held_items/held_items.lua")
-require("/isl/player_stats/player_stats.lua")
+require("/isl/player/stats/player_stats.lua")
 
-local PATH = "/isl/stat_effects"
-require(PATH.."/effects_map.lua")
+local PATH = "/isl/player/stats"
+require(PATH.."/effects/effects_map.lua")
 
 -- Utility functions ----------------------------------------------------------
 
@@ -64,13 +64,13 @@ end
 
 -- Class ----------------------------------------------------------------------
 
-ISLStatEffects = createClass("ISLStatEffects")
+ISLPlayerStatEffectsController = createClass("ISLStatEffects")
 
-ISLStatEffects.effect_category_identifier = "isl_stat_based_effects"
+ISLPlayerStatEffectsController.effect_category_identifier = "isl_stat_based_effects"
 
 -- Constructor ----------------------------------------------------------------
 
-function ISLStatEffects:init(entity_id)
+function ISLPlayerStatEffectsController:init(entity_id)
   self.entity_id = entity_id
 
   -- Initialize state managers
@@ -85,19 +85,19 @@ function ISLStatEffects:init(entity_id)
   -- function so that we can compartmentalize our effects logic. Note that each
   -- controller will recieve the full state along with the config tree.
   self.effect_configuration = {
-    isl_strength = root.assetJson(PATH.."/strength_effects.config"),
-    isl_precision = root.assetJson(PATH.."/precision_effects.config"),
-    isl_wits = root.assetJson(PATH.."/wits_effects.config"),
-    isl_defense = root.assetJson(PATH.."/defense_effects.config"),
-    isl_focus = root.assetJson(PATH.."/focus_effects.config"),
-    isl_vigor = root.assetJson(PATH.."/vigor_effects.config"),
-    isl_mobility = root.assetJson(PATH.."/mobility_effects.config")
+    isl_strength = root.assetJson(PATH.."/effects/strength.config"),
+    isl_precision = root.assetJson(PATH.."/effects/precision.config"),
+    isl_wits = root.assetJson(PATH.."/effects/wits.config"),
+    isl_defense = root.assetJson(PATH.."/effects/defense.config"),
+    isl_focus = root.assetJson(PATH.."/effects/focus.config"),
+    isl_vigor = root.assetJson(PATH.."/effects/vigor.config"),
+    isl_mobility = root.assetJson(PATH.."/effects/mobility.config")
   }
 end
 
 -- Update ---------------------------------------------------------------------
 
-function ISLStatEffects:update(--[[dt: number]])
+function ISLPlayerStatEffectsController:update(--[[dt: number]])
   if self:update_state() then
     local effects_map = ISLEffectsMap.new()
 
@@ -140,13 +140,13 @@ function ISLStatEffects:update(--[[dt: number]])
     end
 
     status.setPersistentEffects(
-      ISLStatEffects.effect_category_identifier,
+      ISLPlayerStatEffectsController.effect_category_identifier,
       effects_map:spread()
     )
   end
 end
 
-function ISLStatEffects:update_state()
+function ISLPlayerStatEffectsController:update_state()
   local stats_changed = false
   self.state.stats, stats_changed = self.state.stats:read_from_entity(self.entity_id)
 

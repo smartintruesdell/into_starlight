@@ -2,7 +2,7 @@
   "itemName": "isl_skill_point",
   "rarity": "Rare",
   "inventoryIcon": "isl_skill_point.png",
-  "description": "A Skill Point may be spent to purchase a Skill on the Skill Tree",
+  "description": "A Skill Point may be spent to purchase a Skill on your Constellation",
   "shortdescription": "Skill Point",
   "currency": "isl_skill_point",
   "value": 1,

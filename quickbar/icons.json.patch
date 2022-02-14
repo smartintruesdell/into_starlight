@@ -4,7 +4,7 @@
     "path": "/items/isl:constellation",
     "value": {
       "label": "Constellation",
-      "icon": "/objects/isl_experience_mote/isl_experience_mote.png",
+      "icon": "/objects/isl_skill_point/isl_skill_point.png",
       "action": [
         "pane",
         "/isl/constellation/constellation.config"

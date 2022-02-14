@@ -70,3 +70,5 @@ A special note and attribution here to /Frackin' Universe/ and its creator for i
 ** IcyVines and /RPG Growth/
 
 While it is incompatable, /RPG Growth/ was an obvious source of inspiration and know-how.
+
+There are some essentials in this mod that are derived very heavily from data in RPG Growth, such as the treasure pool bindings for skill motes (experience points)

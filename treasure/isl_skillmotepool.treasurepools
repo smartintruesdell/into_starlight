@@ -1,0 +1,157 @@
+{
+  "isl_skillmotepool": [
+    [
+      0,
+      {
+        "pool": [
+          {
+            "weight": 0.8,
+            "item": [
+              "isl_skill_mote",
+              1
+            ]
+          },
+          {
+            "weight": 0.2,
+            "item": [
+              "isl_skill_mote",
+              2
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      0.9,
+      {
+        "pool": [
+          {
+            "weight": 0.8,
+            "item": [
+              "isl_skill_mote",
+              2
+            ]
+          },
+          {
+            "weight": 0.2,
+            "item": [
+              "isl_skill_mote",
+              3
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      1.9,
+      {
+        "pool": [
+          {
+            "weight": 0.8,
+            "item": [
+              "isl_skill_mote",
+              5
+            ]
+          },
+          {
+            "weight": 0.2,
+            "item": [
+              "isl_skill_mote",
+              6
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      2.9,
+      {
+        "pool": [
+          {
+            "weight": 0.8,
+            "item": [
+              "isl_skill_mote",
+              6
+            ]
+          },
+          {
+            "weight": 0.2,
+            "item": [
+              "isl_skill_mote",
+              7
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      3.9,
+      {
+        "pool": [
+          {
+            "weight": 0.8,
+            "item": [
+              "isl_skill_mote",
+              7
+            ]
+          },
+          {
+            "weight": 0.2,
+            "item": [
+              "isl_skill_mote",
+              8
+            ]
+          }
+        ]
+      }
+    ]
+  ],
+  "isl_skill_motepoolsmall": [
+    [
+      0,
+      {
+        "pool": [
+          {
+            "weight": 1,
+            "item": [
+              "isl_skill_mote",
+              1
+            ]
+          }
+        ]
+      }
+    ]
+  ],
+  "isl_skill_motepoolminiboss": [
+    [
+      0,
+      {
+        "pool": [
+          {
+            "weight": 1,
+            "item": [
+              "isl_skill_mote",
+              30
+            ]
+          }
+        ]
+      }
+    ]
+  ],
+  "isl_skill_motebosspool": [
+    [
+      0,
+      {
+        "pool": [
+          {
+            "weight": 1,
+            "item": [
+              "isl_skill_mote",
+              60
+            ]
+          }
+        ]
+      }
+    ]
+  ]
+}

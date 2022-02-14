@@ -1,0 +1,7 @@
+[
+  {
+    "op": "add",
+    "path": "/baseParameters/statusSettings/primaryScriptSources/-",
+    "value": "/isl/monster/drop_skill_motes.lua"
+  }
+]

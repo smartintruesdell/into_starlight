@@ -194,12 +194,12 @@ function UISkillTree:draw_graph_lines()
       local slope = delta[2] / delta[1]
       if slope > 1.0 or slope < -1.0 then
         -- Upper/Lower Quadrants, so the lines originate to the sides
-        recess_offset = Point.new({ -1, 0 })
-        highlight_offset = Point.new({ 1, 0 })
+        recess_offset = Point.new({ -0.5, 0 })
+        highlight_offset = Point.new({ 0.5, 0 })
       else
         -- Left/Right Quadrants, so the lines originate from the top/bottom
-        recess_offset = Point.new({ 0, 1 })
-        highlight_offset = Point.new({ 0, -1 })
+        recess_offset = Point.new({ 0, 0.5 })
+        highlight_offset = Point.new({ 0, -0.5 })
       end
 
       -- Draw recess/highlight lines
