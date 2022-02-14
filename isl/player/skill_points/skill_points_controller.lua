@@ -54,7 +54,11 @@ function ISLSkillPointController:update(dt)
   -- Otherwise award the player another skill point
   self.state.last_skill_motes = next_motes
 
-  assert(player ~= nil, "The player was not available to award a skill point")
-  player.addCurrency("isl_skill_point", 1)
+  world.callScriptedEntity(
+    self.entity_id,
+    "player.addCurrency",
+    "isl_skill_point",
+    next_earned_points - last_earned_points
+  )
   status.addEphemeralEffect("isl_skill_point_up") -- "+1 Skill Point!" particle
 end
