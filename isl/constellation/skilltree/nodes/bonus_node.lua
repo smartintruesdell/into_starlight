@@ -34,7 +34,9 @@ function UIBonusNode:init(skill, canvas)
 
   -- Set the background based on the bonus type
   self.background = skill.background or Assets.background[skill.background_type]
-  assert(self.background ~= nil, "failed to find a background for "..skill.id)
+  assert(self.background ~= nil, "Failed to find a background for "..skill.id)
+
+  self.tooltip = root.assetJson(PATH.."/bonus_node_tooltip.config")
 end
 
 -- Overrides -----------------------------------------------------------------
@@ -57,3 +59,60 @@ function UIBonusNode:get_background_image(skilltree_state)
 end
 
 -- Methods --------------------------------------------------------------------
+
+function UIBonusNode:createTooltip(position, skilltree_state)
+  local is_mouseover = self:area_contains_position(
+    skilltree_state.drag_offset,
+    position
+  )
+  if is_mouseover then
+    if player.isAdmin() then
+      self.tooltip.admin_label.value = "^shadow;"..self.skill.id
+      self.tooltip.admin_label.visible = true
+    else
+      self.tooltip.admin_label.visible = false
+    end
+
+    self.tooltip.details.value = self:get_tooltip_details()
+
+    return self.tooltip
+  end
+end
+
+local stat_order = {
+  "isl_strength",
+  "isl_defense",
+  "isl_precision",
+  "isl_evasion",
+  "isl_wits",
+  "isl_focus",
+  "isl_vigor",
+  "isl_mobility"
+}
+function UIBonusNode:get_tooltip_details()
+  ISLStrings.initialize()
+  local details = ""
+  for _, stat_id in ipairs(stat_order) do
+    if self.skill.unlocks.stats[stat_id] then
+      if
+        self.skill.unlocks.stats[stat_id].amount ~= nil and
+        self.skill.unlocks.stats[stat_id].amount > 0
+      then
+        details = details..string.format(
+          Strings:getString("bonus_node_detail_"..stat_id),
+          self.skill.unlocks.stats[stat_id].amount
+        ).."\n"
+      end
+      if
+        self.skill.unlocks.stats[stat_id].multiplier ~= nil and
+        self.skill.unlocks.stats[stat_id].multiplier > 1
+      then
+        details = details..string.format(
+          Strings:getString("bonus_node_detail_"..stat_id),
+          (self.skill.unlocks.stats[stat_id].multiplier - 1).."%"
+        ).."\n"
+      end
+    end
+  end
+  return details
+end

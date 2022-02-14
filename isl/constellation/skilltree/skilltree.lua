@@ -226,3 +226,9 @@ function UISkillTree:draw_graph_lines()
     end
   end
 end
+
+function UISkillTree:createTooltip()
+  local canvas_relative_position = Point.new(self.canvas:mousePosition())
+  -- Pass canvas information to skill tree children
+  return self:createTooltipsForChildren(canvas_relative_position, self.state)
+end
