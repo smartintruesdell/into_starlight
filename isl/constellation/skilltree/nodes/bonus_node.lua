@@ -61,23 +61,14 @@ end
 -- Methods --------------------------------------------------------------------
 
 function UIBonusNode:createTooltip(position, skilltree_state)
-  if self.skill.id == "default_species_melee_bonus_1" then
-    local is_mouseover = self:area_contains_position(
-      skilltree_state.drag_offset,
-      position
-    )
-    ISLLog.debug(
-      "Checking %s, %s, %s: %s",
-      self.skill.id,
-      position:toString(),
-      Point.new(self.skill.position):translate(skilltree_state.drag_offset):toString(),
-      is_mouseover
-    )
-    if is_mouseover then
-      ISLLog.debug("Mouseover on %s", self.skill.id)
-      self.tooltip.detail.value = self.skill.id
+  local is_mouseover = self:area_contains_position(
+    skilltree_state.drag_offset,
+    position
+  )
+  if is_mouseover then
+    ISLLog.debug("Mouseover on %s", self.skill.id)
+    self.tooltip.details.value = self.skill.id
 
-      return self.tooltip
-    end
+    return self.tooltip
   end
 end

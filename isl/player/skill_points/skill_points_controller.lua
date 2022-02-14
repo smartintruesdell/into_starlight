@@ -28,16 +28,12 @@ function ISLSkillPointController:update(dt)
   local next_motes = ISLSkillPoints.get_skill_motes(self.entity_id)
   -- If we didn't have a last motes to compare to, we'll early out.
   if self.state.last_skill_motes == nil then
-    ISLLog.debug("Last motes was nil, skipping")
     self.state.last_skill_motes = next_motes
     return
   end
 
   -- If it is unchanged, early out
-  if next_motes == self.state.last_skill_motes then
-    ISLLog.debug("Last motes was unchanged, skipping")
-    return
-  end
+  if next_motes == self.state.last_skill_motes then return end
 
   -- Otherwise, we'll check to see if the earned skill points has changed
   local last_earned_points =
