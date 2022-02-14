@@ -5,7 +5,7 @@
 require("/scripts/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/skillgraph/skillgraph.lua")
-require("/isl/player_stats/player_stats.lua")
+require("/isl/player/stats/player_stats.lua")
 
 -- Script `init`, `update`, and `uninit` will REPLACE scripts loaded before
 -- ours. These `super_*` local variables save references to the scripts before
