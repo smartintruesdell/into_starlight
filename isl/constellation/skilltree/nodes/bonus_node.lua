@@ -34,7 +34,9 @@ function UIBonusNode:init(skill, canvas)
 
   -- Set the background based on the bonus type
   self.background = skill.background or Assets.background[skill.background_type]
-  assert(self.background ~= nil, "failed to find a background for "..skill.id)
+  assert(self.background ~= nil, "Failed to find a background for "..skill.id)
+
+  self.tooltip = root.assetJson(PATH.."/bonus_node_tooltip.config")
 end
 
 -- Overrides -----------------------------------------------------------------
@@ -57,3 +59,25 @@ function UIBonusNode:get_background_image(skilltree_state)
 end
 
 -- Methods --------------------------------------------------------------------
+
+function UIBonusNode:createTooltip(position, skilltree_state)
+  if self.skill.id == "default_species_melee_bonus_1" then
+    local is_mouseover = self:area_contains_position(
+      skilltree_state.drag_offset,
+      position
+    )
+    ISLLog.debug(
+      "Checking %s, %s, %s: %s",
+      self.skill.id,
+      position:toString(),
+      Point.new(self.skill.position):translate(skilltree_state.drag_offset):toString(),
+      is_mouseover
+    )
+    if is_mouseover then
+      ISLLog.debug("Mouseover on %s", self.skill.id)
+      self.tooltip.detail.value = self.skill.id
+
+      return self.tooltip
+    end
+  end
+end
