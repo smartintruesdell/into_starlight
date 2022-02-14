@@ -81,3 +81,24 @@ end
 function UIConstellationProgress:update()
   self:draw()
 end
+
+function UIConstellationProgress:createTooltip(position)
+  if
+    widget.inMember(self.layout_id..'.'..Widgets.ProgressBarImage, position)
+  then
+    local collected_motes = ISLSkillPoints.get_skill_motes(player.id())
+    local earned_skill_points =
+      ISLSkillPoints.get_earned_skill_points(player.id())
+    local motes_to_last_point = ISLSkillPoints.get_skill_motes_for_skill_point(
+      earned_skill_points
+    )
+    local motes_to_next_point = ISLSkillPoints.get_skill_motes_for_skill_point(
+      earned_skill_points + 1
+    )
+    return string.format(
+      "%d / %d motes required",
+      collected_motes - motes_to_last_point,
+      motes_to_next_point - motes_to_last_point
+    )
+  end
+end
