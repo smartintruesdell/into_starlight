@@ -62,19 +62,33 @@ function ISLSkillGraph.load(path)
   ISLLog.info("Initializing Skill Graph")
   graph = ISLSkillGraph.new()
   graph:load_modules(graph_config.skillModules.common)
-  graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
+  graph:load_modules(
+    graph_config.skillModules.species[player.species()] or
+    graph_config.skillModules.species.default
+  )
+  graph:build_back_links()
 
-  -- First, load any skills from the player property
-  graph.saved_skills.add_many(player.getProperty(SKILLS_PROPERTY_NAME) or {})
-  graph:load_unlocked_skills(graph.saved_skills:to_Vec())
+  -- First, load any skills from the player property into our "saved skills"
+  local saved_skills = player.getProperty(SKILLS_PROPERTY_NAME) or {}
+  graph.saved_skills:add_many(saved_skills)
+  -- Then, unlock them
+  graph:unlock_skills(graph.saved_skills:to_Vec(), true)
+
   -- Then, load common "initialSkills" from the graph config (usually just "start")
-  graph:load_unlocked_skills(graph_config.initialSkills.common)
+  graph:unlock_skills(graph_config.initialSkills.common, true)
+
   -- Then, load "initialSkills" for the player's species
-  graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
+  graph:unlock_skills(
+    graph_config.initialSkills.species[player.species()] or
+    graph_config.initialSkills.species.default,
+    true
+  )
 
   -- Build available skills data
-  ISLLog.info("Deriving Available Skills")
   graph:build_available_skills()
+
+  -- And update our stats object
+  graph:apply_skills_to_stats()
 
   ISLLog.debug(
     "Loading the SkillGraph took %f seconds",
@@ -110,6 +124,7 @@ function ISLSkillGraph:load_modules(bindings)
               self.name
             )
           end
+          skill.children = StringSet.new(skill.children)
           self.skills[skill_id] = skill
         end
       end
@@ -119,53 +134,68 @@ function ISLSkillGraph:load_modules(bindings)
   return self;
 end
 
-function ISLSkillGraph:load_unlocked_skills(data)
-  for _, skill_id in ipairs(data or {}) do
-    self:unlock_skill(skill_id, true)
+function ISLSkillGraph:unlock_skills(skill_id_list, force)
+  for _, skill_id in ipairs(skill_id_list or {}) do
+    if not self.unlocked_skills:contains(skill_id) then
+      self:unlock_skill(skill_id, force)
+    end
   end
 
   return self
 end
 
-local function player_has_skill_point_available()
-  return player.isAdmin()
-end
-
 function ISLSkillGraph:unlock_skill(skill_id, force)
-  -- Guard against inappropriate unlocks
-  local skill_is_available = self.available_skills:contains(skill_id)
-  local skill_is_affordable = player_has_skill_point_available()
-  local can_unlock =
-    force or (skill_is_available and skill_is_affordable)
+  local skill_is_affordable =
+    player.isAdmin() or player.currency("isl_skill_point") > 0
 
   -- Guard against repeat-unlocks
-  if can_unlock and not self.unlocked_skills:contains(skill_id) then
-    ISLLog.info("Unlocking skill '%s'", skill_id)
+  if force or skill_is_affordable then
+    ISLLog.debug("Unlocking skill '%s'", skill_id)
     self.unlocked_skills:add(skill_id)
+    if not force then
+      player.consumeCurrency("isl_skill_point", 1)
+    end
+  end
 
+  if not force then
+    -- Force is used during initialization, but afterwards any
+    -- unlocks should be accompanied by a rebuild of relationships
     self:build_available_skills()
-    -- TODO: Spend skill point
-
     self:apply_skill_to_stats(skill_id)
   end
 
   return self
 end
 
+function ISLSkillGraph:build_back_links()
+  -- For each skill,
+  for skill_id, skill in pairs(self.skills) do
+    -- Add that skill's id to the children of each of its children
+    for _, child_id in ipairs(skill.children:to_Vec()) do
+      self.skills[child_id].children:add(skill_id)
+    end
+  end
+
+  return self
+end
+
 function ISLSkillGraph:build_available_skills()
+  ISLLog.info("Deriving Available Skills")
   -- A Skill is available for unlocking if it is adjacent to an unlocked skill
   -- and it is not unlocked.
   self.available_skills = StringSet.new()
 
+  -- For each skill,
   for skill_id, skill in pairs(self.skills) do
+    -- If that skill is unlocked,
     if self.unlocked_skills:contains(skill_id) then
-      for _, child_skill_id in ipairs(skill.children) do
-        if not self.unlocked_skills:contains(child_skill_id) then
-          self.available_skills:add(child_skill_id)
-        end
-      end
+      -- Add all of its children to the list of available skills
+      self.available_skills:add_many(skill.children:to_Vec())
     end
   end
+
+  -- Then remove all of the unlocked skills from the list
+  self.available_skills:remove_many(self.unlocked_skills:to_Vec())
 
   return self
 end
@@ -175,7 +205,9 @@ function ISLSkillGraph:apply_to_player(player)
 
   -- Save the player's unlocked skills as a property
   self.saved_skills = self.unlocked_skills:clone()
-  player.setProperty(SKILLS_PROPERTY_NAME, self.unlocked_skills:to_Vec())
+  ISLLog.debug("Saving skills: %s", util.tableToString(self.saved_skills:to_Vec()))
+  player.setProperty(SKILLS_PROPERTY_NAME, self.saved_skills:to_Vec())
+
 
   -- Apply derived stat updates
   self.stats:apply_to_player(player)
@@ -199,6 +231,16 @@ function ISLSkillGraph:apply_skill_to_stats(skill_id)
     self._get_stat_details_cache[stat_name] = nil
     self.stats:modify_stat(stat_name, stat_value)
   end
+
+  return self
+end
+
+function ISLSkillGraph:apply_skills_to_stats()
+  for _, skill_id in ipairs(self.unlocked_skills:to_Vec()) do
+    self:apply_skill_to_stats(skill_id)
+  end
+
+  return self
 end
 
 function ISLSkillGraph:get_stat_details(stat_name)
