@@ -3,6 +3,5 @@
   "defaultDuration": 3,
   "scripts": [
     "isl_skill_point_up.lua"
-  ],
-  "animationConfig": "isl_skill_point_up.animation"
+  ]
 }

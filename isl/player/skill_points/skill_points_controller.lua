@@ -47,7 +47,6 @@ function ISLSkillPointController:update(dt)
 
   -- If they're the same, early out
   if last_earned_points == next_earned_points then
-    ISLLog.debug("Earned points was unchanged, skipping")
     return
   end
 
@@ -55,6 +54,7 @@ function ISLSkillPointController:update(dt)
   self.state.last_skill_motes = next_motes
 
   status.addEphemeralEffect("isl_skill_point_up") -- "+Skill Point!" particle
+
   world.spawnItem(
     "isl_skill_point",
     entity.position(),
