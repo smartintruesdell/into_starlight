@@ -53,7 +53,7 @@ Unsubscribe from the mod in the Steam Workshop or remove the =.pak= file from yo
 
 *** Is this compatible with /Frackin' Universe/?
 
-Should be! A lot of our testing is done with /Frackin' Universe/ loaded. With that said, Sayter would tell you that any mod that changes player progression will upset /FU/'s balance and will likely make the player super over-powered relative to the game's challenges. Consider beating /Frackin' Universe/ without /Into Starlight/ first to see it in all its glory.
+TBD
 
 *** Is this compatible with <insert species mod here>?
 
@@ -63,12 +63,10 @@ Without configuration, custom races will use a generic start. Mod authors are en
 
 * Special Thanks
 
-** Sayter and /Frackin' Universe/
+** Sayter and the /Frackin' Universe/ Team
 
-A special note and attribution here to /Frackin' Universe/ and its creator for inspiration. The Research Tree provided by /FU/ proved the viability of the skill tree and lent some very useful examples.
+A special note and attribution here to /Frackin' Universe/ and its creators for inspiration. The /ztarbound/ Research Tree provided by /FU/ proved the viability of the skill tree and lent some very useful examples.
 
 ** IcyVines and /RPG Growth/
 
-While it is incompatable, /RPG Growth/ was an obvious source of inspiration and know-how.
-
-There are some essentials in this mod that are derived very heavily from data in RPG Growth, such as the treasure pool bindings for skill motes (experience points)
+ /RPG Growth/ was an obvious source of inspiration and know-how.
