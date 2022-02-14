@@ -2,7 +2,7 @@
   Logic related to earning Skill Points when collecting Skill Motes
 ]]
 -- Constants ------------------------------------------------------------------
-local PATH = "/isl/player"
+local PATH = "/isl/player/skill_points"
 local ConfigFilePath = PATH.."/skill_points.config"
 
 ISLSkillPoints = ISLSkillPoints or {}

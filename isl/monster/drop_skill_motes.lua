@@ -9,7 +9,7 @@
 require("/scripts/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/lib/util.lua")
-require("/isl/player/skill_points.lua")
+require("/isl/player/skill_points/skill_points.lua")
 
 local no_op = function() end
 local super_init = init or no_op
