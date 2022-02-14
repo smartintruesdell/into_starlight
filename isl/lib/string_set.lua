@@ -41,6 +41,16 @@ function StringSet:remove(value)
   return self
 end
 
+function StringSet:remove_many(vec)
+  assert(self ~= nil, "Remember to use StringSet:remove_many instead of StringSet.remove_many")
+  vec = vec or {}
+  for _, value in ipairs(vec) do
+    self:remove(value)
+  end
+
+  return self
+end
+
 function StringSet:to_Vec()
   assert(self ~= nil, "Remember to use StringSet:to_Vec instead of StringSet.to_Vec")
   local res = {}
