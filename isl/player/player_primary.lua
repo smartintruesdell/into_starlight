@@ -49,9 +49,6 @@ function applyDamageRequest(damageRequest)
   dodge_chance = 50
   -- END DEBUG
   if dodge_chance > 0 and math.random(100)<= dodge_chance then
-    -- DEBUG: SET HEALTH TO FULL SO WE CAN KEEP DODGING
-    status.setResourcePercentage("health", 1.0)
-    -- END DEBUG
     status.addEphemeralEffect("isl_dodge") -- "Dodge!" particle
     return {}
   end

@@ -8,8 +8,6 @@ require("/isl/lib/log.lua")
 function init()
   script.setUpdateDelta(5)
   self.status_config = root.assetJson("/isl/animations/dodge/isl_dodge.statuseffect")
-  -- DEBUG - reset health on dodge so we can keep dodging forever
-  status.setResourcePercentage("health", 1.0)
 end
 
 function apply_visual_effects()
