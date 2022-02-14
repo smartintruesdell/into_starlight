@@ -24,6 +24,8 @@ end
 ---@param _min_index number Used to avoid slicing during recursion
 ---@param _max_index number Used to avoid slicing during recursion
 local function binary_search_range_match(range_list, input, _min_index, _max_index)
+  assert(#range_list, "binary_search_range_match called with an empty set")
+  assert(input ~= nil, "binary_search_range_match called without valid input")
   _min_index = _min_index or 1
   _max_index = _max_index or #range_list
 
@@ -58,6 +60,7 @@ function ISLSkillPoints.get_available_skill_points(entity_id)
 end
 
 function ISLSkillPoints.get_earned_skill_points_for_motes(motes)
+  assert(motes ~= nil, "get_earned_skill_points_for_motes called with nil argument")
   ISLSkillPoints.Config =
     ISLSkillPoints.Config or root.assetJson(ConfigFilePath)
 
@@ -73,7 +76,10 @@ function ISLSkillPoints.get_earned_skill_points(entity_id)
   -- Collected motes
   local collected_motes = ISLSkillPoints.get_skill_motes(entity_id)
 
-  return ISLSkillPoints.get_earned_skill_points_for_motes(collected_motes)
+  if collected_motes ~= nil then
+    return ISLSkillPoints.get_earned_skill_points_for_motes(collected_motes)
+  end
+  return 0
 end
 
 function ISLSkillPoints.get_skill_motes_for_skill_point(skill_point)
