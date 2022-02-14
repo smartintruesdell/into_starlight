@@ -70,7 +70,7 @@ It's really hard to do the math to correctly position every node by hand, and th
 
 There is a character sheet UI that allows the player to track the total stats and any perks they've unlocked on the skill graph.
 
-**** TODO Rename to "Constellation"
+**** DONE Rename to "Constellation"
 
 The player already has a "Character Sheet" of sorts in the form of their inventory, so calling ours the character sheet is both not especially flavorful and likelty confuse people.
 
@@ -105,7 +105,7 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 **** TODO Add tooltips to skill tree nodes [0/2]
 
-***** TODO Add tooltip for bonus nodes that shows the stats affected and the bonuses applied
+***** DONE add tooltip for bonus nodes that shows the stats affected and the bonuses applied
 
 ***** TODO Add tooltip for Perk nodes that describes the perk
 
@@ -119,7 +119,9 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 **** TODO Disable Revert/Apply when the state is not dirty
 
-**** TODO Disable Respec when the user is not admin / does not have a respec scroll
+**** TODO Fix Revert so that it's not identical to respec
+
+**** TODO Disable Respec when the user is not admin / does not have a respec core
 
 **** TODO Add some perks
 
@@ -187,19 +189,21 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
 
 **** DONE Mobility increases the player's movespeed and jumpheight
 
-** TODO Leveling Up
+** STARTED Leveling Up
 
-*** TODO Killing (most) monsters drops experience
+*** STARTED Killing (most) monsters drops experience
+
+**** DONE Killing Poptops drops experience
 
 *** TODO Killing boss monsters drops LOTs of experience
 
-*** TODO Farming plants drops experience
+*** DONE Farming plants drops experience
 
-*** TODO Collecting enough experience levels you up
+*** DONE Collecting enough experience levels you up
 
-*** TODO Leveling Up is Exciting
+*** DONE Leveling Up is Exciting
 
-*** TODO Leveling Up gets you skill points
+*** DONE Leveling Up gets you skill points
 
 ** Items
 
