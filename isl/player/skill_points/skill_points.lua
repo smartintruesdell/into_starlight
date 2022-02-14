@@ -57,18 +57,23 @@ function ISLSkillPoints.get_available_skill_points(entity_id)
   return world.entityCurrency(entity_id, "isl_skill_point")
 end
 
-function ISLSkillPoints.get_earned_skill_points(entity_id)
-  entity_id = default_to_player_id(entity_id)
+function ISLSkillPoints.get_earned_skill_points_for_motes(motes)
   ISLSkillPoints.Config =
     ISLSkillPoints.Config or root.assetJson(ConfigFilePath)
+
+  return binary_search_range_match(
+    ISLSkillPoints.Config.leveling,
+    motes
+  ) or 0
+end
+
+function ISLSkillPoints.get_earned_skill_points(entity_id)
+  entity_id = default_to_player_id(entity_id)
 
   -- Collected motes
   local collected_motes = ISLSkillPoints.get_skill_motes(entity_id)
 
-  return binary_search_range_match(
-    ISLSkillPoints.Config.leveling,
-    collected_motes
-  ) or 0
+  return ISLSkillPoints.get_earned_skill_points_for_motes(collected_motes)
 end
 
 function ISLSkillPoints.get_skill_motes_for_skill_point(skill_point)
