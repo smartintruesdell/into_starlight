@@ -29,6 +29,10 @@ function ISLStrings.initialize()
 end
 
 function ISLStrings:getString(string_id, default)
+  assert(
+    self ~= nil,
+    "Remember to call Strings:getString and not Strings.getString"
+  )
   assert(string_id ~= nil, "Tried to retrieve a nil string id")
   default = default or string_id
 
