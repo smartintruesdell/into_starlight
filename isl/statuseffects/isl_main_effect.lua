@@ -2,6 +2,8 @@
   This script defines the logic by which the player's stats from the IntoStarlight
   mod are applied to their damage/health/etc.
 ]]
+require("/scripts/util.lua")
+require("/isl/lib/log.lua")
 require("/isl/player/stats/player_stats.lua")
 require("/isl/player/stats/player_stats_controller.lua")
 require("/isl/player/skill_points/skill_points_controller.lua")

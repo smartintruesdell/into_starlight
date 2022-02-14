@@ -7,7 +7,7 @@
         {
           "particle": {
             "type": "text",
-            "text": "+1 Skill Point!",
+            "text": "Skill Up!",
             "size": 0.8,
             "color": [
               120,

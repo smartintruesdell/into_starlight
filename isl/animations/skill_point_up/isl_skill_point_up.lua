@@ -32,7 +32,7 @@ function apply_visual_effects()
           action = "particle",
           specification = {
             type = "text",
-            text = "^shadow;+1 Skill Point!",
+            text = "^shadow;Skill Up!",
             color = {255, 215, 82, 180},
             fullbright = true,
             initialVelocity = {0.0, 15.0},
