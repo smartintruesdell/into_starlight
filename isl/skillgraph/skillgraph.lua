@@ -170,14 +170,8 @@ end
 
 function ISLSkillGraph:lock_skill(skill_id)
   local function all_unlocked_children_are_supported()
-    ISLLog.debug("%s has children: %s", skill_id, util.tableToString(self.skills[skill_id].children))
     -- For each of the children of the specified node,
     for child_id, _ in pairs(self.skills[skill_id].children) do
-      ISLLog.debug(
-        "%s %s unlocked",
-        child_id,
-        self.unlocked_skills:contains(child_id) and "was" or "was not"
-      )
       -- If that child is unlocked, we want to make sure it has
       -- at least one other unlocked node adjacent to support it.
       if child_id ~= "start" and self.unlocked_skills:contains(child_id) then
@@ -198,13 +192,8 @@ function ISLSkillGraph:lock_skill(skill_id)
         end
         ::continue::
         if not supporting_grandchild_id then
-          ISLLog.debug(
-            "%s was unsupported",
-            child_id
-          )
           return false
         end
-        ISLLog.debug("%s was supported by %s", child_id, supporting_grandchild_id)
       end
     end
     return true
@@ -385,11 +374,18 @@ end
 
 
 function ISLSkillGraph:apply_perks_to_player(player)
+  ISLLog.debug("Applying perks to player")
   for skill_id, _ in pairs(self.saved_skills) do
     if self.skills[skill_id].type == "perk" then
       local effect_id = self.skills[skill_id].effectName
-      if not effect_id then goto continue end
+
+      if not effect_id then
+        ISLLog.warn("Perk %s did not have an associated effect", skill_id)
+        goto continue
+      end
+
       player.addEphemeralEffect(effect_id, math.huge)
+      ISLLog.debug("+Perk %s : %s", skill_id, effect_id)
     end
     ::continue::
   end
