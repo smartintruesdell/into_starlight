@@ -126,9 +126,6 @@ function ISLSkillGraph:load_modules(bindings)
           end
           skill.children = StringSet.new(skill.children)
           self.skills[skill_id] = skill
-          if skill.id == "the_warrior" then
-    ISLLog.debug("added skill to tree: %s", util.tableToString(skill))
-  end
         end
       end
     end
@@ -143,8 +140,10 @@ function ISLSkillGraph:unlock_skills(skill_id_list, force)
       self:unlock_skill(skill_id, force)
     end
   end
-  self:build_available_skills()
-  self:apply_skills_to_stats()
+  if not force then
+    self:build_available_skills()
+    self:apply_skills_to_stats()
+  end
 
   return self
 end
@@ -237,10 +236,6 @@ function ISLSkillGraph:build_back_links()
     -- Add that skill's id to the children of each of its children
     for _, child_id in ipairs(skill.children:to_Vec()) do
       self.skills[child_id].children:add(skill_id)
-
-      if self.skills[child_id] == "the_warrior" then
-        ISLLog.debug("skill backlink result: %s", util.tableToString(self.skills[child_id]))
-      end
     end
   end
 
@@ -346,7 +341,7 @@ function ISLSkillGraph:get_stat_details(stat_name)
 
     if skill_diff ~= nil then
       total_amount =
-        total_amount + skill.unlocks.stats[stat_name].amount
+        total_amount + (skill.unlocks.stats[stat_name].amount or 0)
 
       if skill.type == "species" then
         skill_diffs.from_species.amount =
@@ -355,12 +350,6 @@ function ISLSkillGraph:get_stat_details(stat_name)
           skill_diffs.from_species.multiplier +
           ((skill_diff.multiplier or 1) - 1)
       elseif skill.type == "perk" then
-        ISLLog.debug(
-          "found and applied perk %s, %s, %s",
-          skill_id,
-          util.tableToString(skill),
-          util.tableToString(skill_diff)
-        )
         skill_diffs.from_perks.amount =
           skill_diffs.from_perks.amount + (skill_diff.amount or 0)
         skill_diffs.from_perks.multiplier =

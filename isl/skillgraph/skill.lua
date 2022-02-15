@@ -16,9 +16,6 @@ ISLSkill = createClass("ISLSkill")
 
 --- Constructor
 function ISLSkill:init(data)
-  if data.id == "the_warrior" then
-    ISLLog.debug(util.tableToString(data))
-  end
   -- Safety defaults
   data = data or {}
   data.unlocks = data.unlocks or {}
@@ -44,10 +41,15 @@ function ISLSkill:init(data)
 end
 
 function ISLSkill.from_module(data)
-  if data.type == "bonus" then return ISLBonusSkill.new(data) end
-  if data.type == "perk" then return ISLPerkSkill.new(data) end
-
-  return ISLSkill.new(data)
+  local result = nil
+  if data.type == "bonus" then
+    result = ISLBonusSkill.new(data)
+  elseif data.type == "perk" then
+    result = ISLPerkSkill.new(data)
+  else
+    result = ISLSkill.new(data)
+  end
+  return result
 end
 
 -- Methods --------------------------------------------------------------------
@@ -129,10 +131,6 @@ function ISLPerkSkill:transform(dt, dr, ds)
 
   local res = ISLPerkSkill.new(self)
   res.position = self.position:transform(dt, dr, ds)
-
-  if res.id == "the_warrior" then
-    ISLLog.debug("skill translate result: %s", util.tableToString(res))
-  end
 
   return res
 end
