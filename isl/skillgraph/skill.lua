@@ -114,7 +114,7 @@ end
 
 function ISLPerkSkill:init(data)
   ISLSkill.init(self, data)
-
+  self.effectName = data.effectName
 end
 
 function ISLPerkSkill:transform(dt, dr, ds)

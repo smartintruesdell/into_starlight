@@ -384,7 +384,7 @@ function ISLSkillGraph:apply_perks_to_player(player)
         goto continue
       end
 
-      player.addEphemeralEffect(effect_id, math.huge)
+      status.addEphemeralEffect(effect_id, math.huge)
       ISLLog.debug("+Perk %s : %s", skill_id, effect_id)
     end
     ::continue::
