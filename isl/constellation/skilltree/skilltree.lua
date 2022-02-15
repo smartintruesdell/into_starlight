@@ -93,6 +93,10 @@ function UISkillTree:handleMouseDrag()
   self:draw()
 end
 
+function UISkillTree:handleMouseClick(position, button)
+  UIComponentWithMouseState.handleMouseClick(self, position, button, self.state)
+end
+
 function UISkillTree:handleMouseDoubleClick(position, button)
   UIComponentWithMouseState.handleMouseDoubleClick(self, position, button, self.state)
 end
@@ -139,7 +143,7 @@ function UISkillTree:draw_graph_lines()
 
   -- First, determine line colors for all lines
   for _, skill in pairs(SkillGraph.skills) do
-    for _, child_id in ipairs(skill.children) do
+    for _, child_id in ipairs(skill.children:to_Vec()) do
       assert(SkillGraph.skills[child_id], "Unable to find skill "..child_id)
 
       local first_id, second_id = sort_skill_ids(skill.id, child_id)

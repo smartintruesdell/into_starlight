@@ -62,19 +62,33 @@ function ISLSkillGraph.load(path)
   ISLLog.info("Initializing Skill Graph")
   graph = ISLSkillGraph.new()
   graph:load_modules(graph_config.skillModules.common)
-  graph:load_modules(graph_config.skillModules.species[player.species()] or graph_config.skillModules.species.default)
+  graph:load_modules(
+    graph_config.skillModules.species[player.species()] or
+    graph_config.skillModules.species.default
+  )
+  graph:build_back_links()
 
-  -- First, load any skills from the player property
-  graph.saved_skills.add_many(player.getProperty(SKILLS_PROPERTY_NAME) or {})
-  graph:load_unlocked_skills(graph.saved_skills:to_Vec())
+  -- First, load any skills from the player property into our "saved skills"
+  local saved_skills = player.getProperty(SKILLS_PROPERTY_NAME) or {}
+  graph.saved_skills:add_many(saved_skills)
+  -- Then, unlock them
+  graph:unlock_skills(graph.saved_skills:to_Vec(), true)
+
   -- Then, load common "initialSkills" from the graph config (usually just "start")
-  graph:load_unlocked_skills(graph_config.initialSkills.common)
+  graph:unlock_skills(graph_config.initialSkills.common, true)
+
   -- Then, load "initialSkills" for the player's species
-  graph:load_unlocked_skills(graph_config.initialSkills.species[player.species()] or graph_config.initialSkills.species.default)
+  graph:unlock_skills(
+    graph_config.initialSkills.species[player.species()] or
+    graph_config.initialSkills.species.default,
+    true
+  )
 
   -- Build available skills data
-  ISLLog.info("Deriving Available Skills")
   graph:build_available_skills()
+
+  -- And update our stats object
+  graph:apply_skills_to_stats()
 
   ISLLog.debug(
     "Loading the SkillGraph took %f seconds",
@@ -110,6 +124,7 @@ function ISLSkillGraph:load_modules(bindings)
               self.name
             )
           end
+          skill.children = StringSet.new(skill.children)
           self.skills[skill_id] = skill
         end
       end
@@ -119,53 +134,131 @@ function ISLSkillGraph:load_modules(bindings)
   return self;
 end
 
-function ISLSkillGraph:load_unlocked_skills(data)
-  for _, skill_id in ipairs(data or {}) do
-    self:unlock_skill(skill_id, true)
+function ISLSkillGraph:unlock_skills(skill_id_list, force)
+  for _, skill_id in ipairs(skill_id_list or {}) do
+    if not self.unlocked_skills:contains(skill_id) then
+      self:unlock_skill(skill_id, force)
+    end
+  end
+  if not force then
+    self:build_available_skills()
+    self:apply_skills_to_stats()
   end
 
   return self
 end
 
-local function player_has_skill_point_available()
-  return player.isAdmin()
+function ISLSkillGraph:unlock_skill(skill_id, force)
+  local skill_is_affordable =
+    player.isAdmin() or player.currency("isl_skill_point") > 0
+
+  if force or skill_is_affordable then
+    ISLLog.debug("Unlocking skill '%s'", skill_id)
+    self.unlocked_skills:add(skill_id)
+    if not force then
+      player.consumeCurrency("isl_skill_point", 1)
+    end
+  end
+
+  if not force then
+    -- Force is used during initialization, but afterwards any
+    -- unlocks should be accompanied by a rebuild of relationships
+    self:build_available_skills()
+    self:apply_skills_to_stats()
+  end
+
+  return self
 end
 
-function ISLSkillGraph:unlock_skill(skill_id, force)
-  -- Guard against inappropriate unlocks
-  local skill_is_available = self.available_skills:contains(skill_id)
-  local skill_is_affordable = player_has_skill_point_available()
-  local can_unlock =
-    force or (skill_is_available and skill_is_affordable)
+function ISLSkillGraph:lock_skill(skill_id)
+  local function all_unlocked_children_are_supported()
+    -- For each of the children of the specified node,
+    for child_id, _ in pairs(self.skills[skill_id].children) do
+      -- If that child is unlocked, we want to make sure it has
+      -- at least one other unlocked node adjacent to support it.
+      if child_id ~= "start" and self.unlocked_skills:contains(child_id) then
+        -- Assume unsupported to start
+        local supporting_grandchild_id = nil
+        -- Check all of that node's children
+        for grandchild_id, _ in pairs(self.skills[child_id].children) do
+          if
+            -- and if that child is not the one we're trying to toggle
+            grandchild_id ~= skill_id and
+            -- And it's currently unlocked
+            self.unlocked_skills:contains(grandchild_id)
+          then
+            -- Then we have a supporting grandchild for this child
+            supporting_grandchild_id = grandchild_id
+            goto continue
+          end
+        end
+        ::continue::
+        if not supporting_grandchild_id then
+          return false
+        end
+      end
+    end
+    return true
+  end
 
-  -- Guard against repeat-unlocks
-  if can_unlock and not self.unlocked_skills:contains(skill_id) then
-    ISLLog.info("Unlocking skill '%s'", skill_id)
-    self.unlocked_skills:add(skill_id)
+  local skill_is_lockable =
+    self.skills[skill_id].type ~= "species" and
+    self.unlocked_skills:contains(skill_id) and
+    all_unlocked_children_are_supported()
 
-    self:build_available_skills()
-    -- TODO: Spend skill point
+  if skill_is_lockable then
+    ISLLog.debug("Locking skill '%s'", skill_id)
+    self.unlocked_skills:remove(skill_id)
+    player.addCurrency("isl_skill_point", 1)
+  end
 
-    self:apply_skill_to_stats(skill_id)
+  self:build_available_skills()
+  self:apply_skills_to_stats()
+
+  return self
+end
+
+-- This is the user-facing version of unlock skill
+function ISLSkillGraph:toggle_skill_if_possible(skill_id)
+  if self.unlocked_skills:contains(skill_id) then
+    self:lock_skill(skill_id)
+    return true
+  elseif self.available_skills:contains(skill_id) then
+    self:unlock_skill(skill_id)
+    return true
+  end
+  return false
+end
+
+function ISLSkillGraph:build_back_links()
+  -- For each skill,
+  for skill_id, skill in pairs(self.skills) do
+    -- Add that skill's id to the children of each of its children
+    for _, child_id in ipairs(skill.children:to_Vec()) do
+      self.skills[child_id].children:add(skill_id)
+    end
   end
 
   return self
 end
 
 function ISLSkillGraph:build_available_skills()
+  ISLLog.info("Deriving Available Skills")
   -- A Skill is available for unlocking if it is adjacent to an unlocked skill
   -- and it is not unlocked.
   self.available_skills = StringSet.new()
 
+  -- For each skill,
   for skill_id, skill in pairs(self.skills) do
+    -- If that skill is unlocked,
     if self.unlocked_skills:contains(skill_id) then
-      for _, child_skill_id in ipairs(skill.children) do
-        if not self.unlocked_skills:contains(child_skill_id) then
-          self.available_skills:add(child_skill_id)
-        end
-      end
+      -- Add all of its children to the list of available skills
+      self.available_skills:add_many(skill.children:to_Vec())
     end
   end
+
+  -- Then remove all of the unlocked skills from the list
+  self.available_skills:remove_many(self.unlocked_skills:to_Vec())
 
   return self
 end
@@ -175,17 +268,19 @@ function ISLSkillGraph:apply_to_player(player)
 
   -- Save the player's unlocked skills as a property
   self.saved_skills = self.unlocked_skills:clone()
-  player.setProperty(SKILLS_PROPERTY_NAME, self.unlocked_skills:to_Vec())
+  ISLLog.debug("Saving skills: %s", util.tableToString(self.saved_skills:to_Vec()))
+  player.setProperty(SKILLS_PROPERTY_NAME, self.saved_skills:to_Vec())
+
 
   -- Apply derived stat updates
   self.stats:apply_to_player(player)
+  self:apply_perks_to_player(player)
 
   return self;
 end
 
 function ISLSkillGraph.reset_unlocked_skills(player)
   player.setProperty(SKILLS_PROPERTY_NAME, {})
-  -- TODO: Refund skill points
 
   return ISLSkillGraph.revert()
 end
@@ -199,6 +294,17 @@ function ISLSkillGraph:apply_skill_to_stats(skill_id)
     self._get_stat_details_cache[stat_name] = nil
     self.stats:modify_stat(stat_name, stat_value)
   end
+
+  return self
+end
+
+function ISLSkillGraph:apply_skills_to_stats()
+  self.stats = ISLPlayerStats.new()
+  for _, skill_id in ipairs(self.unlocked_skills:to_Vec()) do
+    self:apply_skill_to_stats(skill_id)
+  end
+
+  return self
 end
 
 function ISLSkillGraph:get_stat_details(stat_name)
@@ -227,27 +333,29 @@ function ISLSkillGraph:get_stat_details(stat_name)
   for _, skill_id in ipairs(self.unlocked_skills:to_Vec()) do
     assert(self.skills ~= nil, "Skills was not initialized")
     assert(self.skills[skill_id] ~= nil, "Had an unlocked skill that was not available")
-    assert(self.skills[skill_id].unlocks ~= nil, "Bad skill data")
-    if not self.skills[skill_id].unlocks.stats then goto continue end
+    local skill = self.skills[skill_id]
+    assert(skill.unlocks ~= nil, "Bad skill data")
+    if not skill.unlocks.stats then goto continue end
 
-    local skill_diff = self.skills[skill_id].unlocks.stats[stat_name]
+    local skill_diff = skill.unlocks.stats[stat_name]
 
     if skill_diff ~= nil then
       total_amount =
-        total_amount + self.skills[skill_id].unlocks.stats[stat_name].amount
+        total_amount + (skill.unlocks.stats[stat_name].amount or 0)
 
-      if self.skills[skill_id].type == "species" then
+      if skill.type == "species" then
         skill_diffs.from_species.amount =
           skill_diffs.from_species.amount + (skill_diff.amount or 0)
         skill_diffs.from_species.multiplier =
           skill_diffs.from_species.multiplier +
           ((skill_diff.multiplier or 1) - 1)
-      elseif self.skills[skill_id].type == "perk" then
+      elseif skill.type == "perk" then
         skill_diffs.from_perks.amount =
           skill_diffs.from_perks.amount + (skill_diff.amount or 0)
         skill_diffs.from_perks.multiplier =
           skill_diffs.from_perks.multiplier +
           ((skill_diff.multiplier or 1) - 1)
+        ISLLog.debug("%f", skill_diffs.from_perks.multiplier)
       else
         skill_diffs.from_skills.amount =
           skill_diffs.from_skills.amount + (skill_diff.amount or 0)
@@ -266,4 +374,23 @@ function ISLSkillGraph:get_stat_details(stat_name)
   }
 
   return self._get_stat_details_cache[stat_name]
+end
+
+
+function ISLSkillGraph:apply_perks_to_player(player)
+  ISLLog.debug("Applying perks to player")
+  for skill_id, _ in pairs(self.saved_skills) do
+    if self.skills[skill_id].type == "perk" then
+      local effect_id = self.skills[skill_id].effectName
+
+      if not effect_id then
+        ISLLog.warn("Perk %s did not have an associated effect", skill_id)
+        goto continue
+      end
+
+      status.addEphemeralEffect(effect_id, math.huge)
+      ISLLog.debug("+Perk %s : %s", skill_id, effect_id)
+    end
+    ::continue::
+  end
 end

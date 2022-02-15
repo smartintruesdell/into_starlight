@@ -53,12 +53,15 @@ function ISLPlayerStats:set_stat(stat_name, new_values)
   return self
 end
 
-function ISLPlayerStats:modify_stat(stat_name, delta)
-  delta = delta or {}
-  delta.amount = delta.amount or 0
-  delta.multiplier = delta.multipler or 1
-  self[stat_name].amount = self[stat_name].amount + delta.amount
-  self[stat_name].multiplier = self[stat_name].multiplier + (delta.multiplier - 1)
+function ISLPlayerStats:modify_stat(stat_name, stat_value)
+  if stat_value.amount ~= nil then
+    self[stat_name].amount =
+      self[stat_name].amount + stat_value.amount
+  end
+  if stat_value.multiplier ~= nil then
+    self[stat_name].multiplier =
+      self[stat_name].multiplier + (stat_value.multiplier - 1)
+  end
 
   return self
 end

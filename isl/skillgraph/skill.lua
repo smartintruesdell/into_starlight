@@ -18,7 +18,6 @@ ISLSkill = createClass("ISLSkill")
 function ISLSkill:init(data)
   -- Safety defaults
   data = data or {}
-  data.strings = data.strings or {}
   data.unlocks = data.unlocks or {}
 
   -- Id
@@ -26,9 +25,6 @@ function ISLSkill:init(data)
   self.type = data.type or 'bonus'
 
   -- Visuals
-  self.strings = {}
-  self.strings.name = data.strings.name or "Missing Skill Name"
-  self.strings.description = data.strings.description or nil
   self.icon = data.icon
   self.background = data.background
   self.mask = data.mask
@@ -40,18 +36,20 @@ function ISLSkill:init(data)
   -- Unlocks
   self.unlocks = {}
   self.unlocks.stats = data.unlocks.stats or {}
-  self.unlocks.effects = data.unlocks.effects or {}
   self.unlocks.blueprints = data.unlocks.blueprints or {}
   self.unlocks.techs = data.unlocks.techs or {}
 end
 
 function ISLSkill.from_module(data)
-  -- If the type isn't `bonus`, this is staright forward.
-  if data.type ~= "bonus" then return ISLSkill.new(data) end
-
-  -- If the type IS `bonus`, then we need to derive the skill from available
-  -- templates.
-  return ISLBonusSkill.new(data)
+  local result = nil
+  if data.type == "bonus" then
+    result = ISLBonusSkill.new(data)
+  elseif data.type == "perk" then
+    result = ISLPerkSkill.new(data)
+  else
+    result = ISLSkill.new(data)
+  end
+  return result
 end
 
 -- Methods --------------------------------------------------------------------
@@ -67,11 +65,12 @@ function ISLSkill:transform(dt, dr, ds)
   return res
 end
 
--- Subclass -------------------------------------------------------------------
+-- Subclasses -------------------------------------------------------------------
 
 ISLBonusSkill = defineSubclass(ISLSkill, "ISLBonusSkill")()
+ISLPerkSkill = defineSubclass(ISLSkill, "ISLPerkSkill")()
 
--- Constructor ----------------------------------------------------------------
+-- Bonuses ----------------------------------------------------------------------
 
 function ISLBonusSkill:init(data)
   ISLSkill.init(self, data)
@@ -109,6 +108,28 @@ function ISLBonusSkill:transform(dt, dr, ds)
   ds = ds or 1
 
   local res = ISLBonusSkill.new(self)
+  res.position = self.position:transform(dt, dr, ds)
+
+  return res
+end
+
+
+-- Perks ----------------------------------------------------------------------
+
+function ISLPerkSkill:init(data)
+  ISLSkill.init(self, data)
+  self.effectName = data.effectName
+end
+
+function ISLPerkSkill:transform(dt, dr, ds)
+  -- NOTE: This looks like we could do ISLSkill.transform(self, ...) but
+  -- that won't work because the super method returns a new ISLSkill and
+  -- we don't want our PerkSkills becoming boring regular skills.
+  dt = dt or { 0, 0 }
+  dr = dr or 0
+  ds = ds or 1
+
+  local res = ISLPerkSkill.new(self)
   res.position = self.position:transform(dt, dr, ds)
 
   return res

@@ -26,7 +26,7 @@ end
 
 function StringSet:add_many(vec)
   assert(self ~= nil, "Remember to use StringSet:add_many instead of StringSet.add_many")
-  vec = vec or {}
+  assert(vec ~= nil, "Tried to add an empty vector to a StringSet")
   for _, value in ipairs(vec) do
     self:add(value)
   end
@@ -34,9 +34,23 @@ function StringSet:add_many(vec)
   return self
 end
 
+function StringSet.union(a, b)
+  return StringSet.new():add_many(a:to_Vec()):add_many(b:to_Vec())
+end
+
 function StringSet:remove(value)
   assert(self ~= nil, "Remember to use StringSet:remove instead of StringSet.remove")
   self[value] = nil
+
+  return self
+end
+
+function StringSet:remove_many(vec)
+  assert(self ~= nil, "Remember to use StringSet:remove_many instead of StringSet.remove_many")
+  vec = vec or {}
+  for _, value in ipairs(vec) do
+    self:remove(value)
+  end
 
   return self
 end

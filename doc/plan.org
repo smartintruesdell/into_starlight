@@ -48,21 +48,31 @@ It's really hard to do the math to correctly position every node by hand, and th
 **** TODO Design the Skill Graph
 
 #+begin_src text
+                      (Floran)
+                      2H Melee
+         DW Melee                  1H Melee (+shield)
+                      Strength
+      (Hylotl)                            (Glitch)
 
-                     2H Melee
-        DW Melee                  1H Melee (+shield)
-                     Strength
+   1H Ranged                      1H Magical
+                        CORE
 
+          Precision               Wits
 
-  1H Ranged                      1H Magical
-                       CORE
-
-         Precision               Wits
-     2H Ranged                      2H Magical
-
-                 Sniper    Pets(?)
+      2H Ranged                      2H Magical
+  (Apex)                                    (Avian)
+                  Sniper    Pets(?)
 #+end_src
 
+**** TODO Design species core modules for the vanilla species
+
+- [ ] Human : Balanced, No real optimization, Yo-Yos
+- [ ] Apex : Ranged Specialization, Rifles
+- [ ] Avian : Magic Specialization, Staffs
+- [ ] Floran : Melee Specialization, Spears
+- [ ] Glitch : Melee+Magic Specialization, SNS + Magical
+- [ ] Novakid : Ranged+Magic Specialization, Pistols + Magical
+- [ ] Hylotl : Melee+Ranged Specialization, Katanas & Bows
 
 ** UI
 
@@ -111,7 +121,7 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 **** DONE Revise =bonus= node graphcs to be (2^n)-1 scale (ie, to have a discreet center line)
 
-**** TODO Create =perk= node graphics and default icons
+**** STARTED Create =perk= node graphics and default icons
 
 **** DONE Add working state REVERT / APPLY to enable skill shopping
 
@@ -123,7 +133,7 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 **** TODO Disable Respec when the user is not admin / does not have a respec core
 
-**** TODO Add some perks
+**** STARTED Add some perks
 
 Right now Perks are an idea and not a reality. The Species and Bonus nodes work great, but we're not seeing any effect from perks.
 
@@ -234,3 +244,15 @@ Most (all?) mods that utilize the Stardust Quickbar also offer a craftable inven
 Behind the player's portrait we want to show a proportional radar chart that shifts in composition and color as the player acquires more and more of a single stat.
 
 We'll probably want the differences on the chart to be logarithmic rather than linear because most players are going to end up going deep on one stat or the other, and I wouldn't want all players to have a dramatic V behind them every time.
+
+*** Skill Tree
+
+**** BUG - User can lock nodes that would orphan parts of the tree
+
+The current check for node support only goes two levels out from the selected node, which means that it's fairly trivial to orphan parts of your tree and unlock nodes unfairly.
+
+Build out to the perk you want, then orphan the perk and one supporting node and you can collect all of the perks for #perks*2 skill points.
+
+That seems DEEPLY problematic, but requires us to write graph crawling algorithms to determine valid selections more robustly.
+
+This is something we want eventually to allow users to quickly select a node deep in the tree and spend many skill points at once on the shortest route, so I expect we'll end up doing it eventually.

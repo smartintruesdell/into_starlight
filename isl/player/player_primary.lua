@@ -45,9 +45,6 @@ function applyDamageRequest(damageRequest)
   -- Evasion provides a chance to DODGE attacks made against the player
   -- (it's a small chance with diminishing returns)
   local dodge_chance = player_stats:get_evasion_dodge_chance()
-  -- DEBUG: SET DODGE_CHANCE REALLY HIGH
-  dodge_chance = 50
-  -- END DEBUG
   if dodge_chance > 0 and math.random(100)<= dodge_chance then
     status.addEphemeralEffect("isl_dodge") -- "Dodge!" particle
     return {}
