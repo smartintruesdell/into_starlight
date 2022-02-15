@@ -1,6 +1,25 @@
 {
   "name": "isl_perk_the_warrior",
   "defaultDuration": 5,
+  "effectConfig": {
+    "hitKinds": [
+      "slash",
+      "fist",
+      "lash",
+      "broadsword",
+      "katana",
+      "hammer",
+      "dagger",
+      "axe",
+      "spear"
+    ],
+    "chanceOnHit": 10,
+    "chanceBonusPerMiss": 5,
+    "chanceBonusDuration": 15,
+    "chanceBonusMaximum": 25,
+    "cooldown": 5,
+    "regenerationEffect": "isl_warrior_regen"
+  },
   "scripts": [
     "isl_perk_the_warrior.lua"
   ]
