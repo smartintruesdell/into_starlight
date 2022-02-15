@@ -96,12 +96,16 @@ function UISkillTreeNode:area_contains_position(offset, position)
   return distance <= self.radius
 end
 
-function UISkillTreeNode:handleMouseDoubleClick(position, _, skilltree_state)
+function UISkillTreeNode:handleMouseClick(position, _, skilltree_state)
   local is_in_bounds = self:area_contains_position(
     skilltree_state.drag_offset,
     position
   )
   if is_in_bounds then
-    SkillGraph:unlock_skill(self.skill.id)
+    SkillGraph:toggle_skill_if_possible(self.skill.id)
   end
+end
+
+function UISkillTreeNode:handleMouseDoubleClick(--[[position, _, skilltree_state]])
+  -- Double click doesn't do anything currently
 end

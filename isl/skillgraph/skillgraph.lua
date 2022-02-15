@@ -140,6 +140,8 @@ function ISLSkillGraph:unlock_skills(skill_id_list, force)
       self:unlock_skill(skill_id, force)
     end
   end
+  self:build_available_skills()
+  self:apply_skills_to_stats()
 
   return self
 end
@@ -148,7 +150,6 @@ function ISLSkillGraph:unlock_skill(skill_id, force)
   local skill_is_affordable =
     player.isAdmin() or player.currency("isl_skill_point") > 0
 
-  -- Guard against repeat-unlocks
   if force or skill_is_affordable then
     ISLLog.debug("Unlocking skill '%s'", skill_id)
     self.unlocked_skills:add(skill_id)
@@ -161,10 +162,81 @@ function ISLSkillGraph:unlock_skill(skill_id, force)
     -- Force is used during initialization, but afterwards any
     -- unlocks should be accompanied by a rebuild of relationships
     self:build_available_skills()
-    self:apply_skill_to_stats(skill_id)
+    self:apply_skills_to_stats()
   end
 
   return self
+end
+
+function ISLSkillGraph:lock_skill(skill_id)
+  local function all_unlocked_children_are_supported()
+    ISLLog.debug("%s has children: %s", skill_id, util.tableToString(self.skills[skill_id].children))
+    -- For each of the children of the specified node,
+    for child_id, _ in pairs(self.skills[skill_id].children) do
+      ISLLog.debug(
+        "%s %s unlocked",
+        child_id,
+        self.unlocked_skills:contains(child_id) and "was" or "was not"
+      )
+      -- If that child is unlocked, we want to make sure it has
+      -- at least one other unlocked node adjacent to support it.
+      if child_id ~= "start" and self.unlocked_skills:contains(child_id) then
+        -- Assume unsupported to start
+        local supporting_grandchild_id = nil
+        -- Check all of that node's children
+        for grandchild_id, _ in pairs(self.skills[child_id].children) do
+          if
+            -- and if that child is not the one we're trying to toggle
+            grandchild_id ~= skill_id and
+            -- And it's currently unlocked
+            self.unlocked_skills:contains(grandchild_id)
+          then
+            -- Then we have a supporting grandchild for this child
+            supporting_grandchild_id = grandchild_id
+            goto continue
+          end
+        end
+        ::continue::
+        if not supporting_grandchild_id then
+          ISLLog.debug(
+            "%s was unsupported",
+            child_id
+          )
+          return false
+        end
+        ISLLog.debug("%s was supported by %s", child_id, supporting_grandchild_id)
+      end
+    end
+    return true
+  end
+
+  local skill_is_lockable =
+    self.skills[skill_id].type ~= "species" and
+    self.unlocked_skills:contains(skill_id) and
+    all_unlocked_children_are_supported()
+
+  if skill_is_lockable then
+    ISLLog.debug("Locking skill '%s'", skill_id)
+    self.unlocked_skills:remove(skill_id)
+    player.addCurrency("isl_skill_point", 1)
+  end
+
+  self:build_available_skills()
+  self:apply_skills_to_stats()
+
+  return self
+end
+
+-- This is the user-facing version of unlock skill
+function ISLSkillGraph:toggle_skill_if_possible(skill_id)
+  if self.unlocked_skills:contains(skill_id) then
+    self:lock_skill(skill_id)
+    return true
+  elseif self.available_skills:contains(skill_id) then
+    self:unlock_skill(skill_id)
+    return true
+  end
+  return false
 end
 
 function ISLSkillGraph:build_back_links()
@@ -236,6 +308,7 @@ function ISLSkillGraph:apply_skill_to_stats(skill_id)
 end
 
 function ISLSkillGraph:apply_skills_to_stats()
+  self.stats = ISLPlayerStats.new()
   for _, skill_id in ipairs(self.unlocked_skills:to_Vec()) do
     self:apply_skill_to_stats(skill_id)
   end

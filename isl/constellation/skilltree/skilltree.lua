@@ -93,6 +93,10 @@ function UISkillTree:handleMouseDrag()
   self:draw()
 end
 
+function UISkillTree:handleMouseClick(position, button)
+  UIComponentWithMouseState.handleMouseClick(self, position, button, self.state)
+end
+
 function UISkillTree:handleMouseDoubleClick(position, button)
   UIComponentWithMouseState.handleMouseDoubleClick(self, position, button, self.state)
 end
