@@ -1,5 +1,5 @@
 {
-  "name": "isl_perk_the_warrior",
+  "name": "isl_perk_warriors_grit",
   "defaultDuration": 5,
   "effectConfig": {
     "hitKinds": [
@@ -18,9 +18,9 @@
     "chanceBonusDuration": 15,
     "chanceBonusMaximum": 25,
     "cooldown": 5,
-    "regenerationEffect": "isl_warrior_regen"
+    "regenerationEffect": "isl_warriors_grit_regen"
   },
   "scripts": [
-    "isl_perk_the_warrior.lua"
+    "isl_perk_warriors_grit.lua"
   ]
 }
