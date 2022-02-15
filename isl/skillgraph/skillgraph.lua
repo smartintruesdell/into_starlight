@@ -126,6 +126,9 @@ function ISLSkillGraph:load_modules(bindings)
           end
           skill.children = StringSet.new(skill.children)
           self.skills[skill_id] = skill
+          if skill.id == "the_warrior" then
+    ISLLog.debug("added skill to tree: %s", util.tableToString(skill))
+  end
         end
       end
     end
@@ -234,6 +237,10 @@ function ISLSkillGraph:build_back_links()
     -- Add that skill's id to the children of each of its children
     for _, child_id in ipairs(skill.children:to_Vec()) do
       self.skills[child_id].children:add(skill_id)
+
+      if self.skills[child_id] == "the_warrior" then
+        ISLLog.debug("skill backlink result: %s", util.tableToString(self.skills[child_id]))
+      end
     end
   end
 
@@ -331,27 +338,35 @@ function ISLSkillGraph:get_stat_details(stat_name)
   for _, skill_id in ipairs(self.unlocked_skills:to_Vec()) do
     assert(self.skills ~= nil, "Skills was not initialized")
     assert(self.skills[skill_id] ~= nil, "Had an unlocked skill that was not available")
-    assert(self.skills[skill_id].unlocks ~= nil, "Bad skill data")
-    if not self.skills[skill_id].unlocks.stats then goto continue end
+    local skill = self.skills[skill_id]
+    assert(skill.unlocks ~= nil, "Bad skill data")
+    if not skill.unlocks.stats then goto continue end
 
-    local skill_diff = self.skills[skill_id].unlocks.stats[stat_name]
+    local skill_diff = skill.unlocks.stats[stat_name]
 
     if skill_diff ~= nil then
       total_amount =
-        total_amount + self.skills[skill_id].unlocks.stats[stat_name].amount
+        total_amount + skill.unlocks.stats[stat_name].amount
 
-      if self.skills[skill_id].type == "species" then
+      if skill.type == "species" then
         skill_diffs.from_species.amount =
           skill_diffs.from_species.amount + (skill_diff.amount or 0)
         skill_diffs.from_species.multiplier =
           skill_diffs.from_species.multiplier +
           ((skill_diff.multiplier or 1) - 1)
-      elseif self.skills[skill_id].type == "perk" then
+      elseif skill.type == "perk" then
+        ISLLog.debug(
+          "found and applied perk %s, %s, %s",
+          skill_id,
+          util.tableToString(skill),
+          util.tableToString(skill_diff)
+        )
         skill_diffs.from_perks.amount =
           skill_diffs.from_perks.amount + (skill_diff.amount or 0)
         skill_diffs.from_perks.multiplier =
           skill_diffs.from_perks.multiplier +
           ((skill_diff.multiplier or 1) - 1)
+        ISLLog.debug("%f", skill_diffs.from_perks.multiplier)
       else
         skill_diffs.from_skills.amount =
           skill_diffs.from_skills.amount + (skill_diff.amount or 0)

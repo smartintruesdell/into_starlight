@@ -16,6 +16,9 @@ ISLSkill = createClass("ISLSkill")
 
 --- Constructor
 function ISLSkill:init(data)
+  if data.id == "the_warrior" then
+    ISLLog.debug(util.tableToString(data))
+  end
   -- Safety defaults
   data = data or {}
   data.unlocks = data.unlocks or {}
@@ -36,7 +39,6 @@ function ISLSkill:init(data)
   -- Unlocks
   self.unlocks = {}
   self.unlocks.stats = data.unlocks.stats or {}
-  self.unlocks.effects = data.unlocks.effects or {}
   self.unlocks.blueprints = data.unlocks.blueprints or {}
   self.unlocks.techs = data.unlocks.techs or {}
 end
@@ -127,6 +129,10 @@ function ISLPerkSkill:transform(dt, dr, ds)
 
   local res = ISLPerkSkill.new(self)
   res.position = self.position:transform(dt, dr, ds)
+
+  if res.id == "the_warrior" then
+    ISLLog.debug("skill translate result: %s", util.tableToString(res))
+  end
 
   return res
 end
