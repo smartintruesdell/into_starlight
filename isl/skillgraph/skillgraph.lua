@@ -355,7 +355,6 @@ function ISLSkillGraph:get_stat_details(stat_name)
         skill_diffs.from_perks.multiplier =
           skill_diffs.from_perks.multiplier +
           ((skill_diff.multiplier or 1) - 1)
-        ISLLog.debug("%f", skill_diffs.from_perks.multiplier)
       else
         skill_diffs.from_skills.amount =
           skill_diffs.from_skills.amount + (skill_diff.amount or 0)
@@ -389,7 +388,6 @@ function ISLSkillGraph:apply_perks_to_player(player)
       end
 
       status.addEphemeralEffect(effect_id, math.huge)
-      ISLLog.debug("+Perk %s : %s", skill_id, effect_id)
     end
     ::continue::
   end
