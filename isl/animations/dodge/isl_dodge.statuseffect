@@ -1,8 +1,0 @@
-{
-  "name": "isl_dodge",
-  "defaultDuration": 3,
-  "scripts": [
-    "isl_dodge.lua"
-  ],
-  "animationConfig": "isl_dodge.animation"
-}

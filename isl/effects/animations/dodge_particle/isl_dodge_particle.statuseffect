@@ -1,0 +1,8 @@
+{
+  "name": "isl_dodge_particle",
+  "defaultDuration": 3,
+  "scripts": [
+    "isl_dodge_particle.lua"
+  ],
+  "animationConfig": "isl_dodge_particle.animation"
+}
