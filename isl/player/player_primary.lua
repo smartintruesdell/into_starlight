@@ -9,7 +9,7 @@ require("/isl/player/stats/player_stats.lua")
 -- Constants ------------------------------------------------------------------
 
 local EFFECTS = {}
-EFFECTS.CONTROLLER = "isl_main_effect"
+EFFECTS.CONTROLLER = "isl_player_controllers"
 EFFECTS.DODGE = "isl_dodge"
 
 -- Script `init`, `update`, and `uninit` will REPLACE scripts loaded before

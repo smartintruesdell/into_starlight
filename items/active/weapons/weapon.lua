@@ -10,19 +10,27 @@ require "/scripts/util.lua"
 Weapon = {}
 
 -- Plugin Loader
-local PLUGINS_PATH = "/items/active/weapons/weapon.plugins.config"
+local PLUGINS_PATH = "/items/active/weapons/weapon_plugins.config"
 local __LoadedPlugins = nil
 
 function Weapon:new(weaponConfig)
-  -- PLUGIN LOADER, called only once and when the first weapon is instantiated
+  -- PLUGIN LOADER
+  sb.logInfo(string.format("Checking for unloaded Weapon plugins"))
   if not __LoadedPlugins then
-    for _, plugin in ipairs(root.assetJson(PLUGINS_PATH)) do
+    __LoadedPlugins = {}
+    sb.logInfo(string.format("Loading Weapon plugins"))
+    local plugin_config = root.assetJson(PLUGINS_PATH)
+    sb.logInfo(util.tableToString(plugin_config))
+    for _, plugin in ipairs(plugin_config.plugins) do
       if not __LoadedPlugins[plugin] then
         sb.logInfo(string.format("Loading Weapon plugin %s", plugin))
         require(plugin)
         __LoadedPlugins[plugin] = true
       end
     end
+  end
+  if Weapon.plugin_update_weaponConfig ~= nil then
+    weaponConfig = Weapon.plugin_update_weaponConfig(weaponConfig or {})
   end
   -- END PLUGIN LOADER
 

@@ -31,5 +31,7 @@ end
 function uninit()
    super_uninit()
    ISLLog.info("Cleaning up IntoStarlight Player Features")
-   status.removeEphemeralEffect("isl_main_effect")
+   status.removeEphemeralEffect("isl_player_controllers")
+   -- TODO: Gonna want to remove all the perks on the player too, for
+   -- uninstall safety
 end
