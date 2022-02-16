@@ -5,9 +5,11 @@
 require("/scripts/util.lua")
 require("/isl/lib/log.lua")
 
+local PATH = "/isl/effects/animations/dodge_particle"
+
 function init()
   script.setUpdateDelta(5)
-  self.status_config = root.assetJson("/isl/animations/dodge/isl_dodge.statuseffect")
+  self.status_config = root.assetJson(PATH.."/isl_dodge_particle.statuseffect")
 end
 
 function apply_visual_effects()
