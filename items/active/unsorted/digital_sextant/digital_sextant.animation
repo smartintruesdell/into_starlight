@@ -1,0 +1,23 @@
+{
+  "animatedParts": {
+    "parts": {
+      "item": {
+        "properties": {
+          "centered": true,
+          "image": "digital_sextant.png",
+          "offset": [
+            0.3,
+            0.25
+          ],
+          "allowRotate": true,
+          "allowFlip": true
+        }
+      }
+    }
+  },
+  "sounds": {
+    "activate": [
+      "/sfx/interface/scan.ogg"
+    ]
+  }
+}
