@@ -164,5 +164,10 @@ end
 
 function ISLPlayerStats:get_critical_hit_multiplier()
   -- TODO
+  return 0.5
+end
+
+function ISLPlayerStats:get_attack_speed_multiplier()
+  -- TODO
   return 1
 end
