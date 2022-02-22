@@ -199,6 +199,14 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
 
 **** DONE Mobility increases the player's movespeed and jumpheight
 
+*** DONE Critical Hits
+
+*** TODO Attack Speed
+
+*** TODO Cast Speed
+
+*** TODO Energy Regen
+
 ** STARTED Leveling Up
 
 *** STARTED Killing (most) monsters drops experience
