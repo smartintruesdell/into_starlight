@@ -1,0 +1,10 @@
+[
+  {
+    "op": "add",
+    "path": "/plugins/-",
+    "value": {
+      "name": "meleecombo_isl_attack_speed_plugin",
+      "path": "/isl/plugins/items/active/weapons/melee/meleecombo_isl_attack_speed_plugin.lua"
+    }
+  }
+]
