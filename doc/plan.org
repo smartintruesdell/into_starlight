@@ -201,7 +201,7 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
 
 *** DONE Critical Hits
 
-*** TODO Attack Speed
+*** DONE Attack Speed
 
 *** TODO Cast Speed
 
