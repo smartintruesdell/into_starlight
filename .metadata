@@ -4,6 +4,9 @@
   "friendlyName": "Into Starlight",
   "name": "Into_Starlight",
   "requires": [
+    "LuaPluginLib"
+  ],
+  "includes": [
     "StardustLib"
   ],
   "tags": "Mechanics",

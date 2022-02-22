@@ -1,11 +1,11 @@
 {
-  "name": "isl_main_effect",
+  "name": "isl_player_controllers",
   "effectConfig": {
     "healthBonus": 0,
     "energyBonus": 0
   },
   "defaultDuration": 3,
   "scripts": [
-    "/isl/statuseffects/isl_main_effect.lua"
+    "/isl/player/player_controllers.lua"
   ]
 }

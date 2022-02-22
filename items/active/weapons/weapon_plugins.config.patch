@@ -1,0 +1,10 @@
+[
+  {
+    "op": "add",
+    "path": "/plugins/-",
+    "value": {
+      "name": "isl_weapon_critical_hits_plugin",
+      "path": "/isl/plugins/items/active/weapons/weapon_isl_critical_hits_plugin.lua"
+    }
+  }
+]

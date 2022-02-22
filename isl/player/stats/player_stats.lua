@@ -33,12 +33,6 @@ function ISLPlayerStats.hard_reset(player)
   return ISLPlayerStats.new():apply_to_player(player)
 end
 
--- TODO: Make this an instance method, this is silly.
-function ISLPlayerStats:get_evasion_dodge_chance()
-  local evasion = (self.isl_evasion.amount or 0) * (self.isl_evasion.multiplier or 1)
-  return 35 * math.log(evasion * 0.025) + 0.2
-end
-
 -- Methods --------------------------------------------------------------------
 
 ---@param stat_name string The stat to update
@@ -156,4 +150,19 @@ function ISLPlayerStats:apply_to_player(player)
   end
 
   return self
+end
+
+function ISLPlayerStats:get_evasion_dodge_chance()
+  local evasion = (self.isl_evasion.amount or 0) * (self.isl_evasion.multiplier or 1)
+  return 35 * math.log(evasion * 0.025) + 0.2
+end
+
+function ISLPlayerStats:get_critical_hit_chance()
+  -- TODO
+  return 5
+end
+
+function ISLPlayerStats:get_critical_hit_multiplier()
+  -- TODO
+  return 1
 end
