@@ -3,7 +3,8 @@
   "description": "Add a new progression system to your game with =Into Starlight='s passive skill tree. Customize your journey by choosing which skills matter to your playstyle.",
   "friendlyName": "Into Starlight",
   "name": "Into_Starlight",
-  "requires": [
+  "requires": [],
+  "includes": [
     "StardustLib"
   ],
   "tags": "Mechanics",
