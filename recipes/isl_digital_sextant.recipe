@@ -1,0 +1,14 @@
+{
+  "input": [
+    {
+      "item": "isl_skill_mote",
+      "count": 5
+    }
+  ],
+  "duration": 5,
+  "output": {
+    "item": "isl_digital_sextant",
+    "count": 1
+  },
+  "groups": ["plain"]
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "op": "add",
+    "path": "/starterTreasure/0/1/fill/-",
+    "value": {
+      "item": [
+        "isl_digital_sextant",
+        1
+      ]
+    }
+  }
+]

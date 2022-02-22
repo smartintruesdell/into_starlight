@@ -21,7 +21,9 @@
     "/sfx/objects/ancientenergy_pickup2.ogg",
     "/sfx/objects/ancientenergy_pickup3.ogg"
   ],
-  "learnBlueprintsOnPickup": [],
+  "learnBlueprintsOnPickup": [
+    "isl_digital_sextant"
+  ],
   "smallStackLimit": 100,
   "mediumStackLimit": 1000,
   "maxStack": 250000
