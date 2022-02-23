@@ -169,5 +169,23 @@
       "playerMax": 9999,
       "sail_hidden": true
     }
+  },
+  {
+    "op": "add",
+    "path": "/isl_charisma",
+    "value": {
+      "representativeItem": "isl_charisma_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_charisma_multiplier",
+    "value": {
+      "representativeItem": "isl_charisma_multiplier_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
   }
 ]
