@@ -1,0 +1,21 @@
+{
+  "itemName": "isl_digital_starchart",
+  "shortdescription": "Digital Starchart",
+  "description": "^cyan;Primary^reset;: View your Skills Constellation",
+  "price": 1,
+  "maxStack": 1,
+  "rarity": "essential",
+  "category": "Console",
+  "twoHanded": true,
+  "itemTags": [
+    "tool"
+  ],
+  "inventoryIcon": "digital_starchart.png",
+  "animation": "digital_starchart.animation",
+  "radioMessagesOnPickup": [
+    "isl_startup"
+  ],
+  "scripts": [
+    "digital_starchart.lua"
+  ]
+}
