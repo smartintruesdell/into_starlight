@@ -187,5 +187,23 @@
       "playerMax": 9999,
       "sail_hidden": true
     }
+  },
+  {
+    "op": "add",
+    "path": "/isl_celerity",
+    "value": {
+      "representativeItem": "isl_celerity_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_celerity_multiplier",
+    "value": {
+      "representativeItem": "isl_celerity_multiplier_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
   }
 ]
