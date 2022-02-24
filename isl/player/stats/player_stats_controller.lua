@@ -78,7 +78,7 @@ function ISLPlayerStatEffectsController:init(entity_id)
   local held_items, _ = ISLHeldItems.new():read_from_entity(entity_id)
   self.state.held_items = held_items
 
-  local stats, _ = ISLPlayerStats.new():read_from_entity(entity_id)
+  local stats = ISLPlayerStats.new():read_from_entity(entity_id)
   self.state.stats = stats
 
   -- Initialize effect controllers Each is a module with a static `get_effects`

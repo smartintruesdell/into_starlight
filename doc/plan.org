@@ -106,8 +106,8 @@ One of the things that rubbed me the wrong way about RPG Growth was that it was 
 
 - [ ] Vigor
 - [ ] Mobility
-- [ ] Crit Chance?
-- [ ] Fourth Thing
+- [ ] Crit Chance
+- [ ] Attack/Cast Speed
 
 *** STARTED Feat/skilltree
 
@@ -201,15 +201,16 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
 
 *** DONE Critical Hits
 
-*** DONE Attack Speed
+*** STARTED Attack / CastSpeed
 
-*** TODO Cast Speed
+*** STARTED Charisma
 
-*** TODO Energy Regen
+- [ ] Reduce merchant buy costs
+- [ ] Lower-level NPCs are not hostile
 
 ** STARTED Leveling Up
 
-*** STARTED Killing (most) monsters drops experience
+*** DONE Killing monsters drops experience
 
 **** DONE Killing Poptops drops experience
 
@@ -233,7 +234,7 @@ I've made a graphic for this but it might need more attention.
 
 I really like the idea that beating the Ruin (the first time) and Ancient Guardians drops Respec scrolls so you can respec easily after you beat the game.
 
-*** TODO Constellation tool (Sextant) for users w/o StardustLib?
+*** DONE Constellation tool (Sextant) for users w/o StardustLib?
 
 Most (all?) mods that utilize the Stardust Quickbar also offer a craftable inventory item that lets you access that UI directly. This is true of RPG Growth's mysterious book and FU's Tricorder.
 

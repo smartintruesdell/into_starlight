@@ -171,3 +171,12 @@ function ISLPlayerStats:get_attack_speed_multiplier()
   -- TODO
   return 1
 end
+
+function ISLPlayerStats:get_charisma_price_reduction()
+  -- TODO
+  return 0.5
+end
+
+function ISLPlayerStats:get_stat(stat_name)
+  return self[stat_name].amount * self[stat_name].multiplier
+end
