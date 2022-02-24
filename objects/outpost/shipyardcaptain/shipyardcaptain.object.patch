@@ -7,7 +7,7 @@
     {
       "op": "add",
       "path": "/scripts/-",
-      "value": "/isl/plugins/objects/outpost/outpost_shop_isl_charisma_plugin.lua"
+      "value": "/isl/plugins/objects/outpost/outpost_shop_isl_charisma_cost_reduction_plugin.lua"
     }
   ],
   [
@@ -20,7 +20,7 @@
       "op": "add",
       "path": "/scripts",
       "value": [
-        "/isl/plugins/objects/outpost/outpost_shop_isl_charisma_plugin.lua"
+        "/isl/plugins/objects/outpost/outpost_shop_isl_charisma_cost_reduction_plugin.lua"
       ]
     }
   ]
