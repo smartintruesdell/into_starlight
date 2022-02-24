@@ -176,6 +176,10 @@ function ISLPlayerStats:get_charisma_price_reduction()
   -- TODO
   return 0.5
 end
+function ISLPlayerStats:get_charisma_sell_price_increase()
+  -- TODO
+  return 1.15
+end
 
 function ISLPlayerStats:get_stat(stat_name)
   assert(stat_name ~= nil, "Tried to get a nil stat")

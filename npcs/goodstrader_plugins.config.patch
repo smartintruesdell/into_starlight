@@ -1,0 +1,10 @@
+[
+  {
+    "op": "add",
+    "path": "/plugins/-",
+    "value": {
+      "name": "goodstrader_isl_add_charisma_discounts_plugin",
+      "path": "/isl/plugins/npcs/goodstrader_isl_add_charisma_discounts_plugin.lua"
+    }
+  }
+]
