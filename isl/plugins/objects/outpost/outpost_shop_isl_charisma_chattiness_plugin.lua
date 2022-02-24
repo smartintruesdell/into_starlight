@@ -57,7 +57,10 @@ function update(dt)
             util.filter(
               self.charisma_chat_options,
               function (option)
-                return option.min <= charisma and option.max > charisma
+                return (
+                  (option.min or 0) <= charisma and
+                  (option.max or 999) > charisma
+                )
               end
             )
 
