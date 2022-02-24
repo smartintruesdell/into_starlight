@@ -4,7 +4,7 @@
       "item": {
         "properties": {
           "centered": true,
-          "image": "digital_sextant.png",
+          "image": "digital_starchart.png",
           "offset": [
             0.3,
             0.25

@@ -1,14 +1,16 @@
 {
   "input": [
     {
-      "item": "isl_skill_mote",
+      "item": "money",
       "count": 5
     }
   ],
   "duration": 5,
   "output": {
-    "item": "isl_digital_sextant",
+    "item": "isl_digital_starchart",
     "count": 1
   },
-  "groups": ["plain"]
+  "groups": [
+    "plain"
+  ]
 }
