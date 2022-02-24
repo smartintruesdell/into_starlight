@@ -176,7 +176,17 @@ function ISLPlayerStats:get_charisma_price_reduction()
   -- TODO
   return 0.5
 end
+function ISLPlayerStats:get_charisma_sell_price_increase()
+  -- TODO
+  return 1.15
+end
 
 function ISLPlayerStats:get_stat(stat_name)
+  assert(stat_name ~= nil, "Tried to get a nil stat")
+  assert(
+    self[stat_name],
+    stat_name.."was not a valid ISL stat. Make sure you invoke Stats:get_stat() and not Stats.get_stat()"
+  )
+
   return self[stat_name].amount * self[stat_name].multiplier
 end
