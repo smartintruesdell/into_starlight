@@ -1,0 +1,10 @@
+[
+  {
+    "op": "add",
+    "path": "/plugins/-",
+    "value": {
+      "name": "guidedbolt_isl_cast_speed_plugin",
+      "path": "/isl/plugins/items/active/weapons/staff/abilities/guidedbolt/guidedbolt_isl_cast_speed_plugin.lua"
+    }
+  }
+]
