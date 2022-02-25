@@ -28,6 +28,8 @@ function UIConstellation:init()
     "primaryStats",
     UIConstellationStats.new("primaryStatsLayout")
   )
+  -- self:addChild("secondaryStats", UIConstellationSecondaryStats.new(""))
+  -- self:addChild("detailTabView", UIConstellationDetailTabView.new(""))
   self:addChild("progress", UIConstellationProgress.new("progressLayout"))
 
   -- Skill Tree Components

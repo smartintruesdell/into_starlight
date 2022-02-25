@@ -40,12 +40,9 @@ function UIPerkNode:init(skill, canvas)
   assert(self.background ~= nil, "Failed to find a background for "..skill.id)
 
   -- Set the tooltip config
-  ISLLog.debug(util.tableToString(skill.strings))
   self.tooltip = root.assetJson(PATH.."/perk_node_tooltip.config")
-  ISLLog.debug(skill.strings.name)
   self.tooltip.perkNameLabel.value =
     "^shadow;"..(Strings:getString(skill.strings.name) or skill.id)
-  ISLLog.debug(skill.strings.description)
   self.tooltip.perkDetailsLabel.value =
     Strings:getString(skill.strings.description) or "Nondescript"
   self.tooltip.perkTypeIcon.file =
@@ -85,46 +82,3 @@ function UIPerkNode:createTooltip(position, skilltree_state)
     return self.tooltip
   end
 end
-
--- Disabled for now, because I'm thinking perks don't do basic stats ----------
-
--- local stat_order = {
---   "isl_strength",
---   "isl_defense",
---   "isl_precision",
---   "isl_evasion",
---   "isl_wits",
---   "isl_focus",
---   "isl_vigor",
---   "isl_mobility",
---   "isl_charisma",
---   "isl_crit_chance",
---   "isl_celerity"
--- }
--- function UIPerkNode:get_tooltip_details()
---   ISLStrings.initialize()
---   local details = ""
---   for _, stat_id in ipairs(stat_order) do
---     if self.skill.unlocks.stats[stat_id] then
---       if
---         self.skill.unlocks.stats[stat_id].amount ~= nil and
---         self.skill.unlocks.stats[stat_id].amount > 0
---       then
---         details = details..string.format(
---           Strings:getString("bonus_node_detail_"..stat_id),
---           self.skill.unlocks.stats[stat_id].amount
---         ).."\n"
---       end
---       if
---         self.skill.unlocks.stats[stat_id].multiplier ~= nil and
---         self.skill.unlocks.stats[stat_id].multiplier > 1
---       then
---         details = details..string.format(
---           Strings:getString("bonus_node_detail_"..stat_id),
---           (self.skill.unlocks.stats[stat_id].multiplier - 1).."%"
---                                         ).."\n"
---       end
---     end
---   end
---   return details
--- end

@@ -102,23 +102,39 @@ One of the things that rubbed me the wrong way about RPG Growth was that it was 
 - [X] Evasion
 - [X] Focus
 
-**** TODO Display secondary stats [/]
+**** STARTED Display secondary stats [0/5]
 
-- [ ] Vigor
-- [ ] Mobility
+- [-] Vigor
+  - [X] Icon (Heart, Red)
+  - [ ] Appears on character stats
+- [-] Mobility
+  - [X] Icon (Arrows, Green)
+  - [ ] Appears on character stats
 - [ ] Crit Chance
+  - [ ] Icon (Blood, darker than heart)
+  - [ ] Appears on character stats
 - [ ] Celerity
+  - [ ] Icon (Watch?)
+  - [ ] Appears on character stats
 - [ ] Charisma
+  - [ ] Icon (Smiley)
+  - [ ] Appears on character stats
+
+**** STARTED Display Perks
+
+***** STARTED Below the character's stats there is a scrollarea with the characters's perks
+
+***** STARTED Each perk has an indicator describing what it does
 
 *** STARTED Feat/skilltree
 
 There is a canvas UI that allows the player to browse the skill graph, see the effects of nodes, and unlock those nodes for their character by spending skill points.
 
-**** STARTED Add tooltips to skill tree nodes [0/2]
+**** DONE Add tooltips to skill tree nodes [2/2]
 
 ***** DONE add tooltip for bonus nodes that shows the stats affected and the bonuses applied
 
-***** STARTED Add tooltip for Perk nodes that describes the perk
+***** DONE Add tooltip for Perk nodes that describes the perk
 
 **** DONE Revise =bonus= node graphcs to be (2^n)-1 scale (ie, to have a discreet center line)
 
@@ -273,3 +289,5 @@ Build out to the perk you want, then orphan the perk and one supporting node and
 That seems DEEPLY problematic, but requires us to write graph crawling algorithms to determine valid selections more robustly.
 
 This is something we want eventually to allow users to quickly select a node deep in the tree and spend many skill points at once on the shortest route, so I expect we'll end up doing it eventually.
+
+**** FEATURE - Zoom out maybe

@@ -24,7 +24,6 @@ function UIConstellationStats:init(layout_id)
 
   self.layout_id = layout_id
   self:addChild("portrait", UIPortrait.new(layout_id..".portrait", "full"))
-  self:addChild("portrait", UIPortrait.new(layout_id..".portrait", "full"))
   self:addChild(
     "isl_strength_text",
     UIConstellationStatText.new(
