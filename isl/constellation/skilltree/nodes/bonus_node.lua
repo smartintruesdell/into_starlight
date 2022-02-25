@@ -41,7 +41,7 @@ end
 
 -- Overrides -----------------------------------------------------------------
 
-function UIBonusNode:get_background_image(skilltree_state)
+function UIBonusNode:get_background_image(_skilltree_state)
   assert(SkillGraph ~= nil, "Tried to draw nodes without a valid SkillGraph")
   local background_image = nil
   if SkillGraph.unlocked_skills:contains(self.skill.id) then
@@ -50,7 +50,7 @@ function UIBonusNode:get_background_image(skilltree_state)
     else
       background_image = self.background..":new"
     end
-  elseif SkillGraph.available_skills:contains(self.skill.id) ~= nil then
+  elseif SkillGraph.available_skills:contains(self.skill.id) then
     background_image = self.background..":available"
   else
     background_image = self.background..":unavailable"

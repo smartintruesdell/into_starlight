@@ -107,7 +107,8 @@ One of the things that rubbed me the wrong way about RPG Growth was that it was 
 - [ ] Vigor
 - [ ] Mobility
 - [ ] Crit Chance
-- [ ] Attack/Cast Speed
+- [ ] Celerity
+- [ ] Charisma
 
 *** STARTED Feat/skilltree
 
@@ -121,7 +122,7 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 **** DONE Revise =bonus= node graphcs to be (2^n)-1 scale (ie, to have a discreet center line)
 
-**** STARTED Create =perk= node graphics and default icons
+**** DONE Create =perk= node graphics and default icons
 
 **** DONE Add working state REVERT / APPLY to enable skill shopping
 
@@ -201,12 +202,19 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
 
 *** DONE Critical Hits
 
-*** STARTED Attack / CastSpeed
+*** DONE Celerity (Attack/Cast speed)
 
 *** STARTED Charisma
 
-- [ ] Reduce merchant buy costs
+- [X] Reduce merchant buy costs
+- [X] Reduce outpost "shop" buy costs
+- [-] Reduce outpost "crafting" buy costs
+  This turns out to be impossible, so... no.
+- [ ] Reduce station trade good buy costs
+  - [ ] Move this to a perk
 - [ ] Lower-level NPCs are not hostile
+  - [ ] Move this to a perk
+- [ ] Perk - Higher level items from vendors
 
 ** STARTED Leveling Up
 
