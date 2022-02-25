@@ -118,8 +118,9 @@ end
 
 function ISLPerkSkill:init(data)
   ISLSkill.init(self, data)
-  self.effectName = data.effectName
-  self.perkType = data.perkType
+  self.effectName = data.effectName or ""
+  self.perkType = data.perkType or "melee"
+  self.strings = data.strings or {}
 end
 
 function ISLPerkSkill:transform(dt, dr, ds)

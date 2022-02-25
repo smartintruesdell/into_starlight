@@ -33,7 +33,11 @@ function ISLStrings:getString(string_id, default)
     self ~= nil,
     "Remember to call Strings:getString and not Strings.getString"
   )
-  assert(string_id ~= nil, "Tried to retrieve a nil string id")
+  assert(
+    string_id ~= nil,
+    "Tried to retrieve a nil string id. Make sure you call `Strings:getString` "..
+    "and not `String.getString`"
+  )
   default = default or string_id
 
   if self[string_id] then
