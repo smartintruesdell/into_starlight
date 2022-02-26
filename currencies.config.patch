@@ -199,18 +199,18 @@
   },
   {
     "op": "add",
-    "path": "/isl_crit_chance",
+    "path": "/isl_savagery",
     "value": {
-      "representativeItem": "isl_crit_chance_point",
+      "representativeItem": "isl_savagery_point",
       "playerMax": 9999,
       "sail_hidden": true
     }
   },
   {
     "op": "add",
-    "path": "/isl_crit_chance_multiplier",
+    "path": "/isl_savagery_multiplier",
     "value": {
-      "representativeItem": "isl_crit_chance_multiplier_point",
+      "representativeItem": "isl_savagery_multiplier_point",
       "playerMax": 9999,
       "sail_hidden": true
     }

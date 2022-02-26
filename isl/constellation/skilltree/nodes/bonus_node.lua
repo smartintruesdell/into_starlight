@@ -89,8 +89,8 @@ local stat_order = {
   "isl_vigor",
   "isl_mobility",
   "isl_charisma",
-  "isl_crit_chance",
-  "isl_celerity"
+  "isl_celerity",
+  "isl_savagery"
 }
 function UIBonusNode:get_tooltip_details()
   ISLStrings.initialize()
