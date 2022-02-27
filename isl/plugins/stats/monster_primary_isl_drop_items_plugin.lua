@@ -10,6 +10,7 @@ require("/isl/lib/log.lua")
 require("/isl/lib/util.lua")
 require("/isl/player/skill_points/skill_points.lua")
 require("/scripts/lpl_plugin_util.lua")
+require("/isl/plugins/spawn_skill_motes.lua")
 
 applyDamageRequest_update_hit_type = Plugins.add_after_hook(
   applyDamageRequest_update_hit_type,
@@ -32,18 +33,10 @@ function isl_spawn_skill_motes(damage_request)
     damage_request.sourceEntityId
   )
   local monster_level = world.callScriptedEntity(entity.id(),"monster.level")
-  local relative_pool_level = 2 + ISLUtil.clamp(
-    -2,
-    2,
-    monster_level - player_level
-  )
 
-  local res = world.spawnTreasure(
+  spawn_skill_motes(
     entity.position(),
-    "isl_skillmotepool",
-    relative_pool_level
+    player_level,
+    monster_level
   )
-  if not res then
-    ISLLog.debug("Something went wrong spawning motes")
-  end
 end
