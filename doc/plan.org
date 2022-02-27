@@ -144,9 +144,9 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 **** DONE Add RESPEC button to allow the user to reset their skills
 
-**** TODO Disable Revert/Apply when the state is not dirty
+**** DONE Disable Revert/Apply when the state is not dirty
 
-**** TODO Fix Revert so that it's not identical to respec
+**** DONE Fix Revert so that it's not identical to respec
 
 **** TODO Disable Respec when the user is not admin / does not have a respec core
 
