@@ -80,6 +80,19 @@ end
 
 function update(dt)
   self.Constellation:update(dt)
+
+  widget.setButtonEnabled(
+    "revertButton",
+    SkillGraph.unlocked_skills:size() ~= SkillGraph.saved_skills:size()
+  )
+  widget.setButtonEnabled(
+    "respecButton",
+    SkillGraph.saved_skills:size() > 1
+  )
+  widget.setButtonEnabled(
+    "applyButton",
+    SkillGraph.unlocked_skills:size() ~= SkillGraph.saved_skills:size()
+  )
 end
 
 function createTooltip(mouse_position)
