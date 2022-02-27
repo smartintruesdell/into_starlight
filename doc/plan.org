@@ -102,23 +102,26 @@ One of the things that rubbed me the wrong way about RPG Growth was that it was 
 - [X] Evasion
 - [X] Focus
 
-**** STARTED Display secondary stats [0/5]
+**** DONE Display secondary stats [5/5]
 
-- [-] Vigor
+- [X] Vigor
   - [X] Icon (Heart, Red)
-  - [ ] Appears on character stats
-- [-] Mobility
+  - [X] Appears on character stats
+- [X] Mobility
   - [X] Icon (Arrow, Blue)
-  - [ ] Appears on character stats
-- [-] Crit Chance
+  - [X] Appears on character stats
+- [X] Crit Chance
   - [X] Icon (Blood, darker than heart)
-  - [ ] Appears on character stats
-- [-] Celerity
+  - [X] Appears on character stats
+- [X] Celerity
   - [X] Icon (Watch?)
-  - [ ] Appears on character stats
-- [-] Charisma
+  - [X] Appears on character stats
+- [X] Charisma
   - [X] Icon (Rose)
-  - [ ] Appears on character stats
+  - [X] Appears on character stats
+
+
+**** TODO Add tooltips to secondary stats
 
 **** DONE Display Perks
 
