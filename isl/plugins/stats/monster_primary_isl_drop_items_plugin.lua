@@ -25,7 +25,18 @@ applyDamageRequest_update_hit_type = Plugins.add_after_hook(
 )
 
 function isl_spawn_skill_motes(damage_request)
+  -- Bail out for critters
   if entity.damageTeam().type == "passive" then return end
+
+  ISLLog.debug(
+    "%s",
+--    util.tableToString(
+      world.callScriptedEntity(entity.id(), "config.getParameter", "monsterClass") or
+      'nope'
+--    )
+  )
+
+  -- Determine the relative player level
   local player_level = ISLSkillPoints.get_effective_level(
     damage_request.sourceEntityId
   )
@@ -35,6 +46,7 @@ function isl_spawn_skill_motes(damage_request)
     2,
     monster_level - player_level
   )
+
   local res = world.spawnTreasure(
     entity.position(),
     "isl_skillmotepool",
