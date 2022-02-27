@@ -46,7 +46,12 @@ function ISLSkillGraph.initialize()
   return SkillGraph
 end
 
-function ISLSkillGraph.revert()
+function ISLSkillGraph:revert()
+  player.addCurrency(
+    "isl_skill_point",
+    self.unlocked_skills:size() - self.saved_skills:size()
+  )
+
   SkillGraph = nil
   return ISLSkillGraph.initialize()
 end
@@ -290,7 +295,8 @@ function ISLSkillGraph.reset_unlocked_skills(player)
   player.addCurrency("isl_skill_point", #prev_skills - 1) -- -1 for 'start'
   player.setProperty(SKILLS_PROPERTY_NAME, {})
 
-  return ISLSkillGraph.revert()
+  SkillGraph = nil
+  return ISLSkillGraph.initialize()
 end
 
 function ISLSkillGraph:apply_skill_to_stats(skill_id)

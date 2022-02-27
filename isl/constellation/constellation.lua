@@ -48,7 +48,7 @@ function closeButton()
 end
 
 function handle_revert_button()
-  ISLSkillGraph.revert()
+  SkillGraph:revert()
   self.Constellation:draw()
 end
 
