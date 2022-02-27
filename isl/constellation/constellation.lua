@@ -10,6 +10,7 @@ require("/isl/skillgraph/skillgraph.lua")
 require("/isl/lib/uicomponent.lua")
 require("/isl/constellation/skilltree/skilltree.lua")
 require("/isl/constellation/header/header.lua")
+require("/isl/constellation/perks/perks.lua")
 require("/isl/constellation/progress/progress.lua")
 require("/isl/constellation/stats/stats.lua")
 
@@ -29,7 +30,7 @@ function UIConstellation:init()
     UIConstellationStats.new("primaryStatsLayout")
   )
   -- self:addChild("secondaryStats", UIConstellationSecondaryStats.new(""))
-  -- self:addChild("detailTabView", UIConstellationDetailTabView.new(""))
+  self:addChild("perks", UIConstellationPerks.new("perksScrollArea.perksList"))
   self:addChild("progress", UIConstellationProgress.new("progressLayout"))
 
   -- Skill Tree Components

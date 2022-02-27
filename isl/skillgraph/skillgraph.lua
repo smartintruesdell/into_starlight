@@ -34,6 +34,7 @@ function ISLSkillGraph:init()
   self.saved_skills = StringSet.new()
   self.available_skills = StringSet.new()
   self.unlocked_skills = StringSet.new()
+  self.unlocked_perks = StringSet.new()
   self.stats = ISLPlayerStats.new()
 end
 
@@ -155,6 +156,9 @@ function ISLSkillGraph:unlock_skill(skill_id, force)
   if force or skill_is_affordable then
     ISLLog.debug("Unlocking skill '%s'", skill_id)
     self.unlocked_skills:add(skill_id)
+    if (self.skills[skill_id].type == "perk") then
+      self.unlocked_perks:add(skill_id)
+    end
     if not force then
       player.consumeCurrency("isl_skill_point", 1)
     end
@@ -209,6 +213,7 @@ function ISLSkillGraph:lock_skill(skill_id)
   if skill_is_lockable then
     ISLLog.debug("Locking skill '%s'", skill_id)
     self.unlocked_skills:remove(skill_id)
+    self.unlocked_perks:remove(skill_id)
     player.addCurrency("isl_skill_point", 1)
   end
 
