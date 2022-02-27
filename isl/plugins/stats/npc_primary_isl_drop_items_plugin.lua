@@ -1,5 +1,5 @@
 --[[
-  A script provided to allow monsters to drop Into Starlight skill motes
+  A script provided to allow npcs to drop Into Starlight skill motes
 
   This is preferred to using treasure pools because of how skill mote scaling works:
   The amount of motes a monster drops scales not by the level of the monster, but by
@@ -25,7 +25,10 @@ applyDamageRequest_update_hit_type = Plugins.add_after_hook(
 
 function isl_spawn_skill_motes(damage_request)
   -- Bail out for critters
-  if entity.damageTeam().type == "passive" then return end
+  if
+    entity.damageTeam().type == "passive" or
+    entity.damageTeam().type == "friendly"
+  then return end
 
   -- Determine the relative player level
   local player_level = ISLSkillPoints.get_effective_level(
