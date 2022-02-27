@@ -6,8 +6,8 @@ require("/scripts/util.lua")
 require("/isl/constants/strings.lua")
 require("/isl/lib/log.lua")
 
-local STATUS_EFFECT_PATH =
-  "/isl/animations/skill_point_up/isl_skill_point_up_particle.statuseffect"
+local PATH = "/isl/effects/animations/skill_point_up_particle/"
+local STATUS_EFFECT_PATH = PATH.."isl_skill_point_up_particle.statuseffect"
 
 function init()
   ISLStrings.initialize()

@@ -285,6 +285,10 @@ function ISLSkillGraph:apply_to_player(player)
 end
 
 function ISLSkillGraph.reset_unlocked_skills(player)
+  local prev_skills = player.getProperty(SKILLS_PROPERTY_NAME, {})
+  ISLLog.debug(util.tableToString(prev_skills))
+
+  player.addCurrency("isl_skill_point", #prev_skills)
   player.setProperty(SKILLS_PROPERTY_NAME, {})
 
   return ISLSkillGraph.revert()
