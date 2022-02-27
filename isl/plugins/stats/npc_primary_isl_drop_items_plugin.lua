@@ -34,11 +34,11 @@ function isl_spawn_skill_motes(damage_request)
   local player_level = ISLSkillPoints.get_effective_level(
     damage_request.sourceEntityId
   )
-  local monster_level = world.callScriptedEntity(entity.id(),"monster.level")
+  local npc_level = world.callScriptedEntity(entity.id(),"npc.level")
   local relative_pool_level = 2 + ISLUtil.clamp(
     -2,
     2,
-    monster_level - player_level
+    npc_level - player_level
   )
 
   local res = world.spawnTreasure(
