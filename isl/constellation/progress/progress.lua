@@ -1,6 +1,6 @@
 --[[
-   Interface component logic for the IntoStarlight Constellation
-   Player progress bar
+  Interface component logic for the IntoStarlight Constellation
+  Player progress bar
 ]]
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
@@ -11,7 +11,7 @@ require("/isl/player/skill_points/skill_points.lua")
 
 -- Constants ------------------------------------------------------------------
 local Widgets = {}
-Widgets.MotesCount = "motes_count_label"
+Widgets.PointsCount = "points_count_label"
 Widgets.ProgressBarImage = "progress_bar_image"
 
 -- Utility Functions ----------------------------------------------------------
@@ -38,46 +38,47 @@ UIConstellationProgress = defineSubclass(UIComponent, "UIConstellationProgress")
 -- Constructor ----------------------------------------------------------------
 
 function UIConstellationProgress:init(layout_id)
-   if not Strings then ISLStrings.initialize() end
-   self.layout_id = layout_id
+  if not Strings then ISLStrings.initialize() end
+  self.layout_id = layout_id
 
-   UIComponent.init(self)
+  UIComponent.init(self)
 end
 
 -- Methods --------------------------------------------------------------------
 
 function UIConstellationProgress:draw()
-   local collected_motes = ISLSkillPoints.get_skill_motes(player.id())
-   local earned_skill_points =
-     ISLSkillPoints.get_earned_skill_points(player.id())
-   local motes_to_last_point = ISLSkillPoints.get_skill_motes_for_skill_point(
-     earned_skill_points
-   )
-   local motes_to_next_point = ISLSkillPoints.get_skill_motes_for_skill_point(
-     earned_skill_points + 1
-   )
+  local collected_motes = ISLSkillPoints.get_skill_motes(player.id())
+  local available_points = ISLSkillPoints.get_available_skill_points(player.id())
+  local earned_skill_points =
+    ISLSkillPoints.get_earned_skill_points(player.id())
+  local motes_to_last_point = ISLSkillPoints.get_skill_motes_for_skill_point(
+    earned_skill_points
+  )
+  local motes_to_next_point = ISLSkillPoints.get_skill_motes_for_skill_point(
+    earned_skill_points + 1
+  )
 
-   -- Set the current currency # indicator
-   widget.setText(
-      self.layout_id..'.'..Widgets.MotesCount,
-      collected_motes - motes_to_last_point
-   )
+  -- Set the current currency # indicator
+  widget.setText(
+    self.layout_id..'.'..Widgets.PointsCount,
+    available_points
+  )
 
-   -- Set the progress bar
-   local suffix = get_progress_frame(
-     collected_motes,
-     motes_to_last_point,
-     motes_to_next_point
-   )
+  -- Set the progress bar
+  local suffix = get_progress_frame(
+    collected_motes,
+    motes_to_last_point,
+    motes_to_next_point
+  )
 
-   widget.setImage(
-     self.layout_id..'.'..Widgets.ProgressBarImage,
-     "/isl/constellation/assets/progress_bar.png"..suffix
-   )
-   widget.setVisible(
-     self.layout_id..'.'..Widgets.ProgressBarImage,
-     true
-   )
+  widget.setImage(
+    self.layout_id..'.'..Widgets.ProgressBarImage,
+    "/isl/constellation/assets/progress_bar.png"..suffix
+  )
+  widget.setVisible(
+    self.layout_id..'.'..Widgets.ProgressBarImage,
+    true
+  )
 end
 
 function UIConstellationProgress:update()

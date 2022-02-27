@@ -108,23 +108,23 @@ One of the things that rubbed me the wrong way about RPG Growth was that it was 
   - [X] Icon (Heart, Red)
   - [ ] Appears on character stats
 - [-] Mobility
-  - [X] Icon (Arrows, Green)
+  - [X] Icon (Arrow, Blue)
   - [ ] Appears on character stats
-- [ ] Crit Chance
-  - [ ] Icon (Blood, darker than heart)
+- [-] Crit Chance
+  - [X] Icon (Blood, darker than heart)
   - [ ] Appears on character stats
-- [ ] Celerity
-  - [ ] Icon (Watch?)
+- [-] Celerity
+  - [X] Icon (Watch?)
   - [ ] Appears on character stats
-- [ ] Charisma
-  - [ ] Icon (Smiley)
+- [-] Charisma
+  - [X] Icon (Rose)
   - [ ] Appears on character stats
 
-**** STARTED Display Perks
+**** DONE Display Perks
 
-***** STARTED Below the character's stats there is a scrollarea with the characters's perks
+***** DONE Below the character's stats there is a scrollarea with the characters's perks
 
-***** STARTED Each perk has an indicator describing what it does
+***** DONE Each perk has an indicator describing what it does
 
 *** STARTED Feat/skilltree
 
@@ -236,9 +236,9 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
 
 *** DONE Killing monsters drops experience
 
-**** DONE Killing Poptops drops experience
-
 *** TODO Killing boss monsters drops LOTs of experience
+
+I need a way to differentiate between bosses and not-bosses, if I want to be able to do this. And I do, legitimately want that.
 
 *** DONE Farming plants drops experience
 

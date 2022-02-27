@@ -25,6 +25,7 @@ applyDamageRequest_update_hit_type = Plugins.add_after_hook(
 )
 
 function isl_spawn_skill_motes(damage_request)
+  if entity.damageTeam().type == "passive" then return end
   local player_level = ISLSkillPoints.get_effective_level(
     damage_request.sourceEntityId
   )

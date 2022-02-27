@@ -53,13 +53,11 @@ function UIConstellationPerks:update(_dt)
 
       -- Iterate over the perks adding them to the list.
       for _, perk_id in ipairs(perk_ids) do
-        ISLLog.debug("Adding perk to the list: %s", perk_id)
         local new_item = string.format(
           "%s.%s",
           self.list_id,
           widget.addListItem(self.list_id)
         )
-        ISLLog.debug("- new item: %s", new_item)
         widget.setImage(
           new_item..".perkTypeIcon",
           GRAPH_PERK_ICON_PATH..":"..SkillGraph.skills[perk_id].perkType..":saved"
