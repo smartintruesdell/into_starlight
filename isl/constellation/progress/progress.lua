@@ -11,7 +11,9 @@ require("/isl/player/skill_points/skill_points.lua")
 
 -- Constants ------------------------------------------------------------------
 local Widgets = {}
+Widgets.PointsCountIcon = "points_count_icon"
 Widgets.PointsCount = "points_count_label"
+Widgets.ProgressBarIcon = "motes_to_points_icon"
 Widgets.ProgressBarImage = "progress_bar_image"
 
 -- Utility Functions ----------------------------------------------------------
@@ -87,7 +89,13 @@ end
 
 function UIConstellationProgress:createTooltip(position)
   if
-    widget.inMember(self.layout_id..'.'..Widgets.ProgressBarImage, position)
+    widget.inMember(self.layout_id.."."..Widgets.PointsCount, position) or
+    widget.inMember(self.layout_id.."."..Widgets.PointsCountIcon, position)
+  then
+    return "Skill Points"
+  elseif
+    widget.inMember(self.layout_id.."."..Widgets.ProgressBarImage, position) or
+    widget.inMember(self.layout_id.."."..Widgets.ProgressBarIcon, position)
   then
     local collected_motes = ISLSkillPoints.get_skill_motes(player.id())
     local earned_skill_points =
@@ -104,4 +112,5 @@ function UIConstellationProgress:createTooltip(position)
       motes_to_next_point - motes_to_last_point
     )
   end
+
 end
