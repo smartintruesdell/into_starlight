@@ -4,7 +4,7 @@
   "effectConfig": {
     "particles": true,
     "healAmount": 25,
-    "healPercent": 10,
+    "healPercent": 5,
     "emissionRate": 2
   },
   "defaultDuration": 5,
@@ -12,6 +12,6 @@
     "/isl/effects/status/recovery/recovery.lua"
   ],
   "animationConfig": "/stats/effects/regeneration/regeneration.animation",
-  "label": "Warrior's Resolve",
+  "label": "Warrior's Grit",
   "icon": "/interface/statuses/heal.png"
 }

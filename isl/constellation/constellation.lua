@@ -10,8 +10,10 @@ require("/isl/skillgraph/skillgraph.lua")
 require("/isl/lib/uicomponent.lua")
 require("/isl/constellation/skilltree/skilltree.lua")
 require("/isl/constellation/header/header.lua")
+require("/isl/constellation/perks/perks.lua")
 require("/isl/constellation/progress/progress.lua")
 require("/isl/constellation/stats/stats.lua")
+require("/isl/constellation/stats/secondary_stats.lua")
 
 -- Class --------------------------------------------------------------------
 
@@ -28,6 +30,12 @@ function UIConstellation:init()
     "primaryStats",
     UIConstellationStats.new("primaryStatsLayout")
   )
+
+  self:addChild(
+    "secondaryStats",
+    UIConstellationSecondaryStats.new("secondaryStatsLayout")
+  )
+  self:addChild("perks", UIConstellationPerks.new("perksScrollArea.perksList"))
   self:addChild("progress", UIConstellationProgress.new("progressLayout"))
 
   -- Skill Tree Components
@@ -45,7 +53,7 @@ function closeButton()
 end
 
 function handle_revert_button()
-  ISLSkillGraph.revert()
+  SkillGraph:revert()
   self.Constellation:draw()
 end
 
@@ -77,6 +85,19 @@ end
 
 function update(dt)
   self.Constellation:update(dt)
+
+  widget.setButtonEnabled(
+    "revertButton",
+    SkillGraph.unlocked_skills:size() ~= SkillGraph.saved_skills:size()
+  )
+  widget.setButtonEnabled(
+    "respecButton",
+    SkillGraph.saved_skills:size() > 1
+  )
+  widget.setButtonEnabled(
+    "applyButton",
+    SkillGraph.unlocked_skills:size() ~= SkillGraph.saved_skills:size()
+  )
 end
 
 function createTooltip(mouse_position)

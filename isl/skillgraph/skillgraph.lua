@@ -34,6 +34,7 @@ function ISLSkillGraph:init()
   self.saved_skills = StringSet.new()
   self.available_skills = StringSet.new()
   self.unlocked_skills = StringSet.new()
+  self.unlocked_perks = StringSet.new()
   self.stats = ISLPlayerStats.new()
 end
 
@@ -45,7 +46,12 @@ function ISLSkillGraph.initialize()
   return SkillGraph
 end
 
-function ISLSkillGraph.revert()
+function ISLSkillGraph:revert()
+  player.addCurrency(
+    "isl_skill_point",
+    self.unlocked_skills:size() - self.saved_skills:size()
+  )
+
   SkillGraph = nil
   return ISLSkillGraph.initialize()
 end
@@ -155,6 +161,9 @@ function ISLSkillGraph:unlock_skill(skill_id, force)
   if force or skill_is_affordable then
     ISLLog.debug("Unlocking skill '%s'", skill_id)
     self.unlocked_skills:add(skill_id)
+    if (self.skills[skill_id].type == "perk") then
+      self.unlocked_perks:add(skill_id)
+    end
     if not force then
       player.consumeCurrency("isl_skill_point", 1)
     end
@@ -209,6 +218,7 @@ function ISLSkillGraph:lock_skill(skill_id)
   if skill_is_lockable then
     ISLLog.debug("Locking skill '%s'", skill_id)
     self.unlocked_skills:remove(skill_id)
+    self.unlocked_perks:remove(skill_id)
     player.addCurrency("isl_skill_point", 1)
   end
 
@@ -280,9 +290,13 @@ function ISLSkillGraph:apply_to_player(player)
 end
 
 function ISLSkillGraph.reset_unlocked_skills(player)
+  local prev_skills = player.getProperty(SKILLS_PROPERTY_NAME, {})
+
+  player.addCurrency("isl_skill_point", #prev_skills - 1) -- -1 for 'start'
   player.setProperty(SKILLS_PROPERTY_NAME, {})
 
-  return ISLSkillGraph.revert()
+  SkillGraph = nil
+  return ISLSkillGraph.initialize()
 end
 
 function ISLSkillGraph:apply_skill_to_stats(skill_id)

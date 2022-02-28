@@ -70,9 +70,25 @@ function StringSet:clone()
   return StringSet.new(self:to_Vec())
 end
 
+function StringSet:size()
+  local size = 0
+  for _key, include in pairs(self) do
+    if include then size = size + 1 end
+  end
+  return size
+end
+
 -- Predicates -----------------------------------------------------------------
 
 function StringSet:contains(value)
   assert(self ~= nil, "Remember to use StringSet:contains instead of StringSet.contains")
   return self[value] or false
+end
+
+function StringSet:equals(other)
+  if self:size() ~= other:size() then return false end
+  for key, include in pairs(self) do
+    if include and not other:contains(key) then return false end
+  end
+  return true
 end

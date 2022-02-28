@@ -22,7 +22,7 @@
     "/sfx/objects/ancientenergy_pickup3.ogg"
   ],
   "learnBlueprintsOnPickup": [
-    "isl_digital_sextant"
+    "isl_digital_starchart"
   ],
   "smallStackLimit": 100,
   "mediumStackLimit": 1000,

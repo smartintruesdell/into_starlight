@@ -6,11 +6,14 @@ require("/scripts/util.lua")
 require("/isl/constants/strings.lua")
 require("/isl/lib/log.lua")
 
+local PATH = "/isl/effects/animations/skill_point_up_particle/"
+local STATUS_EFFECT_PATH = PATH.."isl_skill_point_up_particle.statuseffect"
+
 function init()
   ISLStrings.initialize()
   script.setUpdateDelta(5)
   self.status_config =
-    root.assetJson("/isl/animations/skill_point_up/isl_skill_point_up.statuseffect")
+    root.assetJson(STATUS_EFFECT_PATH)
 
   status.setResourcePercentage("health", 1.0)
   status.setResourcePercentage("energy", 1.0)

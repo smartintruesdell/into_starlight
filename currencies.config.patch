@@ -4,7 +4,7 @@
     "path": "/isl_skill_mote",
     "value": {
       "representativeItem": "isl_skill_mote",
-      "playerMax": 999999,
+      "playerMax": 99999999,
       "sail_hidden": true
     }
   },
@@ -13,15 +13,6 @@
     "path": "/isl_skill_point",
     "value": {
       "representativeItem": "isl_skill_point",
-      "playerMax": 999,
-      "sail_hidden": true
-    }
-  },
-  {
-    "op": "add",
-    "path": "/isl_character_level",
-    "value": {
-      "representativeItem": "isl_character_level",
       "playerMax": 999,
       "sail_hidden": true
     }
@@ -202,6 +193,24 @@
     "path": "/isl_celerity_multiplier",
     "value": {
       "representativeItem": "isl_celerity_multiplier_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_savagery",
+    "value": {
+      "representativeItem": "isl_savagery_point",
+      "playerMax": 9999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_savagery_multiplier",
+    "value": {
+      "representativeItem": "isl_savagery_multiplier_point",
       "playerMax": 9999,
       "sail_hidden": true
     }
