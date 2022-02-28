@@ -76,7 +76,7 @@ It's really hard to do the math to correctly position every node by hand, and th
 
 ** UI
 
-*** STARTED Feat/constellation [1/3]
+*** DONE Feat/constellation [5/5]
 
 There is a character sheet UI that allows the player to track the total stats and any perks they've unlocked on the skill graph.
 
@@ -119,10 +119,7 @@ One of the things that rubbed me the wrong way about RPG Growth was that it was 
 - [X] Charisma
   - [X] Icon (Rose)
   - [X] Appears on character stats
-
-
-**** TODO Add tooltips to secondary stats
-
+**** DONE Add tooltips to secondary stats
 **** DONE Display Perks
 
 ***** DONE Below the character's stats there is a scrollarea with the characters's perks
@@ -157,7 +154,8 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 Right now Perks are an idea and not a reality. The Species and Bonus nodes work great, but we're not seeing any effect from perks.
 
-** DONE Stats and Stat Effects
+**** TODO Add shortest-path logic to validate selections and allow for quick selection
+** DONE Stats and Stat Effects [11/12]
 
 *** DONE Differentiate between melee/ranged/magical
 
@@ -223,7 +221,7 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
 
 *** DONE Celerity (Attack/Cast speed)
 
-*** STARTED Charisma
+*** DONE Charisma
 
 - [X] Reduce merchant buy costs
 - [X] Reduce outpost "shop" buy costs
