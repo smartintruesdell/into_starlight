@@ -98,7 +98,7 @@ function update(dt)
 
   widget.setButtonEnabled(
     "respecButton",
-    self.is_on_shipworld and SkillGraph.saved_skills:size() > 1
+    respec_should_be_enabled()
   )
 
   local is_dirty = not SkillGraph.unlocked_skills:equals(SkillGraph.saved_skills)
@@ -122,4 +122,8 @@ function createTooltip(mouse_position)
   end
 
   return self.Constellation:createTooltip(Point.new(mouse_position))
+end
+
+function respec_should_be_enabled()
+  return SkillGraph.saved_skills:size() > 1 and self.is_on_shipworld
 end
