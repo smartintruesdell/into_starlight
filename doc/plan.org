@@ -281,14 +281,4 @@ We'll probably want the differences on the chart to be logarithmic rather than l
 
 *** Skill Tree
 
-**** BUG - User can lock nodes that would orphan parts of the tree
-
-The current check for node support only goes two levels out from the selected node, which means that it's fairly trivial to orphan parts of your tree and unlock nodes unfairly.
-
-Build out to the perk you want, then orphan the perk and one supporting node and you can collect all of the perks for #perks*2 skill points.
-
-That seems DEEPLY problematic, but requires us to write graph crawling algorithms to determine valid selections more robustly.
-
-This is something we want eventually to allow users to quickly select a node deep in the tree and spend many skill points at once on the shortest route, so I expect we'll end up doing it eventually.
-
 **** FEATURE - Zoom out maybe

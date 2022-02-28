@@ -4,6 +4,7 @@
 ]]
 require("/scripts/questgen/util.lua")
 require("/isl/lib/point.lua")
+require("/isl/lib/log.lua")
 require("/isl/constants/strings.lua")
 require("/isl/skillgraph/skillgraph.lua")
 require("/isl/lib/uicomponent.lua")
@@ -78,6 +79,16 @@ function init()
 
   self.Constellation = UIConstellation.new()
 
+  local own_ship = player.ownShipWorldId()
+  local current_world = player.worldId()
+  self.is_on_shipworld = current_world == own_ship
+
+  ISLLog.debug(
+    "World %s, ship %s",
+    current_world,
+    own_ship
+  )
+
   -- Draw
   self.Constellation:draw()
 end
@@ -87,7 +98,7 @@ function update(dt)
 
   widget.setButtonEnabled(
     "respecButton",
-    SkillGraph.saved_skills:size() > 1
+    self.is_on_shipworld and SkillGraph.saved_skills:size() > 1
   )
 
   local is_dirty = not SkillGraph.unlocked_skills:equals(SkillGraph.saved_skills)
@@ -102,5 +113,13 @@ function update(dt)
 end
 
 function createTooltip(mouse_position)
+  if widget.inMember("respecButton", mouse_position) then
+    if self.is_on_shipworld then
+      return "Respec your skills"
+    else
+      return "Respec is only available on your ship"
+    end
+  end
+
   return self.Constellation:createTooltip(Point.new(mouse_position))
 end
