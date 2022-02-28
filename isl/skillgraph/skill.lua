@@ -84,7 +84,10 @@ function ISLBonusSkill:init(data)
   assert(self.template, "Expected a valid template for bonus skill "..data.id)
   self.background_type = self.template.backgroundType
 
-  assert(self.background_type ~= nil, "Expected a valid template background for "..data.id..":"..data.bonusType)
+  assert(
+    self.background_type ~= nil,
+    "Expected a valid template background for "..data.id..":"..data.bonusType
+  )
 
   local stat_points = root.evalFunction(self.template.levelingFunction, self.level)
   for stat_id, proportions in pairs(self.template.statDistribution) do
