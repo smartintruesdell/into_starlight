@@ -10,6 +10,7 @@ require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/lib/point.lua")
 require("/isl/lib/string_set.lua")
+require("/isl/skillgraph/pathfinding.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
 require("/isl/player/stats/player_stats.lua")
 
@@ -35,6 +36,8 @@ function ISLSkillGraph:init()
   self.available_skills = StringSet.new()
   self.unlocked_skills = StringSet.new()
   self.unlocked_perks = StringSet.new()
+  self.highlight_path = {}
+  self.highlight_cost = 999
   self.stats = ISLPlayerStats.new()
 end
 
@@ -167,6 +170,8 @@ function ISLSkillGraph:unlock_skill(skill_id, force)
     if not force then
       player.consumeCurrency("isl_skill_point", 1)
     end
+  else
+    ISLLog.debug("skill was unaffordable")
   end
 
   if not force then
@@ -179,32 +184,30 @@ function ISLSkillGraph:unlock_skill(skill_id, force)
   return self
 end
 
+function ISLSkillGraph:unlock_highlighted_skills()
+  for _, skill_id in ipairs(self.highlight_path or {}) do
+    self:unlock_skill(skill_id)
+  end
+
+  return self
+end
+
 function ISLSkillGraph:lock_skill(skill_id)
   local function all_unlocked_children_are_supported()
     -- For each of the children of the specified node,
     for child_id, _ in pairs(self.skills[skill_id].children) do
       -- If that child is unlocked, we want to make sure it has
-      -- at least one other unlocked node adjacent to support it.
+      -- a valid path back to `start` even if our node were locked.
       if child_id ~= "start" and self.unlocked_skills:contains(child_id) then
-        -- Assume unsupported to start
-        local supporting_grandchild_id = nil
-        -- Check all of that node's children
-        for grandchild_id, _ in pairs(self.skills[child_id].children) do
-          if
-            -- and if that child is not the one we're trying to toggle
-            grandchild_id ~= skill_id and
-            -- And it's currently unlocked
-            self.unlocked_skills:contains(grandchild_id)
-          then
-            -- Then we have a supporting grandchild for this child
-            supporting_grandchild_id = grandchild_id
-            goto continue
-          end
-        end
-        ::continue::
-        if not supporting_grandchild_id then
-          return false
-        end
+        local path = find_shortest_path(
+          self,
+          "start",
+          child_id,
+          false,
+          StringSet.new({ skill_id })
+        )
+
+        if not path then return false end
       end
     end
     return true
@@ -405,4 +408,22 @@ function ISLSkillGraph:apply_perks_to_player(player)
     end
     ::continue::
   end
+end
+
+function ISLSkillGraph:highlight_path_to_skill(goal_id)
+  local path, cost = find_shortest_path(
+    self,
+    "start",
+    goal_id,
+    true
+  )
+  self.highlight_path = path
+  self.highlight_cost = cost
+
+  return self
+end
+
+function ISLSkillGraph:clear_highlight_path()
+  self.highlight_path = nil
+  self.highlight_cost = 999
 end

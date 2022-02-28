@@ -3,7 +3,6 @@
   Based in part on the Frackin' Universe researchTree
 ]]
 require("/scripts/questgen/util.lua")
-require("/isl/lib/log.lua")
 require("/isl/lib/point.lua")
 require("/isl/constants/strings.lua")
 require("/isl/skillgraph/skillgraph.lua")
@@ -87,16 +86,18 @@ function update(dt)
   self.Constellation:update(dt)
 
   widget.setButtonEnabled(
-    "revertButton",
-    SkillGraph.unlocked_skills:size() ~= SkillGraph.saved_skills:size()
-  )
-  widget.setButtonEnabled(
     "respecButton",
     SkillGraph.saved_skills:size() > 1
   )
+
+  local is_dirty = not SkillGraph.unlocked_skills:equals(SkillGraph.saved_skills)
+  widget.setButtonEnabled(
+    "revertButton",
+    is_dirty
+  )
   widget.setButtonEnabled(
     "applyButton",
-    SkillGraph.unlocked_skills:size() ~= SkillGraph.saved_skills:size()
+    is_dirty
   )
 end
 

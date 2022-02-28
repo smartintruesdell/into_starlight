@@ -66,6 +66,12 @@ function UIBonusNode:createTooltip(position, skilltree_state)
     position
   )
   if is_mouseover then
+    if not SkillGraph.unlocked_skills:contains(self.skill.id) then
+      SkillGraph:highlight_path_to_skill(self.skill.id)
+      skilltree_state.redraw()
+    end
+
+
     if player.isAdmin() then
       self.tooltip.admin_label.value = "^shadow;"..self.skill.id
       self.tooltip.admin_label.visible = true
