@@ -106,6 +106,16 @@ function UISkillTreeNode:handleMouseClick(position, _, skilltree_state)
   end
 end
 
-function UISkillTreeNode:handleMouseDoubleClick(--[[position, _, skilltree_state]])
-  -- Double click doesn't do anything currently
+function UISkillTreeNode:handleMouseDoubleClick(position, _, skilltree_state)
+  local is_in_bounds = self:area_contains_position(
+    skilltree_state.drag_offset,
+    position
+  )
+  if is_in_bounds then
+    ISLLog.debug("Doubleclicked %s", self.skill.id)
+    if not SkillGraph.unlocked_skills:contains(self.skill.id) then
+      ISLLog.debug("Was not unlocked, so trying to unlock the path")
+      SkillGraph:unlock_highlighted_skills()
+    end
+  end
 end

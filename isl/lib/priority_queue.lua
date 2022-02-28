@@ -107,7 +107,7 @@ function PriorityQueue:enqueue( item, priority )
 	local items, priorities, indices = self, self._priorities, self._indices
 
 	assert(
-    indices[item] ~= nil,
+    indices[item] == nil,
     'Item ' .. tostring(indices[item]) .. ' is already in the heap'
   );
 

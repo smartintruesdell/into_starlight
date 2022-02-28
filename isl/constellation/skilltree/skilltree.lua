@@ -35,7 +35,6 @@ function UISkillTree:init(canvas_id)
 
   -- This state object is passed to all children in the `update` event
   self.state = {
-    selected_skill = nil,
     drag_offset = Point.new({
         self.canvas:size()[1] * 0.5,
         self.canvas:size()[2] * 0.5
@@ -43,7 +42,8 @@ function UISkillTree:init(canvas_id)
     mouse = {
       last_position = Point.new({ 0, 0 }),
       position = Point.new({ 0, 0 })
-    }
+    },
+    redraw = function () self:draw() end
   }
 end
 
@@ -59,15 +59,9 @@ function UISkillTree:addChildrenForSkills(skills_list)
   end
 end
 
--- Methods --------------------------------------------------------------------
-
-function UISkillTree:select_skill(skill_id)
-  self.state.selected_skill = skill_id
-end
-
 -- Event Handlers -------------------------------------------------------------
 
-function UISkillTree:handleMouseEvent(window_position, button, pressed)
+function UISkillTree:handleMouseEvent(_window_position, button, pressed)
   local canvas_relative_position = Point.new(self.canvas:mousePosition())
   self.state.mouse.position = canvas_relative_position
 
@@ -130,6 +124,7 @@ function UISkillTree:draw_graph_lines()
   LINE_TYPE.UNAVAILABLE = 0
   LINE_TYPE.AVAILABLE = 1
   LINE_TYPE.UNLOCKED = 2
+  LINE_TYPE.HIGHLIGHT = 3
 
   --- Given two skill ids, ensure they always return in the same order
   local function sort_skill_ids(skill_1_id, skill_2_id)
@@ -139,6 +134,7 @@ function UISkillTree:draw_graph_lines()
     return skill_2_id, skill_1_id
   end
 
+  local highlight_path = StringSet.new(SkillGraph.highlight_path)
   local lines = {}
 
   -- First, determine line colors for all lines
@@ -160,13 +156,27 @@ function UISkillTree:draw_graph_lines()
         SkillGraph.available_skills:contains(child_id)
       then
         -- Then show the AVAILABLE line
-        lines[first_id][second_id] = LINE_TYPE.AVAILABLE
+        if
+          highlight_path:contains(skill.id) and
+          highlight_path:contains(child_id)
+        then
+          lines[first_id][second_id] = LINE_TYPE.HIGHLIGHT
+        else
+          lines[first_id][second_id] = LINE_TYPE.AVAILABLE
+        end
       elseif -- We don't have a fancier line from reverse-evaluation somewhere
         not lines[first_id][second_id] or
         lines[first_id][second_id] < LINE_TYPE.UNAVAILABLE
       then
-        -- Show the UNAVAILABLE line
-        lines[first_id][second_id] = LINE_TYPE.UNAVAILABLE
+        -- Then show the UNAVAILABLE line
+        if
+          highlight_path:contains(skill.id) and
+          highlight_path:contains(child_id)
+        then
+          lines[first_id][second_id] = LINE_TYPE.HIGHLIGHT
+        else
+          lines[first_id][second_id] = LINE_TYPE.UNAVAILABLE
+        end
       end
     end
   end
@@ -174,11 +184,15 @@ function UISkillTree:draw_graph_lines()
   -- Then for each line,
   for from_id, children in pairs(lines) do
     for to_id, line_type in pairs(children) do
-      -- Determine actual line color
+      -- Determine actual line color and line width
       local line_color = nil
+      local line_width = 1
 
       if line_type == LINE_TYPE.UNLOCKED then
         line_color = Colors.get_color("line_color_unlocked")
+      elseif line_type == LINE_TYPE.HIGHLIGHT then
+        line_color = Colors.get_color("line_color_available")
+        line_width = 3
       elseif line_type == LINE_TYPE.AVAILABLE then
         line_color = Colors.get_color("line_color_available")
       else
@@ -211,13 +225,13 @@ function UISkillTree:draw_graph_lines()
         from_point:translate(recess_offset),
         to_point:translate(recess_offset),
         Colors.get_color("line_color_recess"),
-        1
+        line_width
       )
       self.canvas:drawLine(
         from_point:translate(highlight_offset),
         to_point:translate(highlight_offset),
         Colors.get_color("line_color_highlight"),
-        1
+        line_width
       )
 
       -- Draw the indicator line
@@ -225,7 +239,7 @@ function UISkillTree:draw_graph_lines()
         from_point,
         to_point,
         line_color,
-        1
+        line_width
       )
     end
   end
@@ -234,5 +248,9 @@ end
 function UISkillTree:createTooltip()
   local canvas_relative_position = Point.new(self.canvas:mousePosition())
   -- Pass canvas information to skill tree children
-  return self:createTooltipsForChildren(canvas_relative_position, self.state)
+  local res = self:createTooltipsForChildren(canvas_relative_position, self.state)
+  if not res then
+    SkillGraph:clear_highlight_path()
+  end
+  return res
 end
