@@ -154,7 +154,7 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 Right now Perks are an idea and not a reality. The Species and Bonus nodes work great, but we're not seeing any effect from perks.
 
-**** TODO Add shortest-path logic to validate selections and allow for quick selection
+**** DONE Add shortest-path logic to validate selections and allow for quick selection
 ** DONE Stats and Stat Effects [11/12]
 
 *** DONE Differentiate between melee/ranged/magical
