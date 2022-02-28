@@ -13,6 +13,7 @@ require("/isl/constellation/header/header.lua")
 require("/isl/constellation/perks/perks.lua")
 require("/isl/constellation/progress/progress.lua")
 require("/isl/constellation/stats/stats.lua")
+require("/isl/constellation/stats/secondary_stats.lua")
 
 -- Class --------------------------------------------------------------------
 
@@ -29,7 +30,11 @@ function UIConstellation:init()
     "primaryStats",
     UIConstellationStats.new("primaryStatsLayout")
   )
-  -- self:addChild("secondaryStats", UIConstellationSecondaryStats.new(""))
+
+  self:addChild(
+    "secondaryStats",
+    UIConstellationSecondaryStats.new("secondaryStatsLayout")
+  )
   self:addChild("perks", UIConstellationPerks.new("perksScrollArea.perksList"))
   self:addChild("progress", UIConstellationProgress.new("progressLayout"))
 
