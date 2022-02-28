@@ -4,14 +4,13 @@
 
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
-require("/isl/lib/log.lua")
 require("/isl/constants/strings.lua")
-require("/isl/lib/bounds.lua")
-require("/isl/skillgraph/skillgraph.lua")
-require("/isl/player/stats/player_stats.lua")
-require("/isl/lib/uicomponent.lua")
 require("/isl/constellation/portrait/portrait.lua")
 require("/isl/constellation/stats/stat_text.lua")
+require("/isl/constellation/stats/stat_tooltip.lua")
+require("/isl/lib/uicomponent.lua")
+require("/isl/player/stats/player_stats.lua")
+require("/isl/skillgraph/skillgraph.lua")
 
 -- Class ----------------------------------------------------------------------
 
@@ -83,54 +82,11 @@ function UIConstellationStats:createTooltip(mouse_position)
         child.tooltipTitleStringId and
         widget.inMember(self.layout_id.."."..child_id, mouse_position)
       then
-        local tooltip = config.getParameter("tooltipLayouts.stat")
-        local title = Strings:getString(child.tooltipTitleStringId)
-        tooltip.description.value =
-          Strings:getString(child.tooltipDescriptionStringId)
-
-        tooltip.title.value = title
-
-        local cases = {
-          strengthButton = {
-            stat = "isl_strength",
-            color = Colors.get_color("melee")
-          },
-          precisionButton = {
-            stat = "isl_precision",
-            color = Colors.get_color("ranged")
-          },
-          witsButton = {
-            stat = "isl_wits",
-            color = Colors.get_color("magical")
-          },
-          defenseButton = {
-            stat = "isl_defense",
-            color = Colors.get_color("melee")
-          },
-          evasionButton = {
-            stat = "isl_evasion",
-            color = Colors.get_color("ranged")
-          },
-          focusButton = {
-            stat = "isl_focus",
-            color = Colors.get_color("magical")
-          }
-        }
-        if cases[child_id] ~= nil then
-          local color = "^"..cases[child_id].color..";"
-          local reset = "^reset;"
-          local details = SkillGraph:get_stat_details(cases[child_id].stat)
-
-          tooltip.details.value = string.format(
-            Strings:getString("stats_details"),
-            color..details.from_species..reset,
-            player.species(),
-            color..details.from_skills..reset,
-            color..details.from_perks..reset
-          )
-        end
-
-        return tooltip
+        return create_stat_tooltip(
+          child_id,
+          child.tooltipTitleStringId,
+          child.tooltipDescriptionStringId
+        )
       end
     end
   end
