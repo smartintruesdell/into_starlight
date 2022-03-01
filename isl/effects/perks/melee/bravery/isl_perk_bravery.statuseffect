@@ -1,0 +1,13 @@
+{
+  "name": "isl_perk_bravery",
+  "defaultDuration": 5,
+  "effectConfig": {
+    "hitPercentDamageThreshold": 20,
+    "ignoreFallDamage": true,
+    "invulnerabilityDuration": 5,
+    "cooldown": 30
+  },
+  "scripts": [
+    "isl_perk_bravery.lua"
+  ]
+}

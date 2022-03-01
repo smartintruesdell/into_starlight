@@ -1,15 +1,11 @@
 --[[
-  The Warrior perk provides some useful early-game support for melee playstyles but
-  does not scale well into endgame. It is meant to be a bit of a rite-of-passage
-  into the rest of the melee tree, and is not a build-around in and of itself.
+  The Warrior's Grit perk provides some useful early-game support for melee
+  playstyles but does not scale well into endgame. It is meant to be a bit of
+  a rite-of-passage into the rest of the melee tree, and is not a build-around
+  in and of itself.
 
-  ### The Warrior
   When you are hit by melee attacks, has a chance to provide minor health
   regeneration.
-
-  Bonuses: (Static bonuses are provided in the skill definition)
-  - +5% Strength
-  - +5% Defense
 ]]
 require("/scripts/util.lua")
 require("/isl/lib/log.lua")
@@ -40,7 +36,7 @@ function init()
   _,self.damageUpdate = status.damageTakenSince()
 end
 
-function update(dt)
+function update(_dt)
   -- First, check if the effect is on cooldown.
   if os.time() - self.cooldown_start >= self.cooldown then
     self.notifications, self.damageUpdate = status.damageTakenSince(self.damageUpdate)
