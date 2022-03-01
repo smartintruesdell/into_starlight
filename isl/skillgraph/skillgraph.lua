@@ -248,6 +248,10 @@ function ISLSkillGraph:build_back_links()
   for skill_id, skill in pairs(self.skills) do
     -- Add that skill's id to the children of each of its children
     for _, child_id in ipairs(skill.children:to_Vec()) do
+      assert(
+        self.skills[child_id] ~= nil,
+        "Tried to link to "..child_id..", which was not a known skill"
+      )
       self.skills[child_id].children:add(skill_id)
     end
   end

@@ -72,7 +72,7 @@ end
 --- Reads SkillModule data from a JSON asset
 --- load_from_path(string) -> (error, ISLSkillModule)
 function ISLSkillModule.load_from_path(path)
-   local file_data = root.assetJson(path)
+  local file_data = root.assetJson(path)
 
    local new_module = ISLSkillModule.new({
       name = file_data.name,
@@ -80,6 +80,8 @@ function ISLSkillModule.load_from_path(path)
       rotation = file_data.rotation,
       scale = file_data.scale
    })
+
+   ISLLog.debug("Loading Skill Module '%s'", new_module.name)
 
    for skill_id, skill_data in pairs(file_data.skills) do
       skill_data.id = skill_id
@@ -91,8 +93,6 @@ function ISLSkillModule.load_from_path(path)
 
       new_module.children[child_id] = child_module
    end
-
-   ISLLog.debug("Loaded Skill Module '%s'", new_module.name)
 
    return new_module
 end
