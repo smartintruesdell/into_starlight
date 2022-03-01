@@ -285,7 +285,6 @@ function ISLSkillGraph:apply_to_player(player)
 
   -- Save the player's unlocked skills as a property
   self.saved_skills = self.unlocked_skills:clone()
-  ISLLog.debug("Saving skills: %s", util.tableToString(self.saved_skills:to_Vec()))
   player.setProperty(SKILLS_PROPERTY_NAME, self.saved_skills:to_Vec())
 
 
