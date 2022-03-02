@@ -1,0 +1,54 @@
+{
+  "projectileName": "isl_largeexplosionknockback",
+  "image": "regularexplosion2.png",
+  "animationCycle": 0.2,
+  "frameNumber": 6,
+  "speed": 0,
+  "lightColor": [
+    255,
+    255,
+    128
+  ],
+  "pointLight": true,
+  "statusEffects": [],
+  "damagePoly": [
+    [
+      -41,
+      0
+    ],
+    [
+      -31,
+      -31
+    ],
+    [
+      0,
+      -41
+    ],
+    [
+      31,
+      -31
+    ],
+    [
+      41,
+      0
+    ],
+    [
+      31,
+      31
+    ],
+    [
+      0,
+      41
+    ],
+    [
+      -31,
+      31
+    ]
+  ],
+  "animationLoops": false,
+  "piercing": true,
+  "bounces": -1,
+  "flippable": true,
+  "damageKind": "default",
+  "knockback": 33
+}
