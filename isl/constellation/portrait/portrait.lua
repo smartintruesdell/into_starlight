@@ -40,7 +40,7 @@ function UIPortrait:draw()
 
    local layers = world.entityPortrait(player.id(), self.portrait_type)
 
-   for _, layer in ipairs(layers) do
+   for _, layer in ipairs(layers or {}) do
       local scale = 1
       local position = Point.new({
          layer.transformation[1][3],
