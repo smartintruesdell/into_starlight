@@ -4,7 +4,6 @@ require("/isl/player/stats/player_stats.lua")
 -- Using an oldstyle hook because handleInteract is an engine callback
 local super_handleInteract = handleInteract
 function handleInteract(args)
-  sb.logInfo("Plugin ran, alright.")
   local player_stats = ISLPlayerStats.new():read_from_entity(args.sourceId)
   local charisma_price_reduction = player_stats:get_charisma_price_reduction()
   local charisma_sell_price_increase = player_stats:get_charisma_sell_price_increase()

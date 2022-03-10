@@ -1,0 +1,24 @@
+{
+  "projectileName": "isl_explosive_perk_bomb",
+  "image": "bomb.png",
+  "physics": "stickybomb",
+  "animationCycle": 2,
+  "frameNumber": 4,
+  "power": 50,
+  "initialVelocity": 50,
+  "timeToLive": 5,
+  "bounces": 1,
+  "actionOnReap": [
+    {
+      "action": "config",
+      "file": "/projectiles/explosions/regularexplosion/regularexplosionuniversal.config"
+    }
+  ],
+  "lightColor": [
+    255,
+    180,
+    0
+  ],
+  "damageType": "NoDamage",
+  "damageKind": "default"
+}

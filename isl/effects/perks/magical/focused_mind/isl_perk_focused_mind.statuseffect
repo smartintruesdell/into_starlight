@@ -1,0 +1,12 @@
+{
+  "name": "isl_perk_focused_mind",
+  "defaultDuration": 5,
+  "effectConfig": {
+    "energyRegenMultiplier": 1.25,
+    "stationaryTime": 2.5,
+    "cooldown": 30
+  },
+  "scripts": [
+    "isl_perk_focused_mind.lua"
+  ]
+}
