@@ -1,5 +1,5 @@
 --[[
-  The Nimble perk is TBD, but is movement/evasion related. Nullify mud/etc?
+  Dashing changes the way Charisma applies to NPCs.
 ]]
 require("/scripts/util.lua")
 require("/isl/lib/log.lua")
