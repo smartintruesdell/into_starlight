@@ -1,6 +1,6 @@
 --[[
-   This script is called when the player is spawned into the world, and
-   sets up the components of IntoStarlight that impact Player stats/equipment/etc.
+  This script is called when the player is spawned into the world, and
+  sets up the components of IntoStarlight that impact Player stats/equipment/etc.
 ]]
 require("/scripts/util.lua")
 require("/isl/lib/log.lua")
@@ -16,22 +16,22 @@ local super_uninit = uninit
 
 -- Player Initialization ------------------------------------------------------
 function init()
-   super_init()
-   ISLLog.info("Initializing IntoStarlight Player Features")
-   ISLPlayerStats.hard_reset(player)
-   ISLSkillGraph.initialize():apply_to_player(player)
+  super_init()
+  ISLLog.info("Initializing IntoStarlight Player Features")
+  ISLPlayerStats.hard_reset(player)
+  ISLSkillGraph.initialize():apply_to_player(player)
 end
 
 -- Player Update --------------------------------------------------------------
 function update(dt)
-   super_update(dt)
+  super_update(dt)
 end
 
 -- Player Destruction ---------------------------------------------------------
 function uninit()
-   super_uninit()
-   ISLLog.info("Cleaning up IntoStarlight Player Features")
-   status.removeEphemeralEffect("isl_player_controllers")
-   -- TODO: Gonna want to remove all the perks on the player too, for
-   -- uninstall safety
+  super_uninit()
+  ISLLog.info("Cleaning up IntoStarlight Player Features")
+  status.removeEphemeralEffect("isl_player_controllers")
+  -- TODO: Gonna want to remove all the perks on the player too, for
+  -- uninstall safety
 end
