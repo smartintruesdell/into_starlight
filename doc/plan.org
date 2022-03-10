@@ -233,14 +233,11 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
   - [ ] Move this to a perk
 - [ ] Perk - Higher level items from vendors
 
-** STARTED Leveling Up
+** DONE Leveling Up
 
 *** DONE Killing monsters drops experience
 
-*** TODO Killing boss monsters drops LOTs of experience
-
-I think the right way to do this (blarg) is with treasure pools.
-It means that bosses will always drop a fixed amount of XP, but farming them is a pain in the butt so I doubt people are going to farm the Erchius Horror over and over to level up.
+*** DONE Killing boss monsters drops LOTs of experience
 
 *** DONE Farming plants drops experience
 
