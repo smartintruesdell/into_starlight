@@ -4,6 +4,7 @@
   "effectConfig": {
     "hitPercentDamageThreshold": 20,
     "ignoreFallDamage": true,
+    "invulnerabilityEffect": "isl_perk_bravery_invulnerability",
     "invulnerabilityDuration": 5,
     "cooldown": 30
   },
