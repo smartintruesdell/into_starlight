@@ -126,7 +126,7 @@ One of the things that rubbed me the wrong way about RPG Growth was that it was 
 
 ***** DONE Each perk has an indicator describing what it does
 
-*** STARTED Feat/skilltree
+*** DONE Feat/skilltree
 
 There is a canvas UI that allows the player to browse the skill graph, see the effects of nodes, and unlock those nodes for their character by spending skill points.
 
@@ -148,7 +148,7 @@ There is a canvas UI that allows the player to browse the skill graph, see the e
 
 **** DONE Fix Revert so that it's not identical to respec
 
-**** TODO Disable Respec when the user is not admin / does not have a respec core
+**** DONE Disable Respec when the user is not admin / is not on their ship
 
 **** DONE Add some perks
 
@@ -239,7 +239,8 @@ Note that because it reduces incoming damage by 100%, and we want to keep pace w
 
 *** TODO Killing boss monsters drops LOTs of experience
 
-I need a way to differentiate between bosses and not-bosses, if I want to be able to do this. And I do, legitimately want that.
+I think the right way to do this (blarg) is with treasure pools.
+It means that bosses will always drop a fixed amount of XP, but farming them is a pain in the butt so I doubt people are going to farm the Erchius Horror over and over to level up.
 
 *** DONE Farming plants drops experience
 
@@ -254,10 +255,6 @@ I need a way to differentiate between bosses and not-bosses, if I want to be abl
 *** DONE Experience Motes
 
 I've made a graphic for this but it might need more attention.
-
-*** TODO Skill Reset Device
-
-I really like the idea that beating the Ruin (the first time) and Ancient Guardians drops Respec scrolls so you can respec easily after you beat the game.
 
 *** DONE Constellation tool (Sextant) for users w/o StardustLib?
 

@@ -1,0 +1,12 @@
+{
+  "name": "isl_perk_scholars_insight",
+  "defaultDuration": 5,
+  "effectConfig": {
+    "powerMultiplier": 1.1,
+    "maxLevelDelta": 2,
+    "cooldown": 15
+  },
+  "scripts": [
+    "isl_perk_scholars_insight.lua"
+  ]
+}

@@ -42,8 +42,16 @@ local function get_effect_from_tag_tree(stat_value, tags, tag_tree)
         -- return the effect with the stat applied to it
         local effect = {}
         effect.amount = (child.amount and (child.amount * stat_value)) or 0
-        effect.baseMultiplier = (child.baseMultiplier and (((child.baseMultiplier - 1) * stat_value) + 1)) or 1
-        effect.effectiveMultiplier = (child.effectiveMultiplier and (((child.effectiveMultiplier - 1) * stat_value) + 1)) or 1
+        effect.baseMultiplier =
+          (
+            child.baseMultiplier and
+            (((child.baseMultiplier - 1) * stat_value) + 1)
+          ) or 1
+        effect.effectiveMultiplier =
+          (
+            child.effectiveMultiplier and
+            (((child.effectiveMultiplier - 1) * stat_value) + 1)
+          ) or 1
 
         -- Return the first valid result
         return effect
@@ -81,9 +89,7 @@ function ISLPlayerStatEffectsController:init(entity_id)
   local stats = ISLPlayerStats.new():read_from_entity(entity_id)
   self.state.stats = stats
 
-  -- Initialize effect controllers Each is a module with a static `get_effects`
-  -- function so that we can compartmentalize our effects logic. Note that each
-  -- controller will recieve the full state along with the config tree.
+  -- Initialize effect controller configuration
   self.effect_configuration = {
     isl_strength = root.assetJson(PATH.."/effects/strength.config"),
     isl_precision = root.assetJson(PATH.."/effects/precision.config"),
@@ -139,21 +145,30 @@ function ISLPlayerStatEffectsController:update(--[[dt: number]])
       end
     end
 
+    local persistent_effects = effects_map:spread_persistent()
+    self.mcontroller_effects = effects_map:spread_mcontroller()
+
     status.setPersistentEffects(
       ISLPlayerStatEffectsController.effect_category_identifier,
-      effects_map:spread()
+      persistent_effects
+    )
+  end
+
+  if self.mcontroller_effects and #self.mcontroller_effects then
+    mcontroller.controlModifiers(
+      self.mcontroller_effects
     )
   end
 end
 
 function ISLPlayerStatEffectsController:update_state()
   local stats_changed = false
-  self.state.stats, stats_changed = self.state.stats:read_from_entity(self.entity_id)
+  self.state.stats, stats_changed =
+    self.state.stats:read_from_entity(self.entity_id)
 
   local items_changed = false
-  self.state.held_items, items_changed = self.state.held_items:read_from_entity(self.entity_id)
+  self.state.held_items, items_changed =
+    self.state.held_items:read_from_entity(self.entity_id)
 
   return stats_changed or items_changed
 end
-
--- Methods --------------------------------------------------------------------

@@ -1,0 +1,12 @@
+{
+  "name": "isl_perk_steady_aim",
+  "defaultDuration": 5,
+  "effectConfig": {
+    "powerMultiplier": 1.1,
+    "stationaryTime": 2.5,
+    "cooldown": 30
+  },
+  "scripts": [
+    "isl_perk_steady_aim.lua"
+  ]
+}

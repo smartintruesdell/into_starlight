@@ -6,7 +6,7 @@
     ],
     "dimensions": [
       4,
-      11
+      12
     ],
     "names": [
       [
@@ -74,6 +74,12 @@
         "utility_vigor:available",
         "utility_vigor:saved",
         "utility_vigor:new"
+      ],
+      [
+        "vigor:unavailable",
+        "vigor:available",
+        "vigor:saved",
+        "vigor:new"
       ]
     ]
   }

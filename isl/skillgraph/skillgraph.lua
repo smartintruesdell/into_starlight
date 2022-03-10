@@ -248,6 +248,10 @@ function ISLSkillGraph:build_back_links()
   for skill_id, skill in pairs(self.skills) do
     -- Add that skill's id to the children of each of its children
     for _, child_id in ipairs(skill.children:to_Vec()) do
+      assert(
+        self.skills[child_id] ~= nil,
+        "Tried to link to "..child_id..", which was not a known skill"
+      )
       self.skills[child_id].children:add(skill_id)
     end
   end
@@ -281,7 +285,6 @@ function ISLSkillGraph:apply_to_player(player)
 
   -- Save the player's unlocked skills as a property
   self.saved_skills = self.unlocked_skills:clone()
-  ISLLog.debug("Saving skills: %s", util.tableToString(self.saved_skills:to_Vec()))
   player.setProperty(SKILLS_PROPERTY_NAME, self.saved_skills:to_Vec())
 
 

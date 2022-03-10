@@ -5,6 +5,7 @@
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
+require("/isl/lib/string_set.lua")
 
 -- Class ----------------------------------------------------------------------
 
@@ -48,6 +49,31 @@ function ISLEffectsMap:spread()
   return results
 end
 
+local MControllerEffects = StringSet.new({ "airJumpModifier", "speedModifier" })
+local MControllerEffectOffsets = {
+  airJumpModifier = 1,
+  speedModifier = 1
+}
+function ISLEffectsMap:spread_persistent()
+  return util.filter(
+    self:spread(),
+    function (effect)
+      return not MControllerEffects:contains(effect.stat)
+    end
+  )
+end
+function ISLEffectsMap:spread_mcontroller()
+  local results = {}
+  for _, key in ipairs(MControllerEffects:to_Vec()) do
+    if self[key] then
+      results[key] = (MControllerEffectOffsets[key] + (self[key].amount or 0)) *
+        (self[key].baseMultiplier or 1) *
+        (self[key].effectiveMultiplier or 1)
+    end
+  end
+  return results
+end
+
 --- Applies a change to a specific effect on the map
 function ISLEffectsMap:apply(key, fn)
   self[key] = fn(self[key])
@@ -59,7 +85,8 @@ function ISLEffectsMap:concat(other_map)
   for key, effect in pairs(other_map) do
     if not self[key] then self[key] = {} end
     self[key].amount = (self[key].amount or 0) + (effect.amount or 0)
-    self[key].baseMultiplier = (self[key].baseMultiplier or 1) + ((effect.baseMultiplier or 1) - 1)
+    self[key].baseMultiplier =
+      (self[key].baseMultiplier or 1) + ((effect.baseMultiplier or 1) - 1)
     self[key].effectiveMultiplier =
       (self[key].effectiveMultiplier or 1) + ((effect.effectiveMultiplier or 1) - 1)
   end
