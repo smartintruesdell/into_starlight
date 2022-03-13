@@ -8,6 +8,8 @@
     "LuaPluginLib",
     "StardustLib"
   ],
+  "link": "steam://url/CommunityFilePage/2777345337",
+  "steamContentId": "2777345337",
   "tags": "Mechanics",
-  "version": "1.0.0-beta.21"
+  "version": "1.0.0-beta.23"
 }
