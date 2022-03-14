@@ -1,0 +1,11 @@
+{
+  "name": "isl_player_stats_manager",
+  "effectConfig": {
+    "healthBonus": 0,
+    "energyBonus": 0
+  },
+  "defaultDuration": 60,
+  "scripts": [
+    "/isl/effects/managers/player_stats/player_stats_manager.lua"
+  ]
+}

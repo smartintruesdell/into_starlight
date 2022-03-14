@@ -1,6 +1,6 @@
 --[[ Add a hook to Player:applyDamageRequest to support dodging ]]
 require("/scripts/lpl_plugin_util.lua")
-require("/isl/player/stats/player_stats.lua")
+require("/isl/player_stats/player_stats.lua")
 require("/isl/lib/log.lua")
 
 -- Constants ------------------------------------------------------------------

@@ -3,8 +3,8 @@
     "op": "add",
     "path": "/plugins/-",
     "value": {
-      "name": "isl_effect_plugin",
-      "path": "/isl/plugins/stats/player_primary_isl_effect_plugin.lua"
+      "name": "isl_stats_plugin",
+      "path": "/isl/plugins/stats/player_primary_isl_stats_plugin.lua"
     }
   },
   {

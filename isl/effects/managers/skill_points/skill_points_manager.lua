@@ -49,7 +49,7 @@ function ISLSkillPointController:update(dt)
   -- Otherwise award the player another skill point
   self.state.last_skill_motes = next_motes
 
-  status.addEphemeralEffect("isl_skill_point_up_particle") -- "+Skill Point!"
+  status.addEphemeralEffect("isl_skill_point_up_particle") -- "Skill Up!"
 
   world.spawnItem(
     "isl_skill_point",

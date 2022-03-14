@@ -1,6 +1,6 @@
 --[[ Adds merchant price reduction based on the interacting player's charisma stat ]]
 require "/scripts/lpl_plugin_util.lua"
-require("/isl/player/stats/player_stats.lua")
+require("/isl/player_stats/player_stats.lua")
 
 interact_get_trading_config = Plugins.add_after_hook(
   interact_get_trading_config,

@@ -7,7 +7,8 @@
 ]]
 require("/scripts/util.lua")
 require("/isl/lib/log.lua")
-require("/isl/player/skill_points/skill_points.lua")
+require("/isl/skill_points/skill_points.lua")
+
 require("/scripts/lpl_plugin_util.lua")
 
 applyDamageRequest_update_hit_type = Plugins.add_after_hook(
