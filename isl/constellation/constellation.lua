@@ -74,7 +74,7 @@ function no_op() end
 
 function init()
   -- Initialize UI components
-  if not SkillGraph then ISLSkillGraph.initialize(player.id) end
+  ISLSkillGraph.initialize(player)
   if not Strings then ISLStrings.initialize() end
 
   self.Constellation = UIConstellation.new()
@@ -82,12 +82,6 @@ function init()
   local own_ship = player.ownShipWorldId()
   local current_world = player.worldId()
   self.is_on_shipworld = current_world == own_ship
-
-  ISLLog.debug(
-    "World %s, ship %s",
-    current_world,
-    own_ship
-  )
 
   -- Draw
   self.Constellation:draw()

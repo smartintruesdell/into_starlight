@@ -24,7 +24,7 @@ function UISkillTree:init(canvas_id)
   self.canvas = widget.bindCanvas(canvas_id)
   assert(self.canvas, "Failed to bind SkillTree Canvas")
 
-  ISLSkillGraph.initialize(player.id)
+  ISLSkillGraph.initialize(player)
 
   -- Mount child components
   -- - Add the UISkillTreeBackground component
