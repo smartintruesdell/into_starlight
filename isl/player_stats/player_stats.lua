@@ -61,6 +61,7 @@ function ISLPlayerStats:get_base_stat_persistent_effects()
   local results = {}
   for stat_name, _ in pairs(self.config.stats) do
     results[#results + 1] = {
+      stat = stat_name,
       amount = self[stat_name]
     }
   end

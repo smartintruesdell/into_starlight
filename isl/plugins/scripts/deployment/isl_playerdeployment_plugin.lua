@@ -13,7 +13,7 @@ require "/scripts/lpl_plugin_util.lua"
 
 Plugins.add_after_initialize_hook(
   "playermechdeployment",
-  function (self)
+  function ()
     ISLLog.info("Initializing IntoStarlight Player Features")
 
     message.setHandler(
@@ -28,29 +28,38 @@ Plugins.add_after_initialize_hook(
   end
 )
 
-function skillgraph_updated_handler(self, _)
-  ISLSkillGraph.initialize(player)
+function skillgraph_updated_handler(_self, player)
+  ISLLog.debug("skillgraph_updated_handler()")
+  -- Every time it updates in the UI context, we have to rebuild ours as well.
+  SkillGraph:load_saved_skills(player)
+
+  -- Then we can derive new base stats from the result
   local base_stat_effects =
     SkillGraph.stats:get_base_stat_persistent_effects()
 
+  ISLLog.debug(util.tableToString(base_stat_effects))
+
+  -- And apply them to the player as base stats
   status.setPersistentEffects("isl_base_stats", base_stat_effects)
 end
 
-local PULSE_DELTA = 0.30 -- approx script.setUpdateDelta(30)
+-- Player Update --------------------------------------------------------------
+
+local PULSE_DELTA = 1 -- approx script.setUpdateDelta(100)
 local pulse_timer = 0
 
 local super_update = update
 function update(dt)
-  local stats = ISLPlayerStats.new(player.id())
-
   pulse_timer = pulse_timer + dt
   if pulse_timer >= PULSE_DELTA then
     pulse_timer = 0
 
-    -- Do derived stat calculations only on the pulse
+    -- Refresh unique status effects (species, perks)
+    SkillGraph:apply_status_effects_to_player(player)
+
     status.setPersistentEffects(
       "isl_derived_stats",
-      stats:get_derived_stat_persistent_effects()
+      SkillGraph.stats:get_derived_stat_persistent_effects()
     )
   end
 
@@ -64,5 +73,6 @@ local super_uninit = uninit
 function uninit()
   super_uninit()
   ISLLog.info("Cleaning up IntoStarlight Player Features")
-  -- TODO: Gonna want to remove all the perks on the player
+
+  self.skillgraph:remove_status_effects_from_player(player)
 end

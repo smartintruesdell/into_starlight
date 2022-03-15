@@ -1,0 +1,20 @@
+{
+  "name": "isl_default_species",
+  "defaultDuration": 60,
+  "effectConfig": {
+    "baseStats": {
+      "isl_strength": {
+        "amount": 10
+      },
+      "isl_precision": {
+        "amount": 10
+      },
+      "isl_wits": {
+        "amount": 10
+      }
+    }
+  },
+  "scripts": [
+    "isl_default_species.lua"
+  ]
+}

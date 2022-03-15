@@ -27,7 +27,7 @@ SkillGraph = SkillGraph or nil
 -- Utility Functions ----------------------------------------------------------
 
 local function get_saved_skills(player)
-  return player.getProperty(SKILLS_PROPERTY_NAME) or {}
+  return StringSet.new(player.getProperty(SKILLS_PROPERTY_NAME) or {})
 end
 
 local function get_skill_points(player)
@@ -48,6 +48,7 @@ ISLSkillGraph = createClass("ISLSkillGraph")
 
 -- Constructor ----------------------------------------------------------------
 function ISLSkillGraph:init()
+  self.config = nil
   self.loaded_modules = {}
   self.skills = {}
   self.saved_skills = StringSet.new()
@@ -59,15 +60,68 @@ function ISLSkillGraph:init()
   self.stats = ISLPlayerStats.new()
 end
 
-function ISLSkillGraph.initialize(player)
-  if not SkillGraph then
-    SkillGraph = ISLSkillGraph.load(
+function ISLSkillGraph.initialize(player, force)
+  assert(type(player) ~= "function", "Expected a player Object, found a function")
+
+  if force or not SkillGraph then
+    SkillGraph = ISLSkillGraph.new():load_graph(
       player,
       "/isl/skillgraph/default_skillgraph.config"
-    )
+    ):load_saved_skills(player)
   end
 
   return SkillGraph
+end
+
+-- Methods --------------------------------------------------------------------
+
+-- ISLSkillGraph.load_graph(player, path) -> error, ISLSkillGraph
+function ISLSkillGraph:load_graph(player, path)
+  local start_time = os.clock()
+  assert(path ~= nil, err_msg.GRAPH_FILE_BAD_PATH)
+
+  self.config = root.assetJson(path)
+
+  -- Initialize the skill graph
+  ISLLog.info("Initializing Skill Graph")
+  self:load_modules(self.config.skillModules.common)
+  self:load_modules(
+    self.config.skillModules.species[player.species()] or
+    self.config.skillModules.species.default
+  )
+  self:build_back_links()
+
+  local elapsed_time = os.clock()-start_time
+  ISLLog.debug("Loading the SkillGraph took %f seconds", elapsed_time)
+
+  return self
+end
+
+function ISLSkillGraph:load_saved_skills(player)
+  -- First, load any skills from the player property into our "saved skills"
+  self.saved_skills = get_saved_skills(player)
+
+  -- Then, unlock them
+  self:unlock_skills(player, self.saved_skills:to_Vec(), true)
+
+  -- Then, load common "initialSkills" from the graph config (usually just "start")
+  self:unlock_skills(player, self.config.initialSkills.common, true)
+
+  -- Then, load "initialSkills" for the player's species (usually none)
+  self:unlock_skills(
+    player,
+    self.config.initialSkills.species[player.species()] or
+    self.config.initialSkills.species.default,
+    true
+  )
+
+  -- Build available skills data
+  self:build_available_skills()
+
+  -- Save the current graph back to the player (and trigger an update)
+  self:write_skills_to_player(player)
+
+  return self
 end
 
 function ISLSkillGraph:revert(player)
@@ -77,56 +131,6 @@ function ISLSkillGraph:revert(player)
   return ISLSkillGraph.initialize(player)
 end
 
--- ISLSkillGraph.load(path) -> error, ISLSkillGraph
-function ISLSkillGraph.load(player, path)
-  local start_time = os.clock()
-  local graph = nil
-  assert(path ~= nil, err_msg.GRAPH_FILE_BAD_PATH)
-
-  local graph_config = root.assetJson(path)
-
-  -- Initialize the skill graph
-  ISLLog.info("Initializing Skill Graph")
-  graph = ISLSkillGraph.new()
-  graph:load_modules(graph_config.skillModules.common)
-  graph:load_modules(
-    graph_config.skillModules.species[player.species()] or
-    graph_config.skillModules.species.default
-  )
-  graph:build_back_links()
-
-  -- First, load any skills from the player property into our "saved skills"
-  graph.saved_skills:add_many(get_saved_skills(player))
-
-  -- Then, unlock them
-  graph:unlock_skills(player, graph.saved_skills:to_Vec(), true)
-
-  -- Then, load common "initialSkills" from the graph config (usually just "start")
-  graph:unlock_skills(player, graph_config.initialSkills.common, true)
-
-  -- Then, load "initialSkills" for the player's species (usually none)
-  graph:unlock_skills(
-    player,
-    graph_config.initialSkills.species[player.species()] or
-    graph_config.initialSkills.species.default,
-    true
-  )
-
-  -- Build available skills data
-  graph:build_available_skills()
-
-  -- And update our stats object
-  graph:apply_skills_to_stats()
-
-  ISLLog.debug(
-    "Loading the SkillGraph took %f seconds",
-    os.clock()-start_time
-  )
-
-  return graph
-end
-
--- Methods --------------------------------------------------------------------
 
 function ISLSkillGraph:load_modules(bindings)
   bindings = bindings or {}
@@ -299,16 +303,14 @@ function ISLSkillGraph:build_available_skills()
   return self
 end
 
-function ISLSkillGraph:apply_to_player(player)
+function ISLSkillGraph:write_skills_to_player(player)
   assert(player ~= nil, "Tried to apply the skill graph while the player was nil")
 
   -- Save the player's unlocked skills as a property
   self.saved_skills = self.unlocked_skills:clone()
   player.setProperty(SKILLS_PROPERTY_NAME, self.saved_skills:to_Vec())
 
-
-  -- Apply derived stat updates
-  self:apply_perks_to_player(player)
+  -- Inform the player that their stats have changed
   world.sendEntityMessage(player.id(), "isl_skillgraph_updated")
 
   return self;
@@ -320,8 +322,7 @@ function ISLSkillGraph.reset_unlocked_skills(player)
   player.addCurrency("isl_skill_point", #prev_skills - 1) -- -1 for 'start'
   player.setProperty(SKILLS_PROPERTY_NAME, {})
 
-  SkillGraph = nil
-  return ISLSkillGraph.initialize(player.id)
+  return ISLSkillGraph.initialize(player, true)
 end
 
 function ISLSkillGraph:apply_skill_to_stats(skill_id)
@@ -350,86 +351,33 @@ end
 function ISLSkillGraph:get_stat_details(stat_name)
   assert(stat_name ~= nil, "Tried to retrieve stat details for `nil`")
 
-  self._get_stat_details_cache = self._get_stat_details_cache or {}
-  if self._get_stat_details_cache[stat_name] then
-    return self._get_stat_details_cache[stat_name]
-  end
-
-  local total_amount = 0
-  local skill_diffs = {
-    from_skills = {
-      amount = 0,
-      multiplier = 0
-    },
-    from_perks = {
-      amount = 0,
-      multiplier = 0
-    },
-    from_species = {
-      amount = 0,
-      multiplier = 0
-    }
-  }
-  for _, skill_id in ipairs(self.unlocked_skills:to_Vec()) do
-    assert(self.skills ~= nil, "Skills was not initialized")
-    assert(self.skills[skill_id] ~= nil, "Had an unlocked skill that was not available")
-    local skill = self.skills[skill_id]
-    assert(skill.unlocks ~= nil, "Bad skill data")
-    if not skill.unlocks.stats then goto continue end
-
-    local skill_diff = skill.unlocks.stats[stat_name]
-
-    if skill_diff ~= nil then
-      total_amount =
-        total_amount + (skill.unlocks.stats[stat_name].amount or 0)
-
-      if skill.type == "species" then
-        skill_diffs.from_species.amount =
-          skill_diffs.from_species.amount + (skill_diff.amount or 0)
-        skill_diffs.from_species.multiplier =
-          skill_diffs.from_species.multiplier +
-          ((skill_diff.multiplier or 1) - 1)
-      elseif skill.type == "perk" then
-        skill_diffs.from_perks.amount =
-          skill_diffs.from_perks.amount + (skill_diff.amount or 0)
-        skill_diffs.from_perks.multiplier =
-          skill_diffs.from_perks.multiplier +
-          ((skill_diff.multiplier or 1) - 1)
-      else
-        skill_diffs.from_skills.amount =
-          skill_diffs.from_skills.amount + (skill_diff.amount or 0)
-        skill_diffs.from_skills.multiplier =
-          skill_diffs.from_skills.multiplier +
-          ((skill_diff.multiplier or 1) - 1)
-      end
-    end
-    ::continue::
-  end
-
   self._get_stat_details_cache[stat_name] = {
-    from_skills = skill_diffs.from_skills.amount + (skill_diffs.from_skills.multiplier * total_amount),
-    from_perks = skill_diffs.from_perks.amount + (skill_diffs.from_perks.multiplier * total_amount),
-    from_species = skill_diffs.from_species.amount + (skill_diffs.from_species.multiplier * total_amount)
+    from_skills = 0,
+    from_perks = 0,
+    from_species = 0
   }
 
   return self._get_stat_details_cache[stat_name]
 end
 
 
-function ISLSkillGraph:apply_perks_to_player(player)
-  ISLLog.debug("Applying perks to player")
+function ISLSkillGraph:apply_status_effects_to_player(_--[[Player]])
   for skill_id, _ in pairs(self.saved_skills) do
-    if self.skills[skill_id].type == "perk" then
-      local effect_id = self.skills[skill_id].effectName
-
-      if not effect_id then
-        ISLLog.warn("Perk %s did not have an associated effect", skill_id)
-        goto continue
-      end
-
-      status.addEphemeralEffect(effect_id, math.huge)
+    if self.skills[skill_id].effectName then
+      -- ISLLog.debug(
+      --   "Applying skill effect `%s` to player",
+      --   self.skills[skill_id].effectName
+      -- )
+      status.addEphemeralEffect(self.skills[skill_id].effectName, math.huge)
     end
-    ::continue::
+  end
+end
+
+function ISLSkillGraph:remove_status_effects_from_player(_--[[Player]])
+  for skill_id, _ in pairs(self.saved_skills) do
+    if self.skills[skill_id].effectName then
+      status.removeEphemeralEffect(self.skills[skill_id].effectName)
+    end
   end
 end
 

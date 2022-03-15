@@ -7,7 +7,7 @@ require("/scripts/questgen/util.lua")
 require("/isl/lib/log.lua")
 require("/isl/lib/util.lua")
 require("/isl/lib/uicomponent.lua")
-require("/isl/player/skill_points/skill_points.lua")
+require("/isl/skill_points/skill_points.lua")
 
 -- Constants ------------------------------------------------------------------
 local Widgets = {}
