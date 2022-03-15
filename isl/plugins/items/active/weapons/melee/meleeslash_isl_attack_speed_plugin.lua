@@ -1,6 +1,6 @@
 --[[ Adds attack-speed bonuses to MeleeSlash:cooldownTime method]]
 require("/scripts/lpl_plugin_util.lua")
-require("/isl/player/stats/player_stats.lua")
+require("/isl/player_stats/player_stats.lua")
 
 MeleeSlash.cooldownTime = Plugins.add_after_hook(
   MeleeSlash.cooldownTime,

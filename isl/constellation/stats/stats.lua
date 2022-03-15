@@ -9,7 +9,7 @@ require("/isl/constellation/portrait/portrait.lua")
 require("/isl/constellation/stats/stat_text.lua")
 require("/isl/constellation/stats/stat_tooltip.lua")
 require("/isl/lib/uicomponent.lua")
-require("/isl/player/stats/player_stats.lua")
+require("/isl/player_stats/player_stats.lua")
 require("/isl/skillgraph/skillgraph.lua")
 
 -- Class ----------------------------------------------------------------------
