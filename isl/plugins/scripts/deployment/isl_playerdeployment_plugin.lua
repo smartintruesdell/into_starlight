@@ -24,15 +24,14 @@ Plugins.add_after_initialize_hook(
       end
     )
 
-    self.skillgraph = ISLSkillGraph.initialize(player)
-
-    skillgraph_updated_handler(self, player)
+    ISLSkillGraph.initialize(player)
   end
 )
 
 function skillgraph_updated_handler(self, _)
+  ISLSkillGraph.initialize(player)
   local base_stat_effects =
-    self.skillgraph.stats:get_base_stat_persistent_effects()
+    SkillGraph.stats:get_base_stat_persistent_effects()
 
   status.setPersistentEffects("isl_base_stats", base_stat_effects)
 end
