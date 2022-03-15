@@ -289,8 +289,8 @@ function ISLSkillGraph:apply_to_player(player)
 
 
   -- Apply derived stat updates
-  self.stats:apply_to_player(player)
   self:apply_perks_to_player(player)
+  world.sendEntityMessage(player.id(), "isl_apply_stats_from_skill_graph")
 
   return self;
 end
@@ -327,6 +327,7 @@ function ISLSkillGraph:apply_skills_to_stats()
   return self
 end
 
+--TODO: I think I need to rework this in a "now I use stock stats world"
 function ISLSkillGraph:get_stat_details(stat_name)
   assert(stat_name ~= nil, "Tried to retrieve stat details for `nil`")
 

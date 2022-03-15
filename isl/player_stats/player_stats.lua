@@ -1,13 +1,13 @@
 --[[
-  A simple* struct and initializer for Stat configuration data
+  A utility class for modeling IntoStarlight stat effects
 ]]
-require("/scripts/util.lua")
-require("/scripts/questgen/util.lua")
-require("/isl/lib/util.lua")
+require "/scripts/util.lua"
+require "/scripts/questgen/util.lua"
+require "/isl/lib/util.lua"
 
 -- Constants ------------------------------------------------------------------
 
-local Config = nil
+local PATH = "/isl/player_stats"
 
 -- Class ----------------------------------------------------------------------
 
@@ -15,182 +15,157 @@ ISLPlayerStats = ISLPlayerStats or createClass("ISLPlayerStats")
 
 -- Constructor ----------------------------------------------------------------
 
-function ISLPlayerStats:init()
-  Config = Config or root.assetJson("/isl/player/stats/player_stats.config")
+function ISLPlayerStats:init(entity_id)
+  self.config = root.assetJson(PATH.."/player_stats.config")
+  self.entity_id = entity_id
 
-  for stat_name, stat_data in pairs(Config) do
-    -- save configuration from the json file
-    self[stat_name] = stat_data
-    self[stat_name].amount = stat_data.defaultAmount or 0
-    self[stat_name].multiplier = stat_data.defaultMultiplier or 1
+  self.held_items = nil
+
+  self.persistent_effect_handlers = {}
+  self.movement_effect_handlers = {}
+  for stat_name, stat_data in pairs(self.config.stats) do
+    self[stat_name] = stat_data.default or 0
+
+    if stat_data.persistentEffectsHandler then
+      self.persistent_effect_handlers[stat_name] =
+        require(stat_data.persistentEffectsHandler)
+    end
+
+    if stat_data.movementEffectsHandler then
+      self.movement_effect_handlers[stat_name] =
+        require(stat_data.movementEffectsHandler)
+    end
   end
-end
-
--- Static Methods -------------------------------------------------------------
-
---- An abstraction over applying a blank stats object to the player
-function ISLPlayerStats.hard_reset(player)
-  return ISLPlayerStats.new():apply_to_player(player)
 end
 
 -- Methods --------------------------------------------------------------------
 
 ---@param stat_name string The stat to update
----@param new_values table New stat values for that stat
-function ISLPlayerStats:set_stat(stat_name, new_values)
-  new_values = new_values or {}
-  new_values.amount = new_values.amount or self[stat_name].amount or 0
-  new_values.multiplier = new_values.multiplier or self[stat_name].multiplier or 1
-
-  self[stat_name] = new_values
+---@param value number New stat value for the specified stat
+function ISLPlayerStats:set_stat(stat_name, value)
+  self[stat_name] = value or 0
 
   return self
 end
 
-function ISLPlayerStats:modify_stat(stat_name, stat_value)
-  if stat_value.amount ~= nil then
-    self[stat_name].amount =
-      self[stat_name].amount + stat_value.amount
-  end
-  if stat_value.multiplier ~= nil then
-    self[stat_name].multiplier =
-      self[stat_name].multiplier + (stat_value.multiplier - 1)
+function ISLPlayerStats:modify_stat(stat_name, dv)
+  if dv ~= nil then
+    self[stat_name] = self[stat_name] + dv
   end
 
   return self
 end
 
-function ISLPlayerStats:read_from_entity(entity_id)
-  assert(self ~= nil, "Remember to use ISLPlayerStats:read_from_entity instead of ISLPlayerStats.read_from_entity")
-  local changed = false
+function ISLPlayerStats:get_base_stat_persistent_effects()
+  local results = {}
+  for stat_name, _ in pairs(self.config.stats) do
+    results[#results + 1] = {
+      amount = self[stat_name]
+    }
+  end
 
-  for stat_name, _ in pairs(Config) do
-    local new_amount = world.entityCurrency(entity_id, stat_name)
-    local new_multiplier = world.entityCurrency(
-      entity_id,
-      stat_name.."_multiplier"
+  return results
+end
+
+local function merge_effects_map(left, right)
+  for key, effect in pairs(right) do
+    if not left[key] then
+      left[key] = effect
+    else
+      left[key].amount = left[key].amount + right[key].amount
+      left[key].baseMultiplier = left[key].baseMultiplier + right[key].baseMultiplier
+      left[key].effectiveMultiplier =
+        left[key].effectiveMultiplier + right[key].effectiveMultiplier
+    end
+  end
+  return left
+end
+
+local function flatten_effects_map(effects_map)
+  local results = {}
+  for _, effect in pairs(effects_map) do
+    results[#results+1] = effect
+  end
+
+  return results
+end
+
+function ISLPlayerStats:get_derived_stat_persistent_effects()
+  local results_map = {}
+
+  self.held_items =
+    self.held_items or ISLHeldItems.new():read_from_entity(self.entity_id)
+
+  for _, handler in pairs(self.persistent_effect_handlers) do
+    results_map = merge_effects_map(
+      results_map,
+      handler(self.entity_id, self.held_items)
     )
-    -- EARLY OUT HERE
-    -- If we call the update method during player_init, the first invocation
-    -- will take place before the player is fully initialized and we want to
-    -- essentially allow it to fail once.
-    if new_amount == nil then return self, false end
-
-    local new_values = {
-      amount = new_amount,
-      multiplier = ISLUtil.round_to_digits(2, new_multiplier / 100)
-    }
-
-    if
-      self[stat_name].amount ~= new_values.amount or
-      self[stat_name].multiplier ~= new_values.multiplier
-    then
-      changed = true
-      self:set_stat(stat_name, new_values)
-    end
   end
 
-  return self, changed
+  return flatten_effects_map(results_map)
 end
 
-function ISLPlayerStats:read_from_player(player)
-  assert(self ~= nil, "Remember to use ISLPlayerStats:read_from_player instead of ISLPlayerStats.read_from_player")
-  assert(player ~= nil and type(player) == "table", "Expected a valid `player`")
-  local changed = false
+function ISLPlayerStats:get_derived_stat_movement_effects()
+  local results_map = {}
 
-  for stat_name, _ in pairs(Config) do
-    local new_amount = player.currency(stat_name)
-    local new_multiplier = player.currency(stat_name.."_multiplier")
+  self.held_items =
+    self.held_items or ISLHeldItems.new():read_from_entity(self.entity_id)
 
-    local new_values = {
-      amount = new_amount,
-      multiplier = ISLUtil.round_to_digits(2, new_multiplier / 100)
-    }
-
-    if
-      self[stat_name].amount ~= new_values.amount or
-      self[stat_name].multiplier ~= new_values.multiplier
-    then
-      changed = true
-      self:set_stat(stat_name, new_values)
-    end
+  for _, handler in pairs(self.movement_effect_handlers) do
+    results_map = merge_effects_map(
+      results_map,
+      handler(self.entity_id, self.held_items)
+    )
   end
 
-  return self, changed
+  return flatten_effects_map(results_map)
 end
 
-function ISLPlayerStats:apply_to_player(player)
-  assert(
-    player ~= nil,
-    "Tried to save stats in a context where the `player` object was unavailable"
-  )
-  local get_currency =
-    player.currency or
-    function (stat_name)
-      return world.entityCurrency(player.id(), stat_name)
-    end
+-- TODO: Remove these before publishing
 
-  for stat_name, _ in pairs(Config) do
-    local last_amount = get_currency(stat_name)
-    local last_multiplier = get_currency(stat_name.."_multiplier")
+function ISLPlayerStats:read_from_entity()
+  assert(false,"Deprecated call to `ISLPlayerStats:read_from_entity()`")
+end
 
-    local delta_amount = self[stat_name].amount - last_amount
-    local delta_multiplier = (self[stat_name].multiplier * 100) - last_multiplier
+function ISLPlayerStats:read_from_player()
+  assert(false, "Deprecated call to `ISLPlayerStats:read_from_player()`")
+end
 
-    if delta_amount > 0 then
-      player.addCurrency(stat_name, delta_amount)
-    elseif delta_amount < 0 then
-      player.consumeCurrency(stat_name, math.abs(delta_amount))
-    end
-    if delta_multiplier > 0 then
-      player.addCurrency(stat_name.."_multiplier", delta_multiplier)
-    elseif delta_multiplier < 0 then
-      player.consumeCurrency(stat_name.."_multiplier", math.abs(delta_multiplier))
-    end
-  end
+function ISLPlayerStats:apply_to_player()
+  assert(false, "Deprecated call to `ISLPlayerStats:apply_to_player()`")
+end
 
-  return self
+function ISLPlayerStats:get_stat()
+  assert(false, "Deprecated call to `ISLPlayerStats:get_stat()`")
 end
 
 function ISLPlayerStats:get_evasion_dodge_chance()
-  local evasion = (self.isl_evasion.amount or 0) * (self.isl_evasion.multiplier or 1)
-  return 35 * math.log(evasion * 0.025) + 0.2
+  assert(false, "Deprecated call to `ISLPlayerStats:get_evasion_dodge_chance()`")
 end
 
 function ISLPlayerStats:get_critical_hit_chance()
-  -- TODO
-  return 5
+  assert(false, "Deprecated call to `ISLPlayerStats:get_critical_hit_chance()`")
 end
 
 function ISLPlayerStats:get_critical_hit_multiplier()
-  -- TODO
-  return 0.5
+  assert(false, "Deprecated call to `ISLPlayerStats:get_critical_hit_multiplier()`")
 end
 
 function ISLPlayerStats:get_attack_speed_multiplier()
-  -- TODO
-  return 1
+  assert(false, "Deprecated call to `ISLPlayerStats:get_attack_speed_multiplier()`")
 end
+
 function ISLPlayerStats:get_cast_speed_multiplier()
-  -- TODO
-  return 0.5
+  assert(false, "Deprecated call to `ISLPlayerStats:get_cast_speed_multiplier()`")
 end
 
 function ISLPlayerStats:get_charisma_price_reduction()
-  -- TODO
-  return 0.5
+  assert(false, "Deprecated call to `ISLPlayerStats:get_charisma_price_reduction()`")
 end
 function ISLPlayerStats:get_charisma_sell_price_increase()
-  -- TODO
-  return 1.15
-end
-
-function ISLPlayerStats:get_stat(stat_name)
-  assert(stat_name ~= nil, "Tried to get a nil stat")
   assert(
-    self[stat_name],
-    stat_name.."was not a valid ISL stat. Make sure you invoke Stats:get_stat() and not Stats.get_stat()"
+    false,
+    "Deprecated call to `ISLPlayerStats:get_charisma_sell_price_increase()`"
   )
-
-  return self[stat_name].amount * self[stat_name].multiplier
 end
