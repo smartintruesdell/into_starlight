@@ -170,3 +170,5 @@ function ISLPlayerStats:get_charisma_sell_price_increase()
     "Deprecated call to `ISLPlayerStats:get_charisma_sell_price_increase()`"
   )
 end
+
+return ISLPlayerStats
