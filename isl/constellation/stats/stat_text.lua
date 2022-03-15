@@ -35,11 +35,9 @@ function UIConstellationStatText:draw()
   local amount_widget_id = long_widget_path.."Amount"
 
   local bonus_widget_id = long_widget_path.."BonusAmount"
-
-  local stat_data = SkillGraph.stats[self.stat_name]
-  local amount = math.floor(stat_data.amount * stat_data.multiplier)
-  -- TODO: From equipment
-  local bonus_amount = (SkillGraph.stats[self.stat_name].bonus or 0)
+  local amount = math.floor(SkillGraph.stats[self.stat_name])
+  -- TODO: From equipment?
+  local bonus_amount = 0
 
   if self.rollup_bonus then
     amount = amount + bonus_amount

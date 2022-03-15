@@ -49,5 +49,3 @@ function ISLLog.error(msg, ...)
 
    return msg
 end
-
-return ISLLog

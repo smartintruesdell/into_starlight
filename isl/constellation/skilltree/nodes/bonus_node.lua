@@ -103,24 +103,10 @@ function UIBonusNode:get_tooltip_details()
   local details = ""
   for _, stat_id in ipairs(stat_order) do
     if self.skill.unlocks.stats[stat_id] then
-      if
-        self.skill.unlocks.stats[stat_id].amount ~= nil and
-        self.skill.unlocks.stats[stat_id].amount > 0
-      then
-        details = details..string.format(
-          Strings:getString("bonus_node_detail_"..stat_id),
-          self.skill.unlocks.stats[stat_id].amount
-        ).."\n"
-      end
-      if
-        self.skill.unlocks.stats[stat_id].multiplier ~= nil and
-        self.skill.unlocks.stats[stat_id].multiplier > 1
-      then
-        details = details..string.format(
-          Strings:getString("bonus_node_detail_"..stat_id),
-          (self.skill.unlocks.stats[stat_id].multiplier - 1).."%"
-        ).."\n"
-      end
+      details = details..string.format(
+        Strings:getString("bonus_node_detail_"..stat_id),
+        self.skill.unlocks.stats[stat_id]
+      ).."\n"
     end
   end
   return details
