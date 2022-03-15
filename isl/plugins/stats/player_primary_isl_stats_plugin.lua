@@ -9,7 +9,9 @@ Plugins.add_after_initialize_hook(
   function(self, ...)
     message.setHandler(
       "isl_apply_stats_from_skill_graph",
-      function(...) return isl_apply_stats_from_skill_graph_handler(self, ...) end
+      function(_, is_local, ...)
+        return isl_apply_stats_from_skill_graph_handler(self, is_local, ...)
+      end
     )
 
     return ...
@@ -19,9 +21,9 @@ Plugins.add_after_initialize_hook(
 
 --- Called when the player deploys to an instance or world and applies persistant
 --- stat effects to the player
-function isl_apply_stats_from_skill_graph_handler(_self, _, _)
+function isl_apply_stats_from_skill_graph_handler(_self, is_local)
   -- First, we'll instantiate the skill graph
-  local skill_graph = ISLSkillGraph.initialize()
+  local skill_graph = ISLSkillGraph.initialize(entity.id())
 
   -- Then we'll get the stats from the skill graph
   local stats = skill_graph.stats
@@ -39,7 +41,7 @@ local pulse_timer = 0
 
 local super_update = update
 function update(dt)
-  local stats = ISLPlayerStats.new(player.id())
+  local stats = ISLPlayerStats.new(entity.id())
 
   pulse_timer = pulse_timer + dt
   if pulse_timer >= PULSE_DELTA then

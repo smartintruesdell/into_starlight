@@ -7,15 +7,17 @@ require "/isl/lib/log.lua"
 -- Player Initialization ------------------------------------------------------
 --- I defer this into a run-once in the update event because otherwise I can't
 --- access the `world.sendEntityMessage` function
-local run_once = true
+local run_on_update = 200
 local super_update = update
 function update(...)
   super_update(...)
-  if run_once then
-    run_once = false
+  if run_on_update and run_on_update == 0 then
+    run_on_update = nil
 
     ISLLog.info("Initializing IntoStarlight Player Features")
     world.sendEntityMessage(player.id(), "isl_apply_stats_from_skill_graph")
+  elseif run_on_update then
+    run_on_update = run_on_update - 1
   end
 
   return ...

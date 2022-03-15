@@ -4,6 +4,7 @@
 require "/scripts/util.lua"
 require "/scripts/questgen/util.lua"
 require "/isl/lib/util.lua"
+require "/isl/held_items/held_items.lua"
 
 -- Constants ------------------------------------------------------------------
 

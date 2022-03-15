@@ -24,12 +24,57 @@ local SKILLS_PROPERTY_NAME = "isl_unlocked_skills"
 
 SkillGraph = SkillGraph or nil
 
+-- Utility Functions ----------------------------------------------------------
+
+local function get_saved_skills(player_id)
+  return world.callScriptedEntity(
+    player_id,
+    "player.getProperty",
+    SKILLS_PROPERTY_NAME
+  ) or {}
+end
+
+local function get_is_admin(player_id)
+  return world.callScriptedEntity(
+    player_id,
+    "player.isAdmin"
+  )
+end
+
+local function get_species(player_id)
+  return world.callScriptedEntity(
+    player_id,
+    "player.species"
+  )
+end
+
+local function get_skill_points(player_id)
+  return world.entityCurrency(player_id, "isl_skill_point")
+end
+
+local function spend_skill_points(player_id, amount)
+  return world.callScriptedEntity(
+    player_id,
+    "player.consumeCurrency",
+    amount
+  )
+end
+
+local function refund_skill_points(player_id, amount)
+  return world.callScriptedEntity(
+    player_id,
+    "player.addCurrency",
+    amount
+  )
+end
+
 -- Class ----------------------------------------------------------------------
 
 ISLSkillGraph = createClass("ISLSkillGraph")
 
 -- Constructor ----------------------------------------------------------------
-function ISLSkillGraph:init()
+function ISLSkillGraph:init(player_id)
+  self.player_id = player_id
   self.loaded_modules = {}
   self.skills = {}
   self.saved_skills = StringSet.new()
@@ -41,26 +86,29 @@ function ISLSkillGraph:init()
   self.stats = ISLPlayerStats.new()
 end
 
-function ISLSkillGraph.initialize()
+function ISLSkillGraph.initialize(player_id)
   if not SkillGraph then
-    SkillGraph = ISLSkillGraph.load("/isl/skillgraph/default_skillgraph.config")
+    SkillGraph = ISLSkillGraph.load(
+      player_id,
+      "/isl/skillgraph/default_skillgraph.config"
+    )
   end
 
   return SkillGraph
 end
 
 function ISLSkillGraph:revert()
-  player.addCurrency(
-    "isl_skill_point",
+  refund_skill_points(
+    self.player_id,
     self.unlocked_skills:size() - self.saved_skills:size()
   )
 
   SkillGraph = nil
-  return ISLSkillGraph.initialize()
+  return ISLSkillGraph.initialize(self.player_id)
 end
 
 -- ISLSkillGraph.load(path) -> error, ISLSkillGraph
-function ISLSkillGraph.load(path)
+function ISLSkillGraph.load(player_id, path)
   local start_time = os.clock()
   local graph = nil
   assert(path ~= nil, err_msg.GRAPH_FILE_BAD_PATH)
@@ -69,26 +117,26 @@ function ISLSkillGraph.load(path)
 
   -- Initialize the skill graph
   ISLLog.info("Initializing Skill Graph")
-  graph = ISLSkillGraph.new()
+  graph = ISLSkillGraph.new(player_id)
   graph:load_modules(graph_config.skillModules.common)
   graph:load_modules(
-    graph_config.skillModules.species[player.species()] or
+    graph_config.skillModules.species[get_species(player_id)] or
     graph_config.skillModules.species.default
   )
   graph:build_back_links()
 
   -- First, load any skills from the player property into our "saved skills"
-  local saved_skills = player.getProperty(SKILLS_PROPERTY_NAME) or {}
-  graph.saved_skills:add_many(saved_skills)
+  graph.saved_skills:add_many(get_saved_skills(player_id))
+
   -- Then, unlock them
   graph:unlock_skills(graph.saved_skills:to_Vec(), true)
 
   -- Then, load common "initialSkills" from the graph config (usually just "start")
   graph:unlock_skills(graph_config.initialSkills.common, true)
 
-  -- Then, load "initialSkills" for the player's species
+  -- Then, load "initialSkills" for the player's species (usually none)
   graph:unlock_skills(
-    graph_config.initialSkills.species[player.species()] or
+    graph_config.initialSkills.species[get_species(player_id)] or
     graph_config.initialSkills.species.default,
     true
   )
@@ -159,16 +207,16 @@ end
 
 function ISLSkillGraph:unlock_skill(skill_id, force)
   local skill_is_affordable =
-    player.isAdmin() or player.currency("isl_skill_point") > 0
+    force or get_is_admin(self.player_id) or get_skill_points(self.player_id) > 0
 
-  if force or skill_is_affordable then
+  if skill_is_affordable then
     ISLLog.debug("Unlocking skill '%s'", skill_id)
     self.unlocked_skills:add(skill_id)
     if (self.skills[skill_id].type == "perk") then
       self.unlocked_perks:add(skill_id)
     end
     if not force then
-      player.consumeCurrency("isl_skill_point", 1)
+      spend_skill_points(self.player_id, 1)
     end
   else
     ISLLog.debug("skill was unaffordable")
@@ -222,7 +270,7 @@ function ISLSkillGraph:lock_skill(skill_id)
     ISLLog.debug("Locking skill '%s'", skill_id)
     self.unlocked_skills:remove(skill_id)
     self.unlocked_perks:remove(skill_id)
-    player.addCurrency("isl_skill_point", 1)
+    refund_skill_points(self.player_id, 1)
   end
 
   self:build_available_skills()
@@ -302,7 +350,7 @@ function ISLSkillGraph.reset_unlocked_skills(player)
   player.setProperty(SKILLS_PROPERTY_NAME, {})
 
   SkillGraph = nil
-  return ISLSkillGraph.initialize()
+  return ISLSkillGraph.initialize(player.id)
 end
 
 function ISLSkillGraph:apply_skill_to_stats(skill_id)

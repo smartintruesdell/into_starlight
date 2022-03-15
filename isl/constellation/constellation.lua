@@ -74,7 +74,7 @@ function no_op() end
 
 function init()
   -- Initialize UI components
-  if not SkillGraph then ISLSkillGraph.initialize() end
+  if not SkillGraph then ISLSkillGraph.initialize(player.id) end
   if not Strings then ISLStrings.initialize() end
 
   self.Constellation = UIConstellation.new()
