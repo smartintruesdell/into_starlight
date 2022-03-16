@@ -57,7 +57,6 @@ function ISLSkillGraph:init()
   self.unlocked_perks = StringSet.new()
   self.highlight_path = {}
   self.highlight_cost = 999
-  self.stats = nil
 end
 
 function ISLSkillGraph.initialize(player, force)
@@ -83,7 +82,7 @@ function ISLSkillGraph:load_graph(player, path)
   self.config = root.assetJson(path)
 
   -- Initialize the skill graph
-  ISLLog.info("Initializing Skill Graph")
+  ISLLog.info("Initializing IntoStarlight Skill Graph")
   self:load_modules(self.config.skillModules.common)
   self:load_modules(
     self.config.skillModules.species[player.species()] or
@@ -136,31 +135,25 @@ function ISLSkillGraph:load_saved_skills(player)
   self.saved_skills = get_saved_skills(player)
 
   -- Then, unlock them
-  self:unlock_skills(player, self.saved_skills:to_Vec(), true)
+  self:unlock_skills(player, self.saved_skills:to_Vec())
 
   -- Then, load common "initialSkills" from the graph config (usually just "start")
-  self:unlock_skills(player, self.config.initialSkills.common, true)
+  self:unlock_skills(player, self.config.initialSkills.common)
 
   -- Then, load "initialSkills" for the player's species (usually none)
   self:unlock_skills(
     player,
     self.config.initialSkills.species[player.species()] or
-    self.config.initialSkills.species.default,
-    true
+    self.config.initialSkills.species.default
   )
 
   -- Build available skills data
   self:build_available_skills()
 
-  -- Save the current graph back to the player (and trigger an update)
-  self:write_skills_to_player(player)
-
   return self
 end
 
 function ISLSkillGraph:unlock_skill(_player, skill_id)
-  ISLLog.debug("Unlocking skill '%s'", skill_id)
-
   self.unlocked_skills:add(skill_id)
 
   if (self.skills[skill_id].type == "perk") then
@@ -228,7 +221,7 @@ function ISLSkillGraph:write_skills_to_player(player)
   player.setProperty(SKILLS_PROPERTY_NAME, self.saved_skills:to_Vec())
 
   -- Inform the player that their stats have changed
-  world.sendEntityMessage(player.id(), "isl_skillgraph_updated")
+    world.sendEntityMessage(player.id(), "isl_skillgraph_updated")
 
   return self;
 end
@@ -237,10 +230,6 @@ end
 function ISLSkillGraph:apply_status_effects_to_player(_--[[Player]])
   for skill_id, _ in pairs(self.saved_skills) do
     if self.skills[skill_id].effectName then
-      -- ISLLog.debug(
-      --   "Applying skill effect `%s` to player",
-      --   self.skills[skill_id].effectName
-      -- )
       status.addEphemeralEffect(self.skills[skill_id].effectName, math.huge)
     end
   end
@@ -311,7 +300,6 @@ function ISLSkillGraph:user_lock_skill(player, skill_id)
     all_unlocked_children_are_supported()
 
   if skill_is_lockable then
-    ISLLog.debug("Locking skill '%s'", skill_id)
     self.unlocked_skills:remove(skill_id)
     self.unlocked_perks:remove(skill_id)
     refund_skill_points(player, 1)
@@ -353,17 +341,17 @@ end
 
 
 function ISLSkillGraph:clear_highlight_path()
-  self.highlight_path = nil
+  self.highlight_path = {}
   self.highlight_cost = 999
 end
 
 
-function ISLSkillGraph:unlock_highlighted_skills(player)
-  return self:user_unlock_skills(player, self.highlight_path)
+function ISLSkillGraph:user_unlock_highlighted_skills(player)
+  return self:user_unlock_skills(player, self.highlight_path or {})
 end
 
 
-function ISLSkillGraph:revert(player)
+function ISLSkillGraph:revert_unsaved_changes(player)
   refund_skill_points(player, self.unlocked_skills:size() - self.saved_skills:size())
 
   return ISLSkillGraph.initialize(player, true)
@@ -379,33 +367,7 @@ function ISLSkillGraph.reset_unlocked_skills(player)
   return ISLSkillGraph.initialize(player, true)
 end
 
-
--- DEAD CODE ------------------------------------------------------------------
-
---TODO: Dead code, maybe repurpose?
-function ISLSkillGraph:apply_skill_to_stats(skill_id)
-  local skill = self.skills[skill_id]
-  if skill then
-    for stat_name, stat_value in pairs(skill.unlocks.stats or {}) do
-      self._get_stat_details_cache[stat_name] = nil
-      self.stats:modify_stat(stat_name, stat_value)
-    end
-  end
-
-  return self
-end
-
-
---TODO: Dead code, maybe repurpose?
-function ISLSkillGraph:apply_skills_to_stats(player)
-  self.stats = ISLPlayerStats.new(player.id())
-  for _, skill_id in ipairs(self.unlocked_skills:to_Vec()) do
-    self:apply_skill_to_stats(skill_id)
-  end
-
-  return self
-end
-
+-- DEPRECATED -----------------------------------------------------------------
 
 --TODO: Deprecate
 function ISLSkillGraph:get_stat_details()

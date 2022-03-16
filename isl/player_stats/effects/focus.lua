@@ -1,19 +1,25 @@
 --[[ Derived stat effects for the IntoStarlight Focus stat ]]
-local _diminishing_returns = require("/isl/lib/diminishing_returns.lua")
+require "/isl/player_stats/stat_effects_map.lua"
+require "/isl/player_stats/effects/util.lua"
 
 local STAT_NAME = "isl_focus"
 local PATH = "/isl/player_stats/effects"
+local CONFIG_PATH = PATH.."/focus.config"
 
-local function handler(entity_id, _held_items)
-  local _config = root.assetJson(PATH.."/focus.config")
-  local _focus = world.callScriptedEntity(
-    entity_id,
-    "status.stat",
-    STAT_NAME
+--- Handler :: (string, ISLHeldItems) -> ISLStatEffectsMap
+function get_focus_StatEffects(entity_id, held_items)
+  local results = ISLStatEffectsMap.new()
+
+  -- Do standard derived stats from the config file
+  results:concat(
+    get_derived_StatEffects_from_config(
+      held_items,
+      STAT_NAME,
+      CONFIG_PATH
+    )
   )
-  local results = {}
+
+  -- Do any stat-specific handling
 
   return results
 end
-
-return handler

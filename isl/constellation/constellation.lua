@@ -53,12 +53,12 @@ function closeButton()
 end
 
 function handle_revert_button()
-  SkillGraph:revert()
+  SkillGraph:revert_unsaved_changes(player)
   self.Constellation:draw()
 end
 
 function handle_apply_button()
-  SkillGraph:apply_to_player(player)
+  SkillGraph:write_skills_to_player(player)
   self.Constellation:draw()
 end
 

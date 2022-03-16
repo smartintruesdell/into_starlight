@@ -5,171 +5,134 @@ require "/scripts/util.lua"
 require "/scripts/questgen/util.lua"
 require "/isl/lib/util.lua"
 require "/isl/held_items/held_items.lua"
+require "/isl/player_stats/stat_effects_map.lua"
 
 -- Constants ------------------------------------------------------------------
 
 local PATH = "/isl/player_stats"
 
--- Class ----------------------------------------------------------------------
+-- Utility Functions ----------------------------------------------------------
 
-ISLPlayerStats = ISLPlayerStats or createClass("ISLPlayerStats")
+local function no_op() return ISLStatEffectsMap.new() end
 
--- Constructor ----------------------------------------------------------------
+local function get_effect_handlers()
+  local config = root.assetJson(PATH.."/player_stats.config")
 
-function ISLPlayerStats:init(entity_id)
-  self.config = root.assetJson(PATH.."/player_stats.config")
-  self.entity_id = entity_id
+  local persistent, movement = {}, {}
 
-  self.held_items = nil
-
-  self.persistent_effect_handlers = {}
-  self.movement_effect_handlers = {}
-  for stat_name, stat_data in pairs(self.config.stats) do
+  for stat_name, stat_data in pairs(config.stats or {}) do
+    -- First, set a default value for each stat
     self[stat_name] = stat_data.default or 0
 
-    if stat_data.persistentEffectsHandler then
-      self.persistent_effect_handlers[stat_name] =
-        require(stat_data.persistentEffectsHandler)
-    end
+    -- Then, read in the persistent/movement effects handlers for the stat.
+    -- Because Starbound's Lua implementation does not allow for modules
+    -- to return values (boo), we have to use `_ENV` to extract them from the
+    -- global namespace (boo) after loading them.
+    if stat_data.script then
+      require(stat_data.script)
 
-    if stat_data.movementEffectsHandler then
-      self.movement_effect_handlers[stat_name] =
-        require(stat_data.movementEffectsHandler)
+      if stat_data.persistentEffectsHandler then
+        assert(
+          _ENV[stat_data.persistentEffectsHandler] ~= nil,
+          string.format(
+            "unable to load persistent effects handler %s for stat %s",
+            stat_data.persistentEffectsHandler,
+            stat_name
+          )
+        )
+        persistent[stat_name] = _ENV[stat_data.persistentEffectsHandler]
+      end
+      if stat_data.movementEffectsHandler then
+        assert(
+          _ENV[stat_data.movementEffectsHandler] ~= nil,
+          string.format(
+            "unable to load movement effects handler `%s` for stat `%s`",
+            stat_data.persistentEffectsHandler,
+            stat_name
+          )
+        )
+        movement[stat_name] = _ENV[stat_data.movementEffectsHandler] or no_op
+      end
     end
   end
+
+  return persistent, movement
 end
+
+-- Namespace ------------------------------------------------------------------
+
+ISLPlayerStats = ISLPlayerStats or {}
 
 -- Methods --------------------------------------------------------------------
 
----@param stat_name string The stat to update
----@param value number New stat value for the specified stat
-function ISLPlayerStats:set_stat(stat_name, value)
-  self[stat_name] = value or 0
+--- Returns 'base' stats as persistent effects to be consumed by
+--- derived stat generation and other effects.
+function ISLPlayerStats.get_base_stat_persistent_StatEffects(_player, skill_graph)
+  local results_map = ISLStatEffectsMap.new()
 
-  return self
-end
-
-function ISLPlayerStats:modify_stat(stat_name, dv)
-  if dv ~= nil then
-    self[stat_name] = self[stat_name] + dv
+  -- First, we read in default stats from config
+  local config = root.assetJson(PATH.."/player_stats.config")
+  for stat_name, stat_data in pairs(config.stats or {}) do
+    results_map:adjust_amount(stat_name, stat_data.default or 0)
   end
 
-  return self
-end
+  -- Next, we read stats from the skill_graph
+  for _, skill_id in ipairs(skill_graph.saved_skills:to_Vec()) do
+    local skill = skill_graph.skills[skill_id]
+    assert(
+      skill ~= nil,
+      string.format(
+        "Unable to derive base stats from skill `%s`, which was not found",
+        skill_id
+      )
+    )
 
-function ISLPlayerStats:get_base_stat_persistent_effects()
-  local results = {}
-  for stat_name, _ in pairs(self.config.stats) do
-    results[#results + 1] = {
-      stat = stat_name,
-      amount = self[stat_name]
-    }
-  end
-
-  return results
-end
-
-local function merge_effects_map(left, right)
-  for key, effect in pairs(right) do
-    if not left[key] then
-      left[key] = effect
-    else
-      left[key].amount = left[key].amount + right[key].amount
-      left[key].baseMultiplier = left[key].baseMultiplier + right[key].baseMultiplier
-      left[key].effectiveMultiplier =
-        left[key].effectiveMultiplier + right[key].effectiveMultiplier
+    for stat_name, stat_value in pairs(skill.unlocks.stats or {}) do
+      results_map:adjust_amount(stat_name, stat_value)
     end
   end
-  return left
+
+  return results_map:get_persistent_StatEffects()
 end
 
-local function flatten_effects_map(effects_map)
-  local results = {}
-  for _, effect in pairs(effects_map) do
-    results[#results+1] = effect
+
+--- Returns 'derived' stats, such as the attack power boost from Strength or
+--- similar. This is where the majority of stat application work gets done.
+---
+--- Note we do NOT pass base stats into the handler; That's done by calling
+--- status.stat() inside the handler, such that each handler can ensure it
+--- receives the most complete value for those stats at the time of execution
+function ISLPlayerStats.get_derived_stat_persistent_StatEffects(player)
+  local persistent_effect_handlers = get_effect_handlers()
+
+  local results_map = ISLStatEffectsMap.new()
+
+  local held_items = ISLHeldItems.new():read_from_entity(player.id())
+
+  for _, handler in pairs(persistent_effect_handlers or {}) do
+    results_map = results_map:concat(handler(player.id(), held_items))
   end
 
-  return results
+  return results_map:get_persistent_StatEffects()
 end
 
-function ISLPlayerStats:get_derived_stat_persistent_effects()
-  local results_map = {}
 
-  self.held_items =
-    self.held_items or ISLHeldItems.new():read_from_entity(self.entity_id)
+--- Returns derived `mcontroller` controlModifiers, which have to be applied
+--- on Player.update.
+---
+--- Note we do NOT pass base stats into the handler; That's done by calling
+--- status.stat() inside the handler, such that each handler can ensure it
+--- receives the most complete value for those stats at the time of execution
+function ISLPlayerStats.get_derived_stat_ActorMovementModifiers(player)
+  local _, movement_effect_handlers = get_effect_handlers()
 
-  for _, handler in pairs(self.persistent_effect_handlers) do
-    results_map = merge_effects_map(
-      results_map,
-      handler(self.entity_id, self.held_items)
-    )
+  local results_map = ISLStatEffectsMap.new()
+
+  local held_items = ISLHeldItems.new():read_from_entity(player.id())
+
+  for _, handler in pairs(movement_effect_handlers) do
+    results_map = results_map:concat(handler(player.id(), held_items))
   end
 
-  return flatten_effects_map(results_map)
+  return results_map:get_ActorMovementModifiers()
 end
-
-function ISLPlayerStats:get_derived_stat_movement_effects()
-  local results_map = {}
-
-  self.held_items =
-    self.held_items or ISLHeldItems.new():read_from_entity(self.entity_id)
-
-  for _, handler in pairs(self.movement_effect_handlers) do
-    results_map = merge_effects_map(
-      results_map,
-      handler(self.entity_id, self.held_items)
-    )
-  end
-
-  return flatten_effects_map(results_map)
-end
-
--- TODO: Remove these before publishing
-
-function ISLPlayerStats:read_from_entity()
-  assert(false,"Deprecated call to `ISLPlayerStats:read_from_entity()`")
-end
-
-function ISLPlayerStats:read_from_player()
-  assert(false, "Deprecated call to `ISLPlayerStats:read_from_player()`")
-end
-
-function ISLPlayerStats:apply_to_player()
-  assert(false, "Deprecated call to `ISLPlayerStats:apply_to_player()`")
-end
-
-function ISLPlayerStats:get_stat()
-  assert(false, "Deprecated call to `ISLPlayerStats:get_stat()`")
-end
-
-function ISLPlayerStats:get_evasion_dodge_chance()
-  assert(false, "Deprecated call to `ISLPlayerStats:get_evasion_dodge_chance()`")
-end
-
-function ISLPlayerStats:get_critical_hit_chance()
-  assert(false, "Deprecated call to `ISLPlayerStats:get_critical_hit_chance()`")
-end
-
-function ISLPlayerStats:get_critical_hit_multiplier()
-  assert(false, "Deprecated call to `ISLPlayerStats:get_critical_hit_multiplier()`")
-end
-
-function ISLPlayerStats:get_attack_speed_multiplier()
-  assert(false, "Deprecated call to `ISLPlayerStats:get_attack_speed_multiplier()`")
-end
-
-function ISLPlayerStats:get_cast_speed_multiplier()
-  assert(false, "Deprecated call to `ISLPlayerStats:get_cast_speed_multiplier()`")
-end
-
-function ISLPlayerStats:get_charisma_price_reduction()
-  assert(false, "Deprecated call to `ISLPlayerStats:get_charisma_price_reduction()`")
-end
-function ISLPlayerStats:get_charisma_sell_price_increase()
-  assert(
-    false,
-    "Deprecated call to `ISLPlayerStats:get_charisma_sell_price_increase()`"
-  )
-end
-
-return ISLPlayerStats

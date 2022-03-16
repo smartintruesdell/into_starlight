@@ -1,40 +1,25 @@
 --[[ Derived stat effects for the IntoStarlight Precision stat ]]
-local diminishing_returns = require("/isl/lib/diminishing_returns.lua")
+require "/isl/player_stats/stat_effects_map.lua"
+require "/isl/player_stats/effects/util.lua"
 
 local STAT_NAME = "isl_precision"
 local PATH = "/isl/player_stats/effects"
+local CONFIG_PATH = PATH.."/precision.config"
 
-local function handler(entity_id, held_items)
-  local config = root.assetJson(PATH.."/precision.config")
-  local precision = world.callScriptedEntity(
-    entity_id,
-    "status.stat",
-    STAT_NAME
+--- Handler :: (string, ISLHeldItems) -> ISLStatEffectsMap
+function get_precision_StatEffects(entity_id, held_items)
+  local results = ISLStatEffectsMap.new()
+
+  -- Do standard derived stats from the config file
+  results:concat(
+    get_derived_StatEffects_from_config(
+      held_items,
+      STAT_NAME,
+      CONFIG_PATH
+    )
   )
-  local results = {}
 
-  -- Melee weapon attack powerMultiplier bonus
-  if stats.held_items.tags.contains("ranged") then
-    local raw_per_stat_point
-    if held_items.tags.contains("twoHanded") then
-      raw_per_stat_point = config.powerMultiplier.byTag.twoHanded or 0
-    elseif held_items.tags.contains("dualWield") then
-      raw_per_stat_point = config.powerMultiplier.byTag.dualWield or 0
-    else
-      raw_per_stat_point = config.powerMultiplier.byTag.oneHanded or 0
-    end
-
-    results["powerMultiplier"] = {
-      amount = diminishing_returns(
-        config.powerMultiplier.diminishingReturns.rate or 10,
-        config.powerMultiplier.diminishingReturns.start or 0,
-        config.powerMultiplier.diminishingReturns.factor or 0.1,
-        precision * raw_per_stat_point
-      )
-    }
-  end
+  -- Do any stat-specific handling
 
   return results
 end
-
-return handler
