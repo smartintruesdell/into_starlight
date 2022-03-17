@@ -12,7 +12,6 @@ require("/isl/lib/point.lua")
 require("/isl/lib/string_set.lua")
 require("/isl/skillgraph/pathfinding.lua")
 require("/isl/skillgraph/skillmodulebinding.lua")
-require("/isl/player_stats/player_stats.lua")
 
 -- Constants ------------------------------------------------------------------
 

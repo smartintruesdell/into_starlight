@@ -42,18 +42,6 @@ end
 
 -- Player Update --------------------------------------------------------------
 
-local function db_log(value)
-  local msg
-  if type(value) == "table" then
-    msg = util.tableToString(value)
-  else
-    msg = value
-  end
-  ISLLog.debug("%s", msg)
-
-  return value
-end
-
 local run_once = true
 local PULSE_DELTA = 1 -- approx script.setUpdateDelta(100)
 local pulse_timer = 0
@@ -72,21 +60,17 @@ function update(dt)
     pulse_timer = 0
 
     -- Refresh the status effect that manages movement related stat effects
-    --status.addEphemeralEffect("isl_movement_stat_effects", math.huge)
+    status.addEphemeralEffect("isl_movement_stats_manager", math.huge)
+    -- Refresh the status effect that manages skill point "level up" events
+    status.addEphemeralEffect("isl_skill_points_manager", math.huge)
 
     -- Refresh unique status effects (species, perks)
     SkillGraph:apply_status_effects_to_player(player)
 
-    local start_time = os.clock()
-    local derived_stats =
-      ISLPlayerStats.get_derived_stat_persistent_StatEffects(player)
-    local elapsed_time = os.clock()-start_time
-    ISLLog.debug("Stat calculation took %f seconds", elapsed_time)
-
     -- Apply derived stats from the player's base stats
     status.setPersistentEffects(
       "isl_derived_stats",
-      db_log(derived_stats)
+      ISLPlayerStats.get_derived_stat_persistent_StatEffects(player)
     )
   end
 
@@ -101,6 +85,8 @@ function uninit()
   super_uninit()
   ISLLog.info("Cleaning up IntoStarlight Player Features")
 
-  --status.RemoveEphemeralEffect("isl_movement_stat_effects")
+  status.removeEphemeralEffect("isl_movement_stats_manager")
+  status.removeEphemeralEffect("isl_skill_points_manager")
+
   SkillGraph:remove_status_effects_from_player(player)
 end

@@ -123,15 +123,15 @@ end
 --- Note we do NOT pass base stats into the handler; That's done by calling
 --- status.stat() inside the handler, such that each handler can ensure it
 --- receives the most complete value for those stats at the time of execution
-function ISLPlayerStats.get_derived_stat_ActorMovementModifiers(player)
+function ISLPlayerStats.get_derived_stat_ActorMovementModifiers(entity_id)
   local _, movement_effect_handlers = get_effect_handlers()
 
   local results_map = ISLStatEffectsMap.new()
 
-  local held_items = ISLHeldItems.new():read_from_entity(player.id())
+  local held_items = ISLHeldItems.new():read_from_entity(entity_id)
 
   for _, handler in pairs(movement_effect_handlers) do
-    results_map = results_map:concat(handler(player.id(), held_items))
+    results_map = results_map:concat(handler(entity_id, held_items))
   end
 
   return results_map:get_ActorMovementModifiers()
