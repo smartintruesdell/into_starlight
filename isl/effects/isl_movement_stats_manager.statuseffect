@@ -1,0 +1,8 @@
+{
+  "name": "isl_movement_stats_manager",
+  "effectConfig": {},
+  "defaultDuration": 60,
+  "scripts": [
+    "/isl/effects/isl_movement_stats_manager.lua"
+  ]
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "op": "add",
+    "path": "/plugins/-",
+    "value": {
+      "name": "isl_playerdeployment_plugin",
+      "path": "/isl/plugins/scripts/deployment/isl_playerdeployment_plugin.lua"
+    }
+  }
+]

@@ -1,6 +1,5 @@
---require "/isl/constants/strings"
+--[[ A plugin for objects/outpost/* shops to make the vendors response to Charisma]]
 require "/scripts/util.lua"
-require "/isl/player/stats/player_stats.lua"
 
 local PATH = "/isl/plugins/objects/outpost"
 local CONFIG_PATH = PATH.."/outpost_shop_isl_charisma_chattiness.config"
@@ -50,8 +49,7 @@ function update(dt)
       if #self.charisma_chat_options > 0 then
         -- TODO: Maybe sort the players by charisma?
         for _, player_id in ipairs(players_in_range) do
-          local player_stats = ISLPlayerStats.new():read_from_entity(player_id)
-          local charisma = player_stats:get_stat("isl_charisma")
+          local charisma = status.stat("isl_charisma")
 
           local valid_charisma_chat_options =
             util.filter(

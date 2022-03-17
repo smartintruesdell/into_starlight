@@ -102,7 +102,7 @@ function UISkillTreeNode:handleMouseClick(position, _, skilltree_state)
     position
   )
   if is_in_bounds then
-    SkillGraph:toggle_skill_if_possible(self.skill.id)
+    SkillGraph:user_toggle_skill_if_possible(player, self.skill.id)
   end
 end
 
@@ -115,7 +115,7 @@ function UISkillTreeNode:handleMouseDoubleClick(position, _, skilltree_state)
     ISLLog.debug("Doubleclicked %s", self.skill.id)
     if not SkillGraph.unlocked_skills:contains(self.skill.id) then
       ISLLog.debug("Was not unlocked, so trying to unlock the path")
-      SkillGraph:unlock_highlighted_skills()
+      SkillGraph:user_unlock_highlighted_skills(player)
     end
   end
 end
