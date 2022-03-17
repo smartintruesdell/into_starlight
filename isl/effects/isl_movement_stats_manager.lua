@@ -13,13 +13,10 @@ function init()
 end
 
 function update(_)
-  local modifiers =
-    ISLPlayerStats.get_derived_stat_ActorMovementModifiers(entity.id())
-
-  ISLLog.debug(util.tableToString(modifiers))
-
   mcontroller.controlModifiers(
-    modifiers
+    ISLPlayerStats.get_derived_stat_ActorMovementModifiers(
+      entity.id()
+    )
   )
 end
 

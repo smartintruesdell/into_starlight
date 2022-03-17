@@ -4,7 +4,6 @@
 ]]
 require("/scripts/util.lua")
 require("/scripts/questgen/util.lua")
-require("/isl/lib/log.lua")
 require("/isl/lib/string_set.lua")
 
 require "/isl/player_stats/stat_effect.lua"
@@ -36,13 +35,9 @@ end
 local MCONTROLLER_EFFECTS = StringSet.new({
   "airJumpModifier",
   "airJumpPower",
-  "speedModifier"
+  "speedModifier",
+  "swimSpeedModifier"
 })
-local MCONTROLLER_EFFECT_OFFSETS = {
-  airJumpModifier = 1,
-  airJumpPower = 1,
-  speedModifier = 1
-}
 function ISLStatEffectsMap:get_persistent_StatEffects()
   return util.filter(
     self:spread(),
@@ -55,7 +50,10 @@ function ISLStatEffectsMap:get_ActorMovementModifiers()
   local results = {}
   for _, key in ipairs(MCONTROLLER_EFFECTS:to_Vec()) do
     if self[key] then
-      results[key] = self[key]:to_mcontroller_effect(MCONTROLLER_EFFECT_OFFSETS[key])
+      local effect = self[key]:to_mcontroller_effect()
+      if effect ~= 1 then
+        results[key] = effect
+      end
     end
   end
   return results

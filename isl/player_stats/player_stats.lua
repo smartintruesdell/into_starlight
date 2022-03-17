@@ -13,12 +13,10 @@ local PATH = "/isl/player_stats"
 
 -- Utility Functions ----------------------------------------------------------
 
-local function no_op() return ISLStatEffectsMap.new() end
-
 local function get_effect_handlers()
   local config = root.assetJson(PATH.."/player_stats.config")
 
-  local persistent, movement = {}, {}
+  local handlers = {}
 
   for stat_name, stat_data in pairs(config.stats or {}) do
     -- First, set a default value for each stat
@@ -31,32 +29,21 @@ local function get_effect_handlers()
     if stat_data.script then
       require(stat_data.script)
 
-      if stat_data.persistentEffectsHandler then
+      if stat_data.handler then
         assert(
-          _ENV[stat_data.persistentEffectsHandler] ~= nil,
+          _ENV[stat_data.handler] ~= nil,
           string.format(
             "unable to load persistent effects handler %s for stat %s",
-            stat_data.persistentEffectsHandler,
+            stat_data.handler,
             stat_name
           )
         )
-        persistent[stat_name] = _ENV[stat_data.persistentEffectsHandler]
-      end
-      if stat_data.movementEffectsHandler then
-        assert(
-          _ENV[stat_data.movementEffectsHandler] ~= nil,
-          string.format(
-            "unable to load movement effects handler `%s` for stat `%s`",
-            stat_data.persistentEffectsHandler,
-            stat_name
-          )
-        )
-        movement[stat_name] = _ENV[stat_data.movementEffectsHandler] or no_op
+        handlers[stat_name] = _ENV[stat_data.handler]
       end
     end
   end
 
-  return persistent, movement
+  return handlers
 end
 
 -- Namespace ------------------------------------------------------------------
@@ -103,13 +90,13 @@ end
 --- status.stat() inside the handler, such that each handler can ensure it
 --- receives the most complete value for those stats at the time of execution
 function ISLPlayerStats.get_derived_stat_persistent_StatEffects(player)
-  local persistent_effect_handlers = get_effect_handlers()
+  local effect_handlers = get_effect_handlers()
 
   local results_map = ISLStatEffectsMap.new()
 
   local held_items = ISLHeldItems.new():read_from_entity(player.id())
 
-  for _, handler in pairs(persistent_effect_handlers or {}) do
+  for _, handler in pairs(effect_handlers or {}) do
     results_map = results_map:concat(handler(player.id(), held_items))
   end
 
@@ -124,13 +111,13 @@ end
 --- status.stat() inside the handler, such that each handler can ensure it
 --- receives the most complete value for those stats at the time of execution
 function ISLPlayerStats.get_derived_stat_ActorMovementModifiers(entity_id)
-  local _, movement_effect_handlers = get_effect_handlers()
+  local effect_handlers = get_effect_handlers()
 
   local results_map = ISLStatEffectsMap.new()
 
   local held_items = ISLHeldItems.new():read_from_entity(entity_id)
 
-  for _, handler in pairs(movement_effect_handlers) do
+  for _, handler in pairs(effect_handlers) do
     results_map = results_map:concat(handler(entity_id, held_items))
   end
 

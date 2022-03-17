@@ -1,5 +1,7 @@
 --[[ Models a single persistent stat effect and provides utilities upon it ]]
 require "/scripts/questgen/util.lua"
+require "/scripts/util.lua"
+require "/isl/lib/log.lua"
 
 -- Class ----------------------------------------------------------------------
 
@@ -40,20 +42,25 @@ function ISLStatEffect:set_stat(stat_name)
 end
 
 function ISLStatEffect:adjust_amount(amount)
-  self.amount = (self.amount or 0) + (amount or 0)
+  if not amount then return self end
+
+  self.amount = (self.amount or 0) + amount
 
   return self
 end
 
 function ISLStatEffect:adjust_baseMultiplier(baseMultiplier)
-  self.baseMultiplier = (self.baseMultiplier or 0) + (baseMultiplier or 0)
+  if not baseMultiplier then return self end
+
+  self.baseMultiplier = (self.baseMultiplier or 0) + baseMultiplier
 
   return self
 end
 
 function ISLStatEffect:adjust_effectiveMultiplier(effectiveMultiplier)
-  self.effectiveMultiplier =
-    (self.effectiveMultiplier or 0) + (effectiveMultiplier or 0)
+  if not effectiveMultiplier then return self end
+
+  self.effectiveMultiplier = (self.effectiveMultiplier or 0) + effectiveMultiplier
 
   return self
 end
@@ -69,19 +76,25 @@ function ISLStatEffect:concat(effect)
 end
 
 function ISLStatEffect:over_amount(fn)
-  self.amount = fn(self.amount or 0)
+  if not self.amount then return self end
+
+  self.amount = fn(self.amount)
 
   return self
 end
 
 function ISLStatEffect:over_baseMultiplier(fn)
-  self.baseMultiplier = fn(self.baseMultiplier or 0)
+  if not self.baseMultiplier then return self end
+
+  self.baseMultiplier = fn(self.baseMultiplier)
 
   return self
 end
 
 function ISLStatEffect:over_effectiveMultiplier(fn)
-  self.effectiveMultiplier = fn(self.effectiveMultiplier or 0)
+  if not self.effectiveMultiplier then return self end
+
+  self.effectiveMultiplier = fn(self.effectiveMultiplier)
 
   return self
 end
@@ -119,8 +132,8 @@ function ISLStatEffect:to_persistent_effect()
   return result
 end
 
-function ISLStatEffect:to_mcontroller_effect(offset)
-  return (offset + (self.amount or 0)) *
+function ISLStatEffect:to_mcontroller_effect()
+  return (self.amount or 0) *
     (self.baseMultiplier or 1) *
     (self.effectiveMultiplier or 1)
 end

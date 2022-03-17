@@ -94,7 +94,7 @@ function ISLSkillPoints.get_skill_motes_for_skill_point(skill_point)
   then
     return ISLSkillPoints.Config.leveling[skill_point]
   end
-  ISLLog.debug(
+  ISLLog.error(
     "Could not get motes for skill point %d, there are %d known values",
     skill_point,
     #ISLSkillPoints.Config.leveling

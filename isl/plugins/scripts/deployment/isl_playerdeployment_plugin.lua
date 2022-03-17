@@ -19,7 +19,6 @@ Plugins.add_after_initialize_hook(
     message.setHandler(
       "isl_skillgraph_updated",
       function()
-        ISLLog.debug("Recieved message `isl_skillgraph_updated`")
         return skillgraph_updated_handler(self, player)
       end
     )

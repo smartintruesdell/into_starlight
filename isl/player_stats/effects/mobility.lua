@@ -7,7 +7,7 @@ local PATH = "/isl/player_stats/effects"
 local CONFIG_PATH = PATH.."/mobility.config"
 
 --- Handler :: (string, ISLHeldItems) -> ISLStatEffectsMap
-function get_mobility_ActorMovementModifiers(entity_id, held_items)
+function get_mobility_StatEffects(entity_id, held_items)
   local results = ISLStatEffectsMap.new()
 
   -- Do standard derived stats from the config file
