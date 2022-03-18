@@ -5,6 +5,7 @@
 require "/scripts/util.lua"
 require "/scripts/questgen/util.lua"
 require "/isl/lib/point.lua"
+require "/isl/player_stats/player_stats.lua"
 require "/isl/skillgraph/skillgraph.lua"
 require "/isl/lib/uicomponent.lua"
 
@@ -31,26 +32,41 @@ end
 function UIConstellationStatText:draw()
   UIComponent.draw(self)
 
+  local saved_stat =
+    ISLPlayerStats.get_stats_for_saved_skills(
+      player,
+      SkillGraph
+    )[self.stat_name].amount
+  local unlocked_stat =
+    ISLPlayerStats.get_stats_for_unlocked_skills(
+      player,
+      SkillGraph
+    )[self.stat_name].amount
+
   local long_widget_path = self.layout_prefix.."."..self.stat_name
   local amount_widget_id = long_widget_path.."Amount"
 
   local bonus_widget_id = long_widget_path.."BonusAmount"
-  local amount = math.floor(status.stat(self.stat_name) or 0)
+  local amount = math.floor(saved_stat or 0)
   -- TODO: From equipment?
-  local bonus_amount = 0
+  local bonus_amount = math.floor(unlocked_stat - saved_stat)
 
-  if self.rollup_bonus then
-    amount = amount + bonus_amount
+  local bonus_color = ""
+  if unlocked_stat > saved_stat then bonus_color = "^green;"
+  elseif unlocked_stat < saved_stat then bonus_color = "^red;"
   end
 
-  -- First, set the text widgets to show the correct amounts
-  widget.setText(amount_widget_id, ""..(amount or "--"))
-
-  if not self.rollup_bonus then
+  if self.rollup_bonus then
+    widget.setText(amount_widget_id, bonus_color..(unlocked_stat).."^reset;")
+  else
+    widget.setText(amount_widget_id, amount)
     if bonus_amount == 0 then
       widget.setVisible(bonus_widget_id, false)
     else
-      widget.setText(bonus_widget_id, "^orange;(+"..bonus_amount..")^reset;")
+      local sign = "+"
+      if bonus_amount < 0 then sign = "-" end
+      widget.setVisible(bonus_widget_id, true)
+      widget.setText(bonus_widget_id, bonus_color.."("..sign..bonus_amount..")^reset;")
 
       -- Next, we want to align the "bonus" widget relative to the actual size
       -- of the rendered "amount" widget so that they don't overlap

@@ -30,7 +30,10 @@ function skillgraph_updated_handler(_self, player)
   SkillGraph:load_saved_skills(player)
 
   local base_statEffects =
-    ISLPlayerStats.get_base_stat_persistent_StatEffects(player, SkillGraph)
+    ISLPlayerStats.get_stats_for_saved_skills(
+      player,
+      SkillGraph
+    ):get_persistent_StatEffects()
 
   -- Then we can derive new base stats from the result
   status.setPersistentEffects(
