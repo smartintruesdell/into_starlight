@@ -33,6 +33,7 @@ function ISLSkill:init(data)
   -- Relationships
   self.position = Point.new(data.position or {0,0})
   self.children = data.children or {}
+  self.locked = data.locked or false
 
   -- Unlocks
   self.unlocks = {}

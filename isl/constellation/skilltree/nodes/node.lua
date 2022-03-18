@@ -97,25 +97,29 @@ function UISkillTreeNode:area_contains_position(offset, position)
 end
 
 function UISkillTreeNode:handleMouseClick(position, _, skilltree_state)
-  local is_in_bounds = self:area_contains_position(
-    skilltree_state.drag_offset,
-    position
-  )
-  if is_in_bounds then
-    SkillGraph:user_toggle_skill_if_possible(player, self.skill.id)
+  if not self.skill.locked then
+    local is_in_bounds = self:area_contains_position(
+      skilltree_state.drag_offset,
+      position
+    )
+    if is_in_bounds then
+      SkillGraph:user_toggle_skill_if_possible(player, self.skill.id)
+    end
   end
 end
 
 function UISkillTreeNode:handleMouseDoubleClick(position, _, skilltree_state)
-  local is_in_bounds = self:area_contains_position(
-    skilltree_state.drag_offset,
-    position
-  )
-  if is_in_bounds then
-    ISLLog.debug("Doubleclicked %s", self.skill.id)
-    if not SkillGraph.unlocked_skills:contains(self.skill.id) then
-      ISLLog.debug("Was not unlocked, so trying to unlock the path")
-      SkillGraph:user_unlock_highlighted_skills(player)
+  if not self.skill.locked then
+    local is_in_bounds = self:area_contains_position(
+      skilltree_state.drag_offset,
+      position
+    )
+    if is_in_bounds then
+      ISLLog.debug("Doubleclicked %s", self.skill.id)
+      if not SkillGraph.unlocked_skills:contains(self.skill.id) then
+        ISLLog.debug("Was not unlocked, so trying to unlock the path")
+        SkillGraph:user_unlock_highlighted_skills(player)
+      end
     end
   end
 end

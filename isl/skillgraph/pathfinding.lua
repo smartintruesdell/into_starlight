@@ -20,7 +20,7 @@ function table_clone(tbl)
     return t
 end
 
-function find_shortest_path(graph, start_id, goal_id, include_locked_skills, exclude_nodes)
+function find_shortest_path(graph, start_id, goal_id, include_inactive_skills, exclude_nodes)
   assert(graph.skills[start_id] ~= nil, "Could not find the starting node")
   assert(graph.skills[goal_id] ~= nil, "Could not find the goal node")
   exclude_nodes = exclude_nodes or StringSet.new()
@@ -56,7 +56,7 @@ function find_shortest_path(graph, start_id, goal_id, include_locked_skills, exc
 
         if graph.unlocked_skills:contains(exit_id) then
           queue:enqueue( new_path, cost )
-        elseif include_locked_skills then
+        elseif include_inactive_skills then
           queue:enqueue( new_path, cost + 1 )
         end
       end
