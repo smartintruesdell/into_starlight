@@ -52,6 +52,7 @@ function ISLSkillGraph:init()
   self.skills = {}
   self.saved_skills = StringSet.new()
   self.available_skills = StringSet.new()
+  self.locked_skills = StringSet.new()
   self.unlocked_skills = StringSet.new()
   self.unlocked_perks = StringSet.new()
   self.highlight_path = {}
@@ -121,6 +122,8 @@ function ISLSkillGraph:load_modules(bindings)
           end
           skill.children = StringSet.new(skill.children)
           self.skills[skill_id] = skill
+
+          if skill.locked then self.locked_skills:add(skill_id) end
         end
       end
     end
@@ -330,7 +333,8 @@ function ISLSkillGraph:highlight_path_to_skill(goal_id)
     self,
     "start",
     goal_id,
-    true
+    true,
+    self.locked_skills
   )
   self.highlight_path = path
   self.highlight_cost = cost

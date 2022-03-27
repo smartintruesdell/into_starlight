@@ -52,9 +52,7 @@ ISLPlayerStats = ISLPlayerStats or {}
 
 -- Methods --------------------------------------------------------------------
 
---- Returns 'base' stats as persistent effects to be consumed by
---- derived stat generation and other effects.
-function ISLPlayerStats.get_base_stat_persistent_StatEffects(_player, skill_graph)
+function ISLPlayerStats.get_stats_from_ISLSkillGraph(skill_graph, skills_set)
   local results_map = ISLStatEffectsMap.new()
 
   -- First, we read in default stats from config
@@ -64,7 +62,7 @@ function ISLPlayerStats.get_base_stat_persistent_StatEffects(_player, skill_grap
   end
 
   -- Next, we read stats from the skill_graph
-  for _, skill_id in ipairs(skill_graph.saved_skills:to_Vec()) do
+  for _, skill_id in ipairs(skills_set:to_Vec()) do
     local skill = skill_graph.skills[skill_id]
     assert(
       skill ~= nil,
@@ -79,7 +77,30 @@ function ISLPlayerStats.get_base_stat_persistent_StatEffects(_player, skill_grap
     end
   end
 
-  return results_map:get_persistent_StatEffects()
+  return results_map
+end
+
+
+function ISLPlayerStats.get_stats_for_saved_skills(_player, skill_graph)
+  return ISLPlayerStats.get_stats_from_ISLSkillGraph(
+    skill_graph,
+    skill_graph.saved_skills
+  )
+end
+
+
+function ISLPlayerStats.get_stats_for_unlocked_skills(_player, skill_graph)
+  return ISLPlayerStats.get_stats_from_ISLSkillGraph(
+    skill_graph,
+    skill_graph.unlocked_skills
+  )
+end
+
+function ISLPlayerStats.get_stats_for_highlighted_skills(_player, skill_graph)
+  return ISLPlayerStats.get_stats_from_ISLSkillGraph(
+    skill_graph,
+    skill_graph.unlocked_skills:add_many(skill_graph.highlight_path)
+  )
 end
 
 

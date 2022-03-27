@@ -36,7 +36,11 @@ function UIPerkNode:init(skill, canvas)
   UISkillTreeNode.init(self, skill, canvas) -- super()
 
   -- Set the background based on the bonus type
-  self.background = skill.background or Assets.background[skill.perkType]
+  if skill.locked then
+    self.background = Assets.background.locked
+  else
+    self.background = skill.background or Assets.background[skill.perkType]
+  end
   assert(self.background ~= nil, "Failed to find a background for "..skill.id)
 
   -- Set the tooltip config
@@ -52,7 +56,9 @@ end
 function UIPerkNode:get_background_image(_skilltree_state)
   assert(SkillGraph ~= nil, "Tried to draw nodes without a valid SkillGraph")
   local background_image = nil
-  if SkillGraph.unlocked_skills:contains(self.skill.id) then
+  if self.skill.locked then
+    background_image = self.background
+  elseif SkillGraph.unlocked_skills:contains(self.skill.id) then
     if SkillGraph.saved_skills:contains(self.skill.id) then
       background_image = self.background..":saved"
     else
@@ -72,7 +78,10 @@ function UIPerkNode:createTooltip(position, skilltree_state)
     position
   )
   if is_mouseover then
-    if not SkillGraph.unlocked_skills:contains(self.skill.id) then
+    if
+      not self.skill.locked and
+      not SkillGraph.unlocked_skills:contains(self.skill.id)
+    then
       SkillGraph:highlight_path_to_skill(self.skill.id)
       skilltree_state.redraw()
     end

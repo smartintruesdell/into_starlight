@@ -21,8 +21,7 @@ end
 function init()
   script.setUpdateDelta(30)
 
-  status.setPersistentEffects(
-    "isl_species_base_stats",
+  effect.addStatModifierGroup(
     get_species_persistent_effects()
   )
 end
