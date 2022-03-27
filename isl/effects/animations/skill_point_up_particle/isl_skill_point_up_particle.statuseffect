@@ -1,0 +1,7 @@
+{
+  "name": "isl_skill_point_up_particle",
+  "defaultDuration": 3,
+  "scripts": [
+    "isl_skill_point_up_particle.lua"
+  ]
+}

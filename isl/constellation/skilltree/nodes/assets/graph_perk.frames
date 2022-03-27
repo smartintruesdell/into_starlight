@@ -1,0 +1,44 @@
+{
+  "frameGrid": {
+    "size": [
+      33,
+      33
+    ],
+    "dimensions": [
+      4,
+      5
+    ],
+    "names": [
+      [
+        "melee:unavailable",
+        "melee:available",
+        "melee:saved",
+        "melee:new"
+      ],
+      [
+        "ranged:unavailable",
+        "ranged:available",
+        "ranged:saved",
+        "ranged:new"
+      ],
+      [
+        "magical:unavailable",
+        "magical:available",
+        "magical:saved",
+        "magical:new"
+      ],
+      [
+        "utility:unavailable",
+        "utility:available",
+        "utility:saved",
+        "utility:new"
+      ],
+      [
+        "health:unavailable",
+        "health:available",
+        "health:saved",
+        "health:new"
+      ]
+    ]
+  }
+}

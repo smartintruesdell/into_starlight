@@ -1,0 +1,10 @@
+[
+  {
+    "op": "add",
+    "path": "/plugins/-",
+    "value": {
+      "name": "isl_drop_items_plugin",
+      "path": "/isl/plugins/monsters/boss/bossMonster_isl_drop_items_plugin.lua"
+    }
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "op": "add",
+    "path": "/plugins/-",
+    "value": {
+      "name": "isl_dodge_plugin",
+      "path": "/isl/plugins/stats/player_primary_isl_dodge_plugin.lua"
+    }
+  }
+]

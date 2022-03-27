@@ -1,0 +1,10 @@
+[
+  {
+    "op": "add",
+    "path": "/plugins/-",
+    "value": {
+      "name": "effectzone_isl_cast_speed_plugin",
+      "path": "/isl/plugins/items/active/weapons/staff/abilities/effectzone/effectzone_isl_cast_speed_plugin.lua"
+    }
+  }
+]

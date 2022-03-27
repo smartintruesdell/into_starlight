@@ -1,0 +1,30 @@
+{
+  "projectileName": "isl_explosive_perk_rocketshell",
+  "image": "rocket.png",
+  "animationCycle": 0.2,
+  "frameNumber": 4,
+  "damageKindImage": "icon.png",
+  "lightColor": [
+    255,
+    255,
+    128
+  ],
+  "pointLight": true,
+  "actionOnReap": [
+    {
+      "action": "config",
+      "file": "/projectiles/explosions/regularexplosion2/regularexplosionknockback.config"
+    }
+  ],
+  "statusEffects": [],
+  "emitters": [
+    "rocketsmoke"
+  ],
+  "flippable": true,
+  "power": 12.5,
+  "speed": 1.25,
+  "acceleration": 185,
+  "physics": "rocket",
+  "damageType": "NoDamage",
+  "damageKind": "default"
+}

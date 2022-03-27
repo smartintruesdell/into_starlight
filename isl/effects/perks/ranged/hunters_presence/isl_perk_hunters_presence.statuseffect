@@ -1,0 +1,10 @@
+{
+  "name": "isl_perk_hunters_presence",
+  "defaultDuration": 5,
+  "effectConfig": {
+    "cooldown": 30
+  },
+  "scripts": [
+    "isl_perk_hunters_presence.lua"
+  ]
+}

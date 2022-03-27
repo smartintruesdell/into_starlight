@@ -1,0 +1,18 @@
+[
+  {
+    "op": "add",
+    "path": "/plugins/-",
+    "value": {
+      "name": "gunfire_isl_attack_speed_plugin",
+      "path": "/isl/plugins/items/active/weapons/ranged/gunfire_isl_attack_speed_plugin.lua"
+    }
+  },
+  {
+    "op": "add",
+    "path": "/plugins/-",
+    "value": {
+      "name": "gunfire_isl_perk_explosive_plugin",
+      "path": "/isl/plugins/items/active/weapons/ranged/gunfire_isl_perk_explosive_plugin.lua"
+    }
+  }
+]

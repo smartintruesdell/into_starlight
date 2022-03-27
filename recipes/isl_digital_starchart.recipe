@@ -1,0 +1,16 @@
+{
+  "input": [
+    {
+      "item": "money",
+      "count": 5
+    }
+  ],
+  "duration": 5,
+  "output": {
+    "item": "isl_digital_starchart",
+    "count": 1
+  },
+  "groups": [
+    "plain"
+  ]
+}

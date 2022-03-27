@@ -1,0 +1,10 @@
+{
+  "name": "isl_perk_nimble",
+  "defaultDuration": 5,
+  "effectConfig": {
+    "cooldown": 30
+  },
+  "scripts": [
+    "isl_perk_nimble.lua"
+  ]
+}

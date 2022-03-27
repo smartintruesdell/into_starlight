@@ -1,0 +1,26 @@
+{
+  "name": "isl_perk_warriors_grit",
+  "defaultDuration": 5,
+  "effectConfig": {
+    "hitKinds": [
+      "slash",
+      "fist",
+      "lash",
+      "broadsword",
+      "katana",
+      "hammer",
+      "dagger",
+      "axe",
+      "spear"
+    ],
+    "chanceOnHit": 10,
+    "chanceBonusPerMiss": 5,
+    "chanceBonusDuration": 15,
+    "chanceBonusMaximum": 25,
+    "cooldown": 5,
+    "regenerationEffect": "isl_warriors_grit_regen"
+  },
+  "scripts": [
+    "isl_perk_warriors_grit.lua"
+  ]
+}

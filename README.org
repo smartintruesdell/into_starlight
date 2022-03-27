@@ -8,18 +8,22 @@ Add a new progression system to your game with =Into Starlight='s passive skill 
 (TODO: Add image(s) here)
 
 #+BEGIN_QUOTE
-*NOTE*: This mod is *Incompatable* with IcyVines' /RPG Growth/ as they introduce similar progression systems. See below for other compatability/incompatability details.
+*NOTE About Compatable Mods*: This mod is *Incompatable* with Sayter's /Frackin' Universe/ and with IcyVines' /RPG Growth/ as they introduce similar progression systems. See below for other compatability/incompatability details.
 #+END_QUOTE
 
 * Features
 
-** Level up your character
+** Earn skill points
 
-Killing enemies, completing quests, and farming generate =motes of experience= which contribute to your character gaining *Levels*. Each *Level* provides you with greater power and skill points which can be spent in the *Skill Tree.*
+Killing monsters and farming plants yields *Skill Motes* which allow you to unlock additional *Skill Points*.
 
 ** Spend skill points to customize your build
 
 Explore the *Skill Tree* by spending your points the way you want to. Your character can be as focused or diverse in their *Skills* as you choose, with each choice building on the last.
+
+** Unlock powerful Perks
+
+If increasing your stats is how we measure progression, Perks are the destination. Each perk requires a certain investment of skill points to reach, but unlocking it will provide you with really unique powers to help make your character your own.
 
 * Installating the mod
 
@@ -27,7 +31,11 @@ Explore the *Skill Tree* by spending your points the way you want to. Your chara
 
 Install the following dependencies from the Steam Workshop or Starbound community:
 
-- /Stardust Core Lite/ or /Stardust Core/
+- /LuaPluginLib/
+
+** Optional Dependencies
+
+- /StardustCore/ or /StardustLite/ will make it easier to access the UI by including the Quickbar
 
 ** Install the mod
 
@@ -35,13 +43,19 @@ Subscribe to the mod in the Steam Workshop or download a release =.pak= file and
 
 * Uninstalling the mod
 
-#+BEGIN_QUOTE
-As of this time there are no "Mod Specific Items" to manage. This might change, but for the time being uninstalling the mod should be trivial.
-#+END_QUOTE
+1. Dispose of any of the following items:
+   - Digital Starchart
+   - Starchart Memory Core
 
-Unsubscribe from the mod in the Steam Workshop or remove the =.pak= file from your =/Starbound/mods= folder.
+2. Save and Quit naturally
+
+3. Unsubscribe from the mod in the Steam Workshop or remove the =.pak= file from your =/Starbound/mods= folder.
 
 * Compatability
+
+** Multiplayer
+
+/Into Starlight/ should work fine in multiplayer, but it IS server-side and will need to be downloaded by all players.
 
 ** Incompatable Mods
 
@@ -53,20 +67,26 @@ Unsubscribe from the mod in the Steam Workshop or remove the =.pak= file from yo
 
 *** Is this compatible with /Frackin' Universe/?
 
-Should be! A lot of our testing is done with /Frackin' Universe/ loaded. With that said, Sayter would tell you that any mod that changes player progression will upset /FU/'s balance and will likely make the player super over-powered relative to the game's challenges. Consider beating /Frackin' Universe/ without /Into Starlight/ first to see it in all its glory.
+Actually... no. It's a bummer, but the folks over at /Frackin' Universe/ have modified/replaced some of the base asset scripts from Starbound (without hooks) to add their features and that makes it incompatable with /LuaPluginLib/... which in turn makes it incompatable with us.
 
-*** Is this compatible with <insert species mod here>?
+
+*** Is this compatible with <insert species mod here>? What about /Race Traits/?
 
 The skill tree detects your species and applies species-specific skills as an alternative/supplement to the racial traits provided by /Race Traits/ or /Frackin' Universe/.
 
 Without configuration, custom races will use a generic start. Mod authors are encouraged to read accompanying documentation about how to integrate their mod and add a custom skill tree module.
 
+
 * Special Thanks
 
-** Sayter and /Frackin' Universe/
+** Omeruin's Modding Cave
 
-A special note and attribution here to /Frackin' Universe/ and its creator for inspiration. The Research Tree provided by /FU/ proved the viability of the skill tree and lent some very useful examples.
+The folks on the #modding-development channel over at Omeruin's have been super helpful, supportive, and at times inspirational in helping to get this mod made. Big thanks to them!
+
+** Sayter and the /Frackin' Universe/ Team
+
+A special note and attribution here to /Frackin' Universe/ and its creators for inspiration. The /ztarbound/ Research Tree provided by /FU/ inspired the skill tree and lent some very useful examples.
 
 ** IcyVines and /RPG Growth/
 
-While it is incompatable, /RPG Growth/ was an obvious source of inspiration and know-how.
+ /RPG Growth/ was an obvious source of inspiration and know-how.

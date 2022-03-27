@@ -1,0 +1,8 @@
+{
+  "name": "isl_skill_points_manager",
+  "effectConfig": {},
+  "defaultDuration": 60,
+  "scripts": [
+    "/isl/effects/isl_skill_points_manager.lua"
+  ]
+}

@@ -1,0 +1,27 @@
+[
+  [
+    {
+      "op": "test",
+      "path": "/scripts"
+    },
+    {
+      "op": "add",
+      "path": "/scripts/-",
+      "value": "/isl/plugins/objects/outpost/outpost_shop_isl_charisma_cost_reduction_plugin.lua"
+    }
+  ],
+  [
+    {
+      "op": "test",
+      "path": "/scripts",
+      "inverse": true
+    },
+    {
+      "op": "add",
+      "path": "/scripts",
+      "value": [
+        "/isl/plugins/objects/outpost/outpost_shop_isl_charisma_cost_reduction_plugin.lua"
+      ]
+    }
+  ]
+]

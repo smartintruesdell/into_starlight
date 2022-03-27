@@ -1,0 +1,14 @@
+[
+  {
+    "op": "add",
+    "path": "/items/isl:constellation",
+    "value": {
+      "label": "Constellation",
+      "icon": "/objects/isl_skill_point/isl_skill_point.png",
+      "action": [
+        "pane",
+        "/isl/constellation/constellation.config"
+      ]
+    }
+  }
+]

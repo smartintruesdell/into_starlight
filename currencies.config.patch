@@ -1,10 +1,20 @@
 [
   {
     "op": "add",
-    "path": "/isl_experience_mote",
+    "path": "/isl_skill_mote",
     "value": {
-      "representativeItem": "isl_experience_mote",
-      "playerMax": 999999
+      "representativeItem": "isl_skill_mote",
+      "playerMax": 99999999,
+      "sail_hidden": true
+    }
+  },
+  {
+    "op": "add",
+    "path": "/isl_skill_point",
+    "value": {
+      "representativeItem": "isl_skill_point",
+      "playerMax": 999,
+      "sail_hidden": true
     }
   }
 ]

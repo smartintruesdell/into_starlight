@@ -1,0 +1,12 @@
+[
+  {
+    "op": "add",
+    "path": "/starterTreasure/0/1/fill/-",
+    "value": {
+      "item": [
+        "isl_digital_starchart",
+        1
+      ]
+    }
+  }
+]
