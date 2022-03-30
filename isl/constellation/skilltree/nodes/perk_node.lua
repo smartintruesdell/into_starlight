@@ -33,15 +33,11 @@ function UIPerkNode:init(skill, canvas)
     )
   )
 
-  UISkillTreeNode.init(self, skill, canvas) -- super()
-
   -- Set the background based on the bonus type
-  if skill.locked then
-    self.background = Assets.background.locked
-  else
-    self.background = skill.background or Assets.background[skill.perkType]
+  if skill.locked and not skill.background then
+    skill.background = Assets.background.locked
   end
-  assert(self.background ~= nil, "Failed to find a background for "..skill.id)
+  UISkillTreeNode.init(self, skill, canvas) -- super()
 
   -- Set the tooltip config
   self.tooltip = root.assetJson(PATH.."/perk_node_tooltip.config")
